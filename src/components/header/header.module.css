@@ -1,0 +1,35 @@
+.body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.navBar {
+    order: -10;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(60px, 200px));
+}
+
+.menuBtn {
+    display: inline-block;
+}
+
+.wrapperMenuBtn {
+    display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 400px){
+    .navBar {
+        display: none;
+        grid-template: repeat(3, auto)/1fr;
+    }
+    .wrapperMenuBtn {
+        display: inline-block;
+    }
+}
+
+.menuMod {
+    display: grid;
+    position: absolute;
+    background-color: white;
+    z-index: 1000;
+}
