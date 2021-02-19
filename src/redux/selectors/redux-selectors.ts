@@ -1,8 +1,9 @@
-import {ReduxSelectors} from "../../utilities/types/types";
+import { Selectors } from "./types";
 
-const select: ReduxSelectors = {
+
+const select: Selectors = {
   //auth
-  getAuth: state => state.auth,
+  getSystem: state => state.system,
 }
 
 export {select};

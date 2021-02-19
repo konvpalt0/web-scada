@@ -1,24 +1,24 @@
 import {useFormik} from "formik";
 import {connect} from "react-redux";
-import {login} from "../../redux/reducers/auth-reducer";
+import {login} from "../../redux/reducers/system-reducer/system-reducer";
+import {RootState} from "../../redux/store";
 
-// interface LoginForm {
-//   email: string,
-//   password: string,
-//   rememberMe: string,
-// }
+type DispatchProps = {
+  login: (email: string, password: string, rememberMe: boolean) => void,
+}
+type OwnProps = {}
+type StateProps = {}
+type Props = DispatchProps & OwnProps & StateProps;
 
-
-const ContentForm = (props: any) => {
+const LoginForm: React.FC<Props> = (props) => {
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      rememberMe: "false",
+      rememberMe: false,
     },
     onSubmit: values => {
-      //TODO fix Boolean transformation
-      props.login(values.email, values.password, Boolean(values.rememberMe));
+      props.login(values.email, values.password, values.rememberMe);
     },
   });
 
@@ -33,7 +33,7 @@ const ContentForm = (props: any) => {
                onChange={formik.handleChange}/>
       </div>
       <div>
-        <input name="rememberMe" type="checkbox" value={formik.values.rememberMe} onChange={formik.handleChange}/>
+        <input name="rememberMe" type="checkbox" checked={formik.values.rememberMe} onChange={formik.handleChange}/>
       </div>
       <div>
         <button type="submit">Login</button>
@@ -42,8 +42,8 @@ const ContentForm = (props: any) => {
   )
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (): StateProps => ({});
 
-export default connect(mapStateToProps, {
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
   login,
-})(ContentForm);
+})(LoginForm);
