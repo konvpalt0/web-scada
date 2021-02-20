@@ -9,10 +9,19 @@
 }
 
 .resolution480 {
-    width: 720px;
+    width: 854px;
     height: 480px;
 }
 
 .block {
     display: block;
+}
+
+.grid {
+    display: grid;
+    grid-template: repeat(36, 1fr) / repeat(64, 1fr);
+}
+
+.cell {
+    box-sizing: border-box;
 }
