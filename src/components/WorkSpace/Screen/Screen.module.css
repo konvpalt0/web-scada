@@ -12,3 +12,7 @@
     width: 720px;
     height: 480px;
 }
+
+.block {
+    display: block;
+}
