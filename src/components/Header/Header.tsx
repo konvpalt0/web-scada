@@ -1,7 +1,7 @@
 import React from "react";
-import style from "./header.module.css"
-import Menu from "./menu/menu";
-import UserBar from "./userBar/userBar";
+import style from "./Header.module.css"
+import Menu from "./Menu/Menu";
+import UserBar from "./UserBar/UserBar";
 
 const Header: React.FC<{}> = () => {
   return (

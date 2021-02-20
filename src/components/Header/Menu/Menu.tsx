@@ -1,4 +1,4 @@
-import style from "../header.module.css";
+import style from "../Header.module.css";
 import React, {useState} from "react";
 
 const Menu: React.FC<{}> = () => {
