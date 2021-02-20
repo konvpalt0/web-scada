@@ -1,13 +1,12 @@
 import style from "../header.module.css";
-import React from "react";
+import React, {useState} from "react";
 
-type MenuPropsType = {
-  menuClassName: string,
-  expandMenu: (e: React.FocusEvent) => void,
-  removeMenu: (e: React.FocusEvent) => void,
-}
+const Menu: React.FC<{}> = () => {
+  const [menuMode, setMenuMod] = useState(false);
+  const expandMenu = (): void => setMenuMod(true);
+  const removeMenu = (): void => setMenuMod(false);
+  const menuClassName: string = `${style.menu} + ${menuMode ? style.expandMenu : null}`;
 
-const Menu: React.FC<MenuPropsType> = ({menuClassName, expandMenu, removeMenu}) => {
   return (
     <>
       <div className={menuClassName}>
