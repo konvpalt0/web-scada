@@ -1,8 +1,14 @@
 import React from "react";
+import {Resolutions} from "../WorkSpace";
 
-const Screen: React.FC<{}> = () => {
+type OwnProps = {
+  resolution: Resolutions;
+}
+type Props = OwnProps;
+
+const Screen: React.FC<Props> = ({resolution}) => {
   return (
-    <div>
+    <div className={resolution}>
       Screen
     </div>
   )

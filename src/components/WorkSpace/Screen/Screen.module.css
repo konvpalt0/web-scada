@@ -1,0 +1,14 @@
+.resolution1080 {
+    width: 1920px;
+    height: 1080px;
+}
+
+.resolution720 {
+    width: 1280px;
+    height: 720px;
+}
+
+.resolution480 {
+    width: 720px;
+    height: 480px;
+}
