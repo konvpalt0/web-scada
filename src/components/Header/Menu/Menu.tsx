@@ -1,5 +1,6 @@
 import style from "../Header.module.css";
 import React, {useState} from "react";
+import { NavLink } from "react-router-dom";
 
 const Menu: React.FC<{}> = () => {
   const [menuMode, setMenuMod] = useState(false);
@@ -10,9 +11,9 @@ const Menu: React.FC<{}> = () => {
   return (
     <>
       <div className={menuClassName}>
-        <div>LINK0</div>
-        <div>LINK1</div>
-        <div>LINK2</div>
+        <NavLink to="/home">Home</NavLink>
+        <NavLink to="/workspace">WorkSpace</NavLink>
+        <NavLink to="/help">Help</NavLink>
       </div>
       <div className={style.wrapperMenuBtn} onFocus={expandMenu} onBlur={removeMenu}>
         <button className={style.menuBtn}>
