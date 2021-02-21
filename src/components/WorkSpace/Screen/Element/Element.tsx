@@ -1,5 +1,10 @@
 import React from "react";
 
+export interface StartPosition {
+  xStart: number,
+  yStart: number,
+}
+
 export type ElementOwnProps = {
   columnStart: number,
   columnEnd: number,

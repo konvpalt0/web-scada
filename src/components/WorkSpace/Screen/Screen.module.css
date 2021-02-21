@@ -30,9 +30,38 @@
 */
 
 .hPipe {
-    background: url("/src/textures/metal_pipe__horizontal.jpg") round;
+    background: linear-gradient(#848284, white, #848284);
 }
 
 .vPipe {
-    background: url("/src/textures/metal_pipe__vertical.jpg") round;
+    background: linear-gradient(90deg, #848284, white, #848284);
+}
+
+.aPipeTL {
+    background: radial-gradient(farthest-side at 0% 0%, #848284, white, #848284 100%, rgba(255,255,255,0));
+}
+.aPipeTR {
+    background: radial-gradient(farthest-side at 100% 0%, #848284, white, #848284 100%, rgba(255,255,255,0));
+}
+.aPipeBL {
+    background: radial-gradient(farthest-side at 0% 100%, #848284, white, #848284 100%, rgba(255,255,255,0));
+}
+.aPipeBR {
+    background: radial-gradient(farthest-side at 100% 100%, #848284, white, #848284 100%, rgba(255,255,255,0));
+}
+
+.error {
+    background-color: red;
+}
+
+.sensor {
+    border-radius: 100px;
+    background-color: white;
+    opacity: 95%;
+    border: 1px solid black;
+    display: grid;
+}
+
+.sensor>svg>* {
+    font-size: 0.7rem;
 }

@@ -2,7 +2,10 @@ import React from "react";
 import {Resolutions} from "../WorkSpace";
 import style from "./Screen.module.css";
 import Cell from "./Cell/Cell";
-import Element, {ElementOwnProps} from "./Element/Element";
+import HorizontalPipe from "./Pipes/HorizontalPipe";
+import VerticalPipe from "./Pipes/VerticalPipe";
+import AnglePipe from "./Pipes/AnglePipe";
+import PT from "./Sensors/PTSensor";
 
 type OwnProps = {
   resolution: Resolutions;
@@ -14,36 +17,18 @@ const Screen: React.FC<Props> = ({resolution}) => {
 
   for (let row = 1; row <= 36; row++) {
     for (let column = 1; column <= 64; column++) {
-      Cells.push(<Cell key={row*100+column} row={row} column={column}/>);
+      Cells.push(<Cell key={row * 100 + column} row={row} column={column}/>);
     }
   }
-
-  const drawPipe = (columnStart: number,
-                    columnEnd: number,
-                    rowStart: number,
-                    rowEnd: number): JSX.Element => {
-    let className: string;
-    if ((Math.abs(rowEnd - rowStart) - Math.abs(columnEnd - columnStart)) > 0)
-      className = style.vPipe;
-    else className = style.hPipe;
-    const props: ElementOwnProps = {
-      columnStart,
-      columnEnd,
-      rowStart,
-      rowEnd,
-      className
-    }
-    return <Element {...props}/>
-  }
-
-
-
 
   return (
     <div className={resolution + " " + style.grid}>
-      {drawPipe(10,30,10,10)}
-      {drawPipe(10,10,11,30)}
-      {drawPipe(15,15,5,20)}
+      <HorizontalPipe length={10} xStart={10} yStart={10}/>
+      <VerticalPipe height={10} xStart={9} yStart={11}/>
+      <AnglePipe connect={"BR"} xStart={9} yStart={10}/>
+      <AnglePipe connect={"TL"} xStart={20} yStart={10}/>
+      <VerticalPipe height={-5} xStart={20} yStart={10}/>
+      <PT xStart={20} yStart={8}/>
     </div>
   )
 }
