@@ -1,8 +1,10 @@
 import {Response, Request} from 'express'
 
 const app = require('express')()
-const port = 3001
+const pgp = require('pg-promise')
+let db = pgp('postgres://username:password@host:port/database')
 
+const port = 3001
 app.get('/api', function(req: Request, res: Response){
     res.json([
         {
