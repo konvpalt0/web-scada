@@ -18,19 +18,32 @@ const Screen: React.FC<Props> = ({resolution}) => {
     }
   }
 
-  const drawPipe = (props: ElementOwnProps): JSX.Element => <Element {...props}/>
-
-  const pipeProps: ElementOwnProps = {
-    className: style.pipe,
-    columnStart: 10,
-    columnEnd: 20,
-    rowStart: 10,
-    rowEnd: 10,
+  const drawPipe = (columnStart: number,
+                    columnEnd: number,
+                    rowStart: number,
+                    rowEnd: number): JSX.Element => {
+    let className: string;
+    if ((Math.abs(rowEnd - rowStart) - Math.abs(columnEnd - columnStart)) > 0)
+      className = style.vPipe;
+    else className = style.hPipe;
+    const props: ElementOwnProps = {
+      columnStart,
+      columnEnd,
+      rowStart,
+      rowEnd,
+      className
+    }
+    return <Element {...props}/>
   }
+
+
+
 
   return (
     <div className={resolution + " " + style.grid}>
-      {drawPipe(pipeProps)}
+      {drawPipe(10,30,10,10)}
+      {drawPipe(10,10,11,30)}
+      {drawPipe(15,15,5,20)}
     </div>
   )
 }

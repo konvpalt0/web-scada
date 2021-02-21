@@ -29,6 +29,10 @@
 /*
 */
 
-.pipe {
-    background: url("/src/textures/metal_pipe__horizontal.jpg") repeat round;
+.hPipe {
+    background: url("/src/textures/metal_pipe__horizontal.jpg") round;
+}
+
+.vPipe {
+    background: url("/src/textures/metal_pipe__vertical.jpg") round;
 }
