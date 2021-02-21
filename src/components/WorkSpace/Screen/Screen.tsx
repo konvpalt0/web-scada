@@ -2,6 +2,7 @@ import React from "react";
 import {Resolutions} from "../WorkSpace";
 import style from "./Screen.module.css";
 import Cell from "./Cell/Cell";
+import Element, {ElementOwnProps} from "./Element/Element";
 
 type OwnProps = {
   resolution: Resolutions;
@@ -17,10 +18,19 @@ const Screen: React.FC<Props> = ({resolution}) => {
     }
   }
 
+  const drawPipe = (props: ElementOwnProps): JSX.Element => <Element {...props}/>
+
+  const pipeProps: ElementOwnProps = {
+    className: style.pipe,
+    columnStart: 10,
+    columnEnd: 20,
+    rowStart: 10,
+    rowEnd: 10,
+  }
 
   return (
     <div className={resolution + " " + style.grid}>
-      {Cells}
+      {drawPipe(pipeProps)}
     </div>
   )
 }

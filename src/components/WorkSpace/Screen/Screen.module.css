@@ -25,3 +25,10 @@
 .cell {
     box-sizing: border-box;
 }
+
+/*
+*/
+
+.pipe {
+    background: url("/src/textures/metal_pipe__horizontal.jpg") repeat round;
+}
