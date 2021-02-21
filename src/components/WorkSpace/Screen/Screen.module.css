@@ -60,6 +60,13 @@
     opacity: 95%;
     border: 1px solid black;
     display: grid;
+    padding: 0 0;
+}
+
+.sensor>svg {
+    padding: 0 0;
+    justify-self: center;
+    align-self: center;
 }
 
 .sensor>svg>* {
