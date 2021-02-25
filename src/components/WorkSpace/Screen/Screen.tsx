@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./Screen.module.css";
-import Cell from "./Cell/Cell";
 import HorizontalPipe from "./Pipes/HorizontalPipe";
 import VerticalPipe from "./Pipes/VerticalPipe";
 import AnglePipe from "./Pipes/AnglePipe";
@@ -16,14 +15,14 @@ type OwnProps = {
 type Props = OwnProps;
 
 const Screen: React.FC<Props> = ({resolution}) => {
-  //DEBUG
-  // let Cells: Array<JSX.Element> = [];
-  //
-  // for (let row = 1; row <= 36; row++) {
-  //   for (let column = 1; column <= 64; column++) {
-  //     Cells.push(<Cell key={row * 100 + column} row={row} column={column}/>);
-  //   }
-  // }
+  /*DEBUG
+  let Cells: Array<JSX.Element> = [];
+
+  for (let row = 1; row <= 36; row++) {
+    for (let column = 1; column <= 64; column++) {
+      Cells.push(<Cell key={row * 100 + column} row={row} column={column}/>);
+    }
+  }*/
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
@@ -35,7 +34,7 @@ const Screen: React.FC<Props> = ({resolution}) => {
       <PT xStart={20} yStart={8}/>
       <Circle radius={3} xStart={15} yStart={15}/>
       <InformationField information={"LOL"} xStart={30} yStart={30}/>
-      <Valve xStart={35} yStart={30} status={"CLOSE"} resolution={resolution}/>
+      <Valve xStart={35} yStart={30} status={"CLOSE"}/>
     </div>
   )
 }
