@@ -1,4 +1,4 @@
-.resolution1080 {
+/*.resolution1080 {
     width: 1920px;
     height: 1080px;
 }
@@ -11,7 +11,7 @@
 .resolution480 {
     width: 854px;
     height: 480px;
-}
+}*/
 
 .block {
     display: block;
@@ -71,4 +71,27 @@
 
 .sensor>svg>* {
     font-size: 0.7rem;
+}
+
+.circle {
+    border-radius: 1000px;
+    background: radial-gradient(farthest-side at 50% 50%, white, #848284);
+}
+
+.informationField {
+    padding: 0 0;
+    color: white;
+    background-color: #848284;
+    display: grid;
+}
+
+.informationField>svg {
+    justify-self: center;
+    align-self: center;
+    padding: 0 0;
+}
+
+.valve {
+    background: transparent;
+    padding: 0;
 }

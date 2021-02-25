@@ -6,6 +6,7 @@ export interface SystemState {
   session: string,
   userName: string,
 }
+
 //Const types
 export const UPDATE_SESSION: "system-reducer/UPDATE_SESSION" = "system-reducer/UPDATE_SESSION";
 //Action types

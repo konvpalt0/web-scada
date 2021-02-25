@@ -1,23 +1,61 @@
 import Screen from "./Screen/Screen";
-import React, {useState} from "react";
-import styleScreen from "./Screen/Screen.module.css";
+import React from "react";
+import {connect} from "react-redux";
+import {RootState} from "../../redux/store";
+import {Resolution} from "../../redux/reducers/screen-reducer/types";
+import {select} from "../../redux/selectors/redux-selectors";
+import {updateScreenResolution} from "../../redux/reducers/screen-reducer/screen-reducer";
 
-const WorkSpace: React.FC<{}> = () => {
-  const [screenResolution, setScreenResolution] = useState(styleScreen.resolution480);
-  const changeResolution = (resolution: Resolutions): void => {
-    setScreenResolution(resolution);
-  }
-  return(
+
+const resolutions = {
+  "480p": {
+    width: 854,
+    height: 480,
+  },
+  "720p": {
+    width: 1280,
+    height: 720,
+  },
+  "1080p": {
+    width: 1920,
+    height: 1080,
+  },
+}
+
+const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
+
+  return (
     <div>
       WorkSpace
-      <button onClick={() => changeResolution(styleScreen.resolution480)}>480p</button>
-      <button onClick={() => changeResolution(styleScreen.resolution720)}>720p</button>
-      <button onClick={() => changeResolution(styleScreen.resolution1080)}>1080p</button>
-      <Screen resolution={screenResolution}/>
+      <button onClick={() => updateScreenResolution(resolutions["480p"])}>480p</button>
+      <button onClick={() => updateScreenResolution(resolutions["720p"])}>720p</button>
+      <button onClick={() => updateScreenResolution(resolutions["1080p"])}>1080p</button>
+      <Screen resolution={resolution}/>
     </div>
   )
 }
 
-export default WorkSpace
+const mstp = (state: RootState): StateProps => {
+  return {
+    resolution: select.getResolution(state),
+  }
+}
 
-export type Resolutions = typeof styleScreen.resolution480 | typeof styleScreen.resolution720 | typeof styleScreen.resolution1080;
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
+  updateScreenResolution,
+})(WorkSpace);
+
+type StateProps = {
+  resolution: {
+    width: number,
+    height: number,
+  },
+};
+
+type DispatchProps = {
+  updateScreenResolution: (newResolution: Resolution) => void,
+};
+
+type OwnProps = {};
+
+type Props = StateProps & DispatchProps & OwnProps;
