@@ -12,7 +12,7 @@ const Valve: React.FC<Props> = ({xStart, yStart, status, resolution}) => {
   const borderSize = Math.floor(resolution.height/36);
   let borders: React.CSSProperties = {
     borderWidth: `${borderSize}px`,
-    borderColor: `transparent red`,
+    borderColor: `transparent ${getColor(status)}`,
     borderStyle: "solid",
   };
   return (
@@ -31,11 +31,19 @@ export default connect<StateProps, {}, OwnProps, RootState>(mstp, {})(Valve);
 type StateProps = {
   resolution: Resolution,
 }
-
 interface OwnProps extends StartPosition {
   status: "CLOSE" | "OPEN" | "MOVING",
 }
-
 type Props = OwnProps & StateProps;
 
+const getColor = (status: OwnProps["status"]): React.CSSProperties["borderColor"] => {
+  switch (status) {
+    case "CLOSE":
+      return "red";
+    case "OPEN":
+      return "green";
+    case "MOVING":
+      return "violet";
+  }
+}
 

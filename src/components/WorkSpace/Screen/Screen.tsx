@@ -34,7 +34,9 @@ const Screen: React.FC<Props> = ({resolution}) => {
       <PT xStart={20} yStart={8}/>
       <Circle radius={3} xStart={15} yStart={15}/>
       <InformationField information={"LOL"} xStart={30} yStart={30}/>
-      <Valve xStart={35} yStart={30} status={"CLOSE"}/>
+      <Valve xStart={35} yStart={30} status={"OPEN"}/>
+      <Valve xStart={40} yStart={30} status={"CLOSE"}/>
+      <Valve xStart={45} yStart={30} status={"MOVING"}/>
     </div>
   )
 }
