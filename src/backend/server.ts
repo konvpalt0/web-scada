@@ -1,10 +1,12 @@
 import {Response, Request} from 'express'
-import {IDictionary, ObjectPlaceHolder} from "./IDictionaryType";
+import {IDictionary, IntervalPlaceholder, ObjectPlaceHolder} from "./IDictionaryType";
 
 const app = require('express')()
 const pgp = require('pg-promise')({})
 const bodyParser = require('body-parser')
 
+const objectModels = {} as ObjectPlaceHolder
+let intervals = {} as IntervalPlaceholder
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -117,7 +119,6 @@ app.post('/api/setSensors',(req: Request, res:Response) => {
     }
 })
 
-let objectModels = {} as ObjectPlaceHolder
 app.get('/api/startObject', (req: Request, res: Response) => {
     if (req.query.objectID === undefined) {
         res.json({
@@ -146,7 +147,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
         }
         const functions:Array<Function> = []
         const objectStart = (sensorsFunctions: Array<Function>) => {
-            setInterval(() => {
+            intervals[Number(req.query.objectID)] = setInterval(() => {
                 sensorsFunctions.forEach(func => {
                     func()
                 })
@@ -157,18 +158,14 @@ app.get('/api/startObject', (req: Request, res: Response) => {
             const sensorChangeFunction = () => {
                 if(objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] === undefined) objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = sensor.min
                 let sensorMin = sensor.min;
-                let sensorMax = sensor.max;
                 let sensorCurrent = objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`];
-                // console.log(sensorCurrent)
-                // console.log(objectModel)
-                let diff = ((sensorMax as number) - (sensorMin as number)) / 30
+                let diff = ((sensor.max as number) - (sensorMin as number)) / 30
+                let sensorMax: Number = sensor.max as number - diff;
 
                 if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2))) {
                     sensorCurrent = sensorCurrent as number + diff;
                     objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = Number(sensorCurrent.toFixed(2))
                 } else {
-
-                    console.log(`${sensorCurrent}, ${sensor.max}, ${sensorMax}`)
                     sensorCurrent = sensorCurrent as number - diff;
                     objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = Number(sensorCurrent.toFixed(2))
                 }
@@ -195,6 +192,46 @@ app.get('/api/stopObject', (req: Request, res:Response) => {
         });
         return;
     }
+    if(objectModels[Number(req.query.objectID)] === undefined) {
+        res.json({
+            error: {
+                message: 'Object with this id is not started'
+            }
+        })
+        return
+    }
+    clearInterval(intervals[Number(req.query.objectID)])
+    delete objectModels[Number(req.query.objectID)]
+    res.json({
+        error: {
+            message: 'Object successfully stopped'
+        }
+    })
+})
+
+app.get('/api/getObject', (req: Request, res: Response) => {
+    if (req.query.objectID === undefined) {
+        res.json({
+            error: {
+                message: 'objectID is required get parameter of this query'
+            }
+        });
+        return;
+    }
+    if(objectModels[Number(req.query.objectID)] === undefined) {
+        res.json({
+            error: {
+                message: 'Object with this id is not started'
+            }
+        })
+        return
+    }
+    res.json({
+        response: {
+            objectState: objectModels[Number(req.query.objectID)]
+        }
+    })
+
 
 
 })

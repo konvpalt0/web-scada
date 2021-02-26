@@ -4,6 +4,9 @@ interface IDictionary {
 interface ObjectPlaceHolder {
     [index: number] : IDictionary
 }
+interface IntervalPlaceholder {
+    [index: number] : ReturnType<typeof setTimeout>
+}
 
 
-export type {IDictionary, ObjectPlaceHolder}
+export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder}
