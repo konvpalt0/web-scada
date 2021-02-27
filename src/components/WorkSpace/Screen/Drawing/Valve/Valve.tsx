@@ -8,8 +8,8 @@ import {RootState} from "../../../../../redux/store";
 import {select} from "../../../../../redux/selectors/redux-selectors";
 
 const Valve: React.FC<Props> = ({xStart, yStart, status, resolution}) => {
-  const css = getGridArea(xStart, yStart, xStart, yStart);
-  const borderSize = Math.floor(resolution.height/36);
+  const css = getGridArea(xStart-1, yStart-1, xStart+2, yStart+2);
+  const borderSize = Math.floor(resolution.height/36*1.5);
   let borders: React.CSSProperties = {
     borderWidth: `${borderSize}px`,
     borderColor: `transparent ${getColor(status)}`,

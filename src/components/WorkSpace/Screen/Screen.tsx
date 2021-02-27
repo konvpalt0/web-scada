@@ -7,14 +7,20 @@ import PT from "./Sensors/PTSensor";
 import Circle from "./Drawing/Circle/Circle";
 import InformationField from "./Drawing/InformationField/InformationField";
 import Valve from "./Drawing/Valve/Valve";
-import {Resolution} from "../../../redux/reducers/screen-reducer/types";
+import {Resolution, Sprites} from "../../../redux/reducers/screen-reducer/types";
+import {connect} from "react-redux";
+import {RootState} from "../../../redux/store";
+import {select} from "../../../redux/selectors/redux-selectors";
 
 type OwnProps = {
   resolution: Resolution;
+};
+type StateProps = {
+ sprites: Sprites;
 }
-type Props = OwnProps;
+type Props = OwnProps & StateProps;
 
-const Screen: React.FC<Props> = ({resolution}) => {
+const Screen: React.FC<Props> = ({resolution, sprites}) => {
   /*DEBUG
   let Cells: Array<JSX.Element> = [];
 
@@ -26,22 +32,24 @@ const Screen: React.FC<Props> = ({resolution}) => {
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
-      <HorizontalPipe length={10} xStart={10} yStart={10}/>
-      <VerticalPipe height={10} xStart={9} yStart={11}/>
-      <AnglePipe connect={"BR"} xStart={9} yStart={10}/>
-      <AnglePipe connect={"TL"} xStart={20} yStart={10}/>
-      <VerticalPipe height={-5} xStart={20} yStart={10}/>
+      {sprites.pipes.verticalPipes.map(pipe => <VerticalPipe key={pipe.id} xStart={pipe.x} yStart={pipe.y} height={pipe.height}/>)}
+      {sprites.pipes.horizontalPipes.map(pipe => <HorizontalPipe key={pipe.id} xStart={pipe.x} yStart={pipe.y} length={pipe.width}/>)}
+      {sprites.pipes.anglePipes.map(pipe => <AnglePipe key={pipe.id} xStart={pipe.x} yStart={pipe.y} connect={pipe.connect}/>)}
+      {sprites.informationFields.map(field => <InformationField key={field.id} xStart={field.x} yStart={field.y} information={field.information}/>)}
+      {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={valve.status}/>)}
+
       <PT xStart={20} yStart={8}/>
-      <Circle radius={3} xStart={15} yStart={15}/>
-      <InformationField information={"LOL"} xStart={30} yStart={30}/>
-      <Valve xStart={35} yStart={30} status={"OPEN"}/>
-      <Valve xStart={40} yStart={30} status={"CLOSE"}/>
-      <Valve xStart={45} yStart={30} status={"MOVING"}/>
+      <Circle radius={3} xStart={43} yStart={18}/>
+      <Circle radius={3} xStart={43} yStart={10}/>
     </div>
   )
 }
 
-export default Screen;
+const mstp = (state: RootState): StateProps => ({
+  sprites: select.getSprites(state),
+})
+
+export default connect<StateProps, {}, OwnProps, RootState>(mstp, {})(Screen);
 
 const mapResolutionToCSS = (resolution: Resolution): React.CSSProperties => {
   return {
