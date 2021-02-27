@@ -5,6 +5,12 @@ const app = require('express')()
 const pgp = require('pg-promise')({})
 const bodyParser = require('body-parser')
 
+app.use(function(req:Request, res:Response, next: any) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next();
+});
+
 const objectModels = {} as ObjectPlaceHolder
 let intervals = {} as IntervalPlaceholder
 
@@ -239,8 +245,6 @@ app.get('/api/getObject', (req: Request, res: Response) => {
 app.listen(port, () => {
     console.log(`app is listening port ${port}`)
 })
-
-
 
 
 export {app}
