@@ -5,6 +5,7 @@ import {Route} from "react-router";
 import {Switch} from "react-router";
 import Login from "./components/Login/Login";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
+import Development from "./components/Development/Development";
 
 const App: React.FC<{}> = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC<{}> = () => {
         <Route path={"/"} render={() => <Header/>}/>
       </Switch>
       <Route path={"/workspace"} render={() => <WorkSpace/>}/>
+      <Route path={"/development"} render={() => <Development/>}/>
     </>
   )
 }

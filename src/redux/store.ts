@@ -2,10 +2,12 @@ import systemReducer from "./reducers/system-reducer/system-reducer";
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleWare from "redux-thunk";
 import screenReducer from "./reducers/screen-reducer/screen-reducer";
+import developmentReducer from "./reducers/development-reducer/development-reducer";
 
 const rootReducer = combineReducers({
     system: systemReducer,
     screen: screenReducer,
+    development: developmentReducer,
   }
 );
 export type RootState = ReturnType<typeof rootReducer>;

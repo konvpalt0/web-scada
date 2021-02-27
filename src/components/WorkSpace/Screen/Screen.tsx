@@ -11,6 +11,8 @@ import {Resolution, Sprites} from "../../../redux/reducers/screen-reducer/types"
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {select} from "../../../redux/selectors/redux-selectors";
+import Rectangle from "./Drawing/Rectangle/Reactangle";
+import {getSensorsData} from "../../../redux/reducers/screen-reducer/screen-reducer";
 
 type OwnProps = {
   resolution: Resolution;
@@ -18,9 +20,13 @@ type OwnProps = {
 type StateProps = {
  sprites: Sprites;
 }
-type Props = OwnProps & StateProps;
+type DispatchProps = {
+  //TODO fix any
+  getSensorsData: (objectId: number) => any,
+}
+type Props = OwnProps & StateProps & DispatchProps;
 
-const Screen: React.FC<Props> = ({resolution, sprites}) => {
+const Screen: React.FC<Props> = ({resolution, sprites, getSensorsData}) => {
   /*DEBUG
   let Cells: Array<JSX.Element> = [];
 
@@ -29,6 +35,12 @@ const Screen: React.FC<Props> = ({resolution, sprites}) => {
       Cells.push(<Cell key={row * 100 + column} row={row} column={column}/>);
     }
   }*/
+
+  //test
+  const getData = (objectId = 1): void => {
+    getSensorsData(objectId);
+  }
+  //
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
@@ -39,8 +51,11 @@ const Screen: React.FC<Props> = ({resolution, sprites}) => {
       {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={valve.status}/>)}
 
       <PT xStart={20} yStart={8}/>
-      <Circle radius={3} xStart={43} yStart={18}/>
-      <Circle radius={3} xStart={43} yStart={10}/>
+      <Circle radius={3} xStart={35} yStart={19}/>
+      <Circle radius={3} xStart={35} yStart={11}/>
+      <Rectangle width={20} height={5} xStart={22} yStart={23}/>
+
+      <button onClick={() => getData()}></button>
     </div>
   )
 }
@@ -49,7 +64,9 @@ const mstp = (state: RootState): StateProps => ({
   sprites: select.getSprites(state),
 })
 
-export default connect<StateProps, {}, OwnProps, RootState>(mstp, {})(Screen);
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
+  getSensorsData,
+})(Screen);
 
 const mapResolutionToCSS = (resolution: Resolution): React.CSSProperties => {
   return {

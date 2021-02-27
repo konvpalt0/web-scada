@@ -8,6 +8,9 @@ const select: Selectors = {
   getScreen: state => state.screen,
   getResolution: state => select.getScreen(state).resolution,
   getSprites: state => select.getScreen(state).sprites,
+  //development
+  getDevelopment: state => state.development,
+  getResponse: state => select.getDevelopment(state).response,
 }
 
 export {select};

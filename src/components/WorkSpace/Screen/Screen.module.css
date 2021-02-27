@@ -95,3 +95,8 @@
     background: transparent;
     padding: 0;
 }
+
+.rectangle {
+    background: #d7d7d7;
+    box-shadow: #848284;
+}

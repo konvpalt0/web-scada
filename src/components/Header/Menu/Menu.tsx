@@ -13,7 +13,7 @@ const Menu: React.FC<{}> = () => {
       <div className={menuClassName}>
         <NavLink to="/home">Home</NavLink>
         <NavLink to="/workspace">WorkSpace</NavLink>
-        <NavLink to="/help">Help</NavLink>
+        <NavLink to="/development">Development</NavLink>
       </div>
       <div className={style.wrapperMenuBtn} onFocus={expandMenu} onBlur={removeMenu}>
         <button className={style.menuBtn}>
