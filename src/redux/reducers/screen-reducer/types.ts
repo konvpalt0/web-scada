@@ -1,4 +1,7 @@
 //State types
+import {ThunkAction} from "redux-thunk";
+import {DevelopmentState, UpdateResponseAction} from "../development-reducer/types";
+
 interface Position {
   x: number,
   y: number,
@@ -37,21 +40,32 @@ export interface Resolution {
   height: number,
 }
 
+export interface ObjectItem {
+  tag: string,
+  value: number,
+}
+export interface ObjectState extends Array<ObjectItem>{}
+
 export interface ScreenState {
   resolution: Resolution,
   sprites: Sprites,
+  object: ObjectState,
 }
 
 //Const types
 export const UPDATE_SCREEN_RESOLUTION: "screen-reducer/UPDATE_SCREEN_RESOLUTION" = "screen-reducer/UPDATE_SCREEN_RESOLUTION";
-
+export const UPDATE_OBJECT_STATE: "screen-reducer/UPDATE_OBJECT_STATE" = "screen-reducer/UPDATE_OBJECT_STATE";
 //Action types
 export interface UpdateScreenResolutionAction {
   type: typeof UPDATE_SCREEN_RESOLUTION,
   payload: Resolution,
 }
+export interface UpdateObjectState {
+  type: typeof UPDATE_OBJECT_STATE,
+  payload: ObjectState,
+}
 
 //Thunk types
+export type GetObjectStateThunk = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateObjectState>;
 
-
-export type ScreenActionTypes = UpdateScreenResolutionAction;
+export type ScreenActionTypes = UpdateScreenResolutionAction | UpdateObjectState;

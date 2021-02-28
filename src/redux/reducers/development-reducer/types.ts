@@ -1,5 +1,6 @@
 //State types
 import {ThunkAction} from "redux-thunk";
+import {Sprites} from "../screen-reducer/types";
 
 export interface DevelopmentState {
   response: {},
@@ -22,6 +23,10 @@ export interface Sensor {
 export interface SensorsPayload {
   objectID: number,
   sensors: Array<Sensor>
+}
+export interface HMIState {
+  objectID: number,
+  hmi: Sprites,
 }
 
 export type DevThunk = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateResponseAction>;

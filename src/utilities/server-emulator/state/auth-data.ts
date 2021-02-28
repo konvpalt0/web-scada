@@ -8,7 +8,7 @@ usersList.set("admin@admin", {password: "admin", id: 1});
 export {usersList};
 
 
-export const checkLoginUser = async (email: string, password: string): Promise<number> => {
+export const checkLoginUser = async (email: string, password: string, rememberMe: boolean): Promise<number> => {
   await new Promise<number>(resolve => {setTimeout(resolve, 1000)});
   const user = usersList.get(email);
   if (user && user.password === password) return user.id

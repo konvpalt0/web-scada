@@ -1,8 +1,12 @@
 import {
+  GetObjectStateThunk,
+  ObjectState,
   Resolution,
   ScreenActionTypes,
   ScreenState,
+  UPDATE_OBJECT_STATE,
   UPDATE_SCREEN_RESOLUTION,
+  UpdateObjectState,
   UpdateScreenResolutionAction
 } from "./types";
 import {objectAPI} from "../../../utilities/axiosApi/axios-api";
@@ -46,7 +50,8 @@ const initState: ScreenState = {
     informationFields: [
 
     ],
-  }
+  },
+  object: [],
 }
 
 const screenReducer = (state: ScreenState = initState, action:ScreenActionTypes): ScreenState => {
@@ -56,6 +61,11 @@ const screenReducer = (state: ScreenState = initState, action:ScreenActionTypes)
         ...state,
         resolution: action.payload,
       });
+    case UPDATE_OBJECT_STATE:
+      return ({
+        ...state,
+        object: action.payload,
+      })
     default:
       return state;
   }
@@ -65,10 +75,9 @@ export default screenReducer;
 
 //AC
 export const updateScreenResolution = (newResolution: Resolution): UpdateScreenResolutionAction => ({type: UPDATE_SCREEN_RESOLUTION, payload: newResolution});
-
+const updateObjectState = (newObjectState: ObjectState): UpdateObjectState => ({type: UPDATE_OBJECT_STATE, payload: newObjectState});
 //THUNK
-//TODO fix this shit
-export const getSensorsData = (objectId: number) => async (dispatch: any) => {
+export const getSensorsData = (objectId: number): GetObjectStateThunk => async (dispatch) => {
   const response = await objectAPI.getObjectState(objectId);
-
+  dispatch(updateObjectState(response));
 }
