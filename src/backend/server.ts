@@ -1,5 +1,5 @@
 import {Response, Request} from 'express'
-import {IDictionary, IntervalPlaceholder, ObjectPlaceHolder} from "./IDictionaryType";
+import {HMIPayload, IDictionary, IntervalPlaceholder, ObjectPlaceHolder} from "./IDictionaryType";
 
 const app = require('express')()
 const pgp = require('pg-promise')({})
@@ -10,12 +10,11 @@ app.use(function(req:Request, res:Response, next: any) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next();
 });
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 const objectModels = {} as ObjectPlaceHolder
 let intervals = {} as IntervalPlaceholder
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 
 let cn = {
     host: 'localhost', // 'localhost' is the default
@@ -34,8 +33,9 @@ app.get('/api', (req: Request, res: Response) => {
         res.json(value)
     }, (err:String) => {
         res.json({
-            error: {
-                message: err
+            response: {
+                message: err,
+                code: 1
             }
         })
     }).catch()
@@ -45,13 +45,12 @@ app.post('/api/signUp', (req: Request, res: Response) => {
 
 })
 
-let isStarted = false;
-
 app.get('/api/objectConfiguration', (req: Request, res: Response) => {
     if(req.query.objectID === undefined) {
         res.json({
-            error: {
-                message: 'objectID is required get parameter of this query'
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
             }
         })
      }
@@ -59,7 +58,8 @@ app.get('/api/objectConfiguration', (req: Request, res: Response) => {
         if(!Object.keys(result).length) {
             res.json({
                 response: {
-                message: 'This object does not exist or does not have sensors'
+                message: 'This object does not exist or does not have sensors',
+                code: 1
                 }
             })
         } else {
@@ -76,15 +76,17 @@ app.get('/test',(req:Request,res:Response) => {
 app.get('/api/removeSensors',(req: Request, res:Response) => {
     if(req.query.objectID === undefined) {
         res.json({
-            error: {
-                message: 'objectID is required get parameter of this query'
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
             }
         })
     } else {
         db.any(`delete from sensors where owner = ${req.query.objectID}`).then( (result:JSON) => {
             res.json({
                 response: {
-                    message: 'delete success'
+                    message: 'delete success',
+                    code: 0
                 }
             })
         }).catch((err:String) => {
@@ -92,34 +94,121 @@ app.get('/api/removeSensors',(req: Request, res:Response) => {
         })
     }
     }
-
 )
+
+app.post('/api/setHMI',(req:Request,res:Response) => {
+    console.log(req.body)
+    if(!req.body.hasOwnProperty('objectID')) {
+        res.json({response : {
+                message: 'objectID is required parameter',
+                code: 1
+            }})
+        return
+    }
+    if(!req.body.hasOwnProperty('hmi')) {
+        res.json({response : {
+            message: 'hmi is required parameter',
+            code: 1
+            }})
+        return
+    }
+    db.any(`insert into hmi(owner, hmi) values(${req.body.objectID}, '${JSON.stringify(req.body.hmi)}')`).then( (result:JSON) => {
+        res.json({response: {
+            message:('Insert success'),
+            code: 0
+            }})
+    }).catch((err: String) => {
+        console.log(err);
+    })
+})
+app.get('/api/removeHMI', (req:Request,res:Response) => {
+    if (req.query.objectID === undefined) {
+        res.json({
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
+            }
+        });
+        return;
+    }
+    db.any(`delete from hmi where owner = ${req.query.objectID}`).then( (result:JSON) => {
+        res.json({
+            response: {
+                message: 'delete success',
+                code: 0
+            }
+        })
+    }).catch((err:String) => {
+        console.log(err)
+    })
+})
+
+app.get('/api/getHMI',(req:Request,res:Response) => {
+    if (req.query.objectID === undefined) {
+        res.json({
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
+            }
+        });
+        return;
+    }
+    db.any(`select hmi from HMI where owner = ${req.query.objectID}`).then((result: Array<{hmi: String}>) => {
+        if(!result.length) {
+            res.json({
+                response: {
+                    message: 'This object does not have any HMI',
+                    code: 1
+                }
+            });
+            return
+        }
+        let hmi = {} as HMIPayload
+        console.log(result);
+        result.forEach((element:{hmi: String}, index: number) => {
+            hmi[index] = JSON.parse(element.hmi.toString())
+        })
+        res.json({
+            response : {
+                hmi: hmi,
+                code: 0
+            }
+        })
+    }).catch((err: String) => {
+        console.log(err);
+    })
+})
 
 app.post('/api/setSensors',(req: Request, res:Response) => {
     console.log(req.body);
     if(req.body.hasOwnProperty('sensors') && req.body.hasOwnProperty('objectID')) {
-        if(!Object.keys(req.body.sensors).length) {
-            res.json({
-                error: {
-                    message: 'Sensors must not be empty'
-                }
-            })
+        if(!req.body.sensors.length) {
+            res.json({response : {
+                message: 'Sensors must not be empty',
+                code: 1
+            }})
+            return
         } else {
-            req.body.sensors.forEach((sensor: {objectID: Number, name: String, measure: String, position: String, min: Number, max: Number}) => {
+            req.body.sensors.forEach((sensor: {objectID: Number, tag: String, measure: String, min: Number, max: Number}) => {
                 console.log(sensor);
-                db.any(`insert into Sensors(owner, name, measure, position, min, max) values(${req.body.objectID},'${sensor.name}','${sensor.measure}','${sensor.position}',${sensor.min},${sensor.max})`).then( (result:JSON) => {
-                    console.log("insert success")
+                db.any(`insert into Sensors(owner, tag, measure, min, max) values(${req.body.objectID},'${sensor.tag}','${sensor.measure}',${sensor.min},${sensor.max})`).then( (result:JSON) => {
                 }).catch((err:String) => {
                     console.log(err)
                 })
-
             })
-            res.sendStatus(200)
+            res.json({
+                response : {
+                    message: 'Insert success',
+                    code: 0
+                }
+            })
+            //res.sendStatus(200)
         }
     } else {
         res.json({
-            error : {
-                message : "Object id or sensors is invalid"
+            response : {
+                message : "Object id or sensors is invalid",
+                code: 1
             }
         })
     }
@@ -128,8 +217,9 @@ app.post('/api/setSensors',(req: Request, res:Response) => {
 app.get('/api/startObject', (req: Request, res: Response) => {
     if (req.query.objectID === undefined) {
         res.json({
-            error: {
-                message: 'objectID is required get parameter of this query'
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
             }
         });
         return;
@@ -137,14 +227,16 @@ app.get('/api/startObject', (req: Request, res: Response) => {
     if(objectModels[Number(req.query.objectID)] !== undefined) {
         res.json({
             response: {
-                message: 'Object with this ID is already started'
+                message: 'Object with this ID is already started',
+                code: 1
             }
         })
         return
     }
-    db.any(`select * from sensors where owner = ${req.query.objectID}`).then((sensors :Array<{objectID: Number, name: String, measure: String, position: String, min: Number, max: Number}>) => {
+    db.any(`select * from sensors where owner = ${req.query.objectID}`).then((sensors :Array<{objectID: Number, tag: String, measure: String, min: Number, max: Number}>) => {
         if(!sensors.length) {res.json({response : {
-                message: 'This object does not have any sensors'
+                message: 'This object does not have any sensors',
+                code: 1
             }})
             return
         }
@@ -162,18 +254,18 @@ app.get('/api/startObject', (req: Request, res: Response) => {
         }
         sensors.forEach(sensor => {
             const sensorChangeFunction = () => {
-                if(objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] === undefined) objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = sensor.min
+                if(objectModels[Number(req.query.objectID)][`${sensor.tag}`] === undefined) objectModels[Number(req.query.objectID)][`${sensor.tag}`] = sensor.min
                 let sensorMin = sensor.min;
-                let sensorCurrent = objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`];
+                let sensorCurrent = objectModels[Number(req.query.objectID)][`${sensor.tag}`];
                 let diff = ((sensor.max as number) - (sensorMin as number)) / 30
                 let sensorMax: Number = sensor.max as number - diff;
 
                 if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2))) {
                     sensorCurrent = sensorCurrent as number + diff;
-                    objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = Number(sensorCurrent.toFixed(2))
+                    objectModels[Number(req.query.objectID)][`${sensor.tag}`] = Number(sensorCurrent.toFixed(2))
                 } else {
                     sensorCurrent = sensorCurrent as number - diff;
-                    objectModels[Number(req.query.objectID)][`${sensor.name}_${sensor.position}`] = Number(sensorCurrent.toFixed(2))
+                    objectModels[Number(req.query.objectID)][`${sensor.tag}`] = Number(sensorCurrent.toFixed(2))
                 }
             }
             functions.push(sensorChangeFunction)
@@ -181,7 +273,8 @@ app.get('/api/startObject', (req: Request, res: Response) => {
         objectStart(functions)
         res.json({
             response : {
-                message : 'Object started!'
+                message : 'Object started!',
+                code: 0
             }
         })
     }).catch((err:String) => {
@@ -192,16 +285,18 @@ app.get('/api/startObject', (req: Request, res: Response) => {
 app.get('/api/stopObject', (req: Request, res:Response) => {
     if (req.query.objectID === undefined) {
         res.json({
-            error: {
-                message: 'objectID is required get parameter of this query'
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
             }
         });
         return;
     }
     if(objectModels[Number(req.query.objectID)] === undefined) {
         res.json({
-            error: {
-                message: 'Object with this id is not started'
+            response: {
+                message: 'Object with this id is not started',
+                code: 1
             }
         })
         return
@@ -209,8 +304,9 @@ app.get('/api/stopObject', (req: Request, res:Response) => {
     clearInterval(intervals[Number(req.query.objectID)])
     delete objectModels[Number(req.query.objectID)]
     res.json({
-        error: {
-            message: 'Object successfully stopped'
+        response: {
+            message: 'Object successfully stopped',
+            code: 0
         }
     })
 })
@@ -218,28 +314,28 @@ app.get('/api/stopObject', (req: Request, res:Response) => {
 app.get('/api/getObject', (req: Request, res: Response) => {
     if (req.query.objectID === undefined) {
         res.json({
-            error: {
-                message: 'objectID is required get parameter of this query'
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
             }
         });
         return;
     }
     if(objectModels[Number(req.query.objectID)] === undefined) {
         res.json({
-            error: {
-                message: 'Object with this id is not started'
+            response: {
+                message: 'Object with this id is not started',
+                code: 1
             }
         })
         return
     }
     res.json({
         response: {
-            objectState: objectModels[Number(req.query.objectID)]
+            objectState: objectModels[Number(req.query.objectID)],
+            code: 0
         }
     })
-
-
-
 })
 
 app.listen(port, () => {

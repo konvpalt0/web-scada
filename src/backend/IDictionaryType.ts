@@ -7,6 +7,9 @@ interface ObjectPlaceHolder {
 interface IntervalPlaceholder {
     [index: number] : ReturnType<typeof setTimeout>
 }
+interface HMIPayload {
+    [index: number] : JSON
+}
 
 
-export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder}
+export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder, HMIPayload}
