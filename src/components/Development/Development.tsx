@@ -1,40 +1,53 @@
-import React, {useState} from "react";
-import {useFormik} from "formik";
-import {devAPI} from "../../utilities/axiosApi/axios-api";
-import {AxiosResponse} from "axios";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/store";
-import {startObject} from "../../redux/reducers/development-reducer/development-reducer";
+import {
+  removeSensors,
+  setSensors,
+  startObject,
+  stopObject,
+  getObject,
+} from "../../redux/reducers/development-reducer/development-reducer";
 import {select} from "../../redux/selectors/redux-selectors";
 import {DevelopmentState} from "../../redux/reducers/development-reducer/types";
 
 interface OwnProps {
 
 }
+
 interface DispatchProps {
   startObject: any,
+  stopObject: any,
+  setSensors: any,
+  removeSensors: any,
+  getObject: any,
 }
+
 type StateProps = {
   response: DevelopmentState["response"];
 };
 type Props = OwnProps & DispatchProps & StateProps;
 
-interface FormProps {
-  objectId: number,
-  setResponseJson: (objectId: number) => Promise<AxiosResponse<JSON>>,
-}
-
-const Development: React.FC<Props> = ({startObject, response}) => {
+const Development: React.FC<Props> = ({startObject, stopObject, removeSensors, setSensors, getObject, response}) => {
+  const [textArea, setTextArea] = useState("");
+  useEffect(() => {
+    setTextArea(JSON.stringify(response, null, 2));
+  }, [response]);
   const [objectId, setObjectId] = useState("1");
   return (
     <div>
       <h1>Development</h1>
       <div>
-        Buttons Here!
-        <button onClick={() => startObject(objectId)}>Start object</button>
+        <button onClick={() => startObject(objectId)}>Start</button>
+        <button onClick={() => stopObject(objectId)}>Stop</button>
+        <button onClick={() => getObject(objectId)}>Get</button>
+        <button onClick={() => removeSensors(objectId)}>Remove sensors</button>
+        <button onClick={() => setSensors(objectId, JSON.parse(textArea || "{}"))}>Set sensors</button>
         <input type="number" value={objectId} onChange={(event) => setObjectId(event.target.value)}/>
+        <button onClick={() => {setTextArea("")}}>Clear</button>
       </div>
-      <textarea value={JSON.stringify(response, null, 2)} onChange={() => {}} style={{height:"500px" ,width: "100%"}}/>
+      <textarea value={textArea} onChange={(event) => setTextArea(event.target.value)}
+                style={{height: "500px", width: "100%"}}/>
     </div>
   )
 }
@@ -45,6 +58,10 @@ const mstp = (state: RootState): StateProps => {
   };
 }
 
-export default connect<StateProps,DispatchProps,OwnProps,RootState>(mstp,{
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
   startObject,
+  stopObject,
+  removeSensors,
+  setSensors,
+  getObject,
 })(Development);

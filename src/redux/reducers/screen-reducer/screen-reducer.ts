@@ -69,6 +69,6 @@ export const updateScreenResolution = (newResolution: Resolution): UpdateScreenR
 //THUNK
 //TODO fix this shit
 export const getSensorsData = (objectId: number) => async (dispatch: any) => {
-  const response = await objectAPI.getSensorData(objectId);
-  console.log(response.data.response.objectState);
+  const response = await objectAPI.getObjectState(objectId);
+
 }

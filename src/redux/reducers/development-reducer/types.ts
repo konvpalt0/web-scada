@@ -13,6 +13,17 @@ export interface UpdateResponseAction {
   payload: DevelopmentState["response"],
 }
 //Thunk types
+export interface Sensor {
+  tag: string,
+  measure: "МПа" | "мм" | "C°" | "%" | "м3/ч" | "Па" | "КПа" | "дискр",
+  min: number,
+  max: number,
+}
+export interface SensorsPayload {
+  objectID: number,
+  sensors: Array<Sensor>
+}
+
 export type DevThunk = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateResponseAction>;
 
 export type DevelopmentActionTypes = UpdateResponseAction;
