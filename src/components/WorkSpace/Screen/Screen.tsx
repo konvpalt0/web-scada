@@ -51,9 +51,9 @@ const Screen: React.FC<Props> = ({resolution, sprites, getSensorsData}) => {
       {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={valve.status}/>)}
 
       <PT xStart={20} yStart={8}/>
-      <Circle radius={3} xStart={35} yStart={19}/>
-      <Circle radius={3} xStart={35} yStart={11}/>
-      <Rectangle width={20} height={5} xStart={22} yStart={23}/>
+      <Circle radius={3} xStart={35} yStart={24}/>
+      <Circle radius={3} xStart={35} yStart={16}/>
+      <Rectangle width={20} height={5} xStart={22} yStart={28}/>
 
       <button onClick={() => getData()}></button>
     </div>

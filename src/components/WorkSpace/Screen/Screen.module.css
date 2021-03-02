@@ -79,9 +79,10 @@
 }
 
 .informationField {
+    z-index: 100;
     padding: 0 0;
     color: white;
-    background-color: #848284;
+    background-color: #c6c6c6;
     display: grid;
 }
 
@@ -89,6 +90,11 @@
     justify-self: center;
     align-self: center;
     padding: 0 0;
+}
+
+.informationField>* {
+    padding: 0 0;
+    font-size: 0.7rem;
 }
 
 .valve {

@@ -10,11 +10,11 @@ interface OwnProps extends StartPosition {
 type Props = OwnProps;
 
 const InformationField: React.FC<Props> = ({yStart, xStart, information}) => {
-  const css = getGridArea(xStart, yStart, xStart + 4, yStart + 1);
+  const css = getGridArea(xStart, yStart, xStart + 4, yStart + 2);
   return (
     <div style={css} className={style.informationField}>
-      <svg viewBox="0 0 60 20">
-        <text x="0%" y="50%" dominantBaseline="central" >
+      <svg viewBox="0 0 48 18">
+        <text x="0%" y="50%" dominantBaseline="central" alignmentBaseline="central" >
           {information}
         </text>
       </svg>

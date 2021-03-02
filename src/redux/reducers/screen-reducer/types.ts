@@ -6,6 +6,7 @@ interface Position {
   x: number,
   y: number,
   id: number,
+  description: string,
 }
 
 export interface Valves extends Position {
