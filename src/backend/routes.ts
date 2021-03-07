@@ -7,7 +7,7 @@ app.get('/api', (req: Request, res: Response) => {
     console.log(req.query)
     db.any('SELECT * from Users').then((value: JSON) => {
         res.json(value)
-    }, (err:String) => {
+    }, (err:string) => {
         res.json({
             response: {
                 message: err,
@@ -41,7 +41,7 @@ app.get('/api/objectConfiguration', (req: Request, res: Response) => {
         } else {
             res.json(result)
         }
-    }).catch((err:String) => {
+    }).catch((err:string) => {
         console.log(err)
     })
 })
@@ -65,7 +65,7 @@ app.get('/api/removeSensors',(req: Request, res:Response) => {
                         code: 0
                     }
                 })
-            }).catch((err:String) => {
+            }).catch((err:string) => {
                 console.log(err)
             })
         }
@@ -93,7 +93,7 @@ app.post('/api/setHMI',(req:Request,res:Response) => {
                 message:('Insert success'),
                 code: 0
             }})
-    }).catch((err: String) => {
+    }).catch((err: string) => {
         console.log(err);
     })
 })
@@ -114,7 +114,7 @@ app.get('/api/removeHMI', (req:Request,res:Response) => {
                 code: 0
             }
         })
-    }).catch((err:String) => {
+    }).catch((err:string) => {
         console.log(err)
     })
 })
@@ -129,7 +129,7 @@ app.get('/api/getHMI',(req:Request,res:Response) => {
         });
         return;
     }
-    db.any(`select hmi from HMI where owner = ${req.query.objectID}`).then((result: Array<{hmi: String}>) => {
+    db.any(`select hmi from HMI where owner = ${req.query.objectID}`).then((result: Array<{hmi: string}>) => {
         if(!result.length) {
             res.json({
                 response: {
@@ -141,7 +141,7 @@ app.get('/api/getHMI',(req:Request,res:Response) => {
         }
         let hmi = {} as HMIPayload
         console.log(result);
-        result.forEach((element:{hmi: String}, index: number) => {
+        result.forEach((element:{hmi: string}, index: number) => {
             hmi[index] = JSON.parse(element.hmi.toString())
         })
         res.json({
@@ -150,7 +150,7 @@ app.get('/api/getHMI',(req:Request,res:Response) => {
                 code: 0
             }
         })
-    }).catch((err: String) => {
+    }).catch((err: string) => {
         console.log(err);
     })
 })
@@ -164,10 +164,10 @@ app.post('/api/setSensors',(req: Request, res:Response) => {
             }})
         return
     } else {
-        req.body.sensors.forEach((sensor: {objectID: Number, tag: String, measure: String, min: Number, max: Number}) => {
+        req.body.sensors.forEach((sensor: {objectID: number, tag: string, measure: string, min: number, max: number}) => {
             console.log(sensor);
             db.any(`insert into Sensors(owner, tag, measure, min, max) values(${req.body.objectID},'${sensor.tag}','${sensor.measure}',${sensor.min},${sensor.max})`).then( (result:JSON) => {
-            }).catch((err:String) => {
+            }).catch((err:string) => {
                 console.log(err)
             })
         })
@@ -208,7 +208,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
         })
         return
     }
-    db.any(`select * from sensors where owner = ${req.query.objectID}`).then((sensors :Array<{objectID: Number, tag: String, measure: String, min: Number, max: Number}>) => {
+    db.any(`select * from sensors where owner = ${req.query.objectID}`).then((sensors :Array<{id: number, objectID: number, tag: string, measure: string, min: number, max: number}>) => {
         if(!sensors.length) {res.json({response : {
                 message: 'This object does not have any sensors',
                 code: 1
@@ -216,7 +216,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
             return
         }
         if(objectModels[Number(req.query.objectID)] === undefined) {
-            objectModels[Number(req.query.objectID)] = {} as IDictionary
+            objectModels[Number(req.query.objectID)] = []
         }
         const functions:Array<Function> = []
         const objectStart = (sensorsFunctions: Array<Function>) => {
@@ -228,19 +228,36 @@ app.get('/api/startObject', (req: Request, res: Response) => {
             },1000)
         }
         sensors.forEach(sensor => {
+            let flag = false
             const sensorChangeFunction = () => {
-                if(objectModels[Number(req.query.objectID)][`${sensor.tag}`] === undefined) objectModels[Number(req.query.objectID)][`${sensor.tag}`] = sensor.min
+                if(!objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag).length) objectModels[Number(req.query.objectID)].push({
+                    sensorTag: sensor.tag,
+                    sensorState: {
+                        value: sensor.min,
+                        measure: sensor.measure,
+                        date: new Date()
+                    }
+                })
                 let sensorMin = sensor.min;
-                let sensorCurrent = objectModels[Number(req.query.objectID)][`${sensor.tag}`];
-                let diff = ((sensor.max as number) - (sensorMin as number)) / 30
-                let sensorMax: Number = sensor.max as number - diff;
+                let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.value;
+                let diff = ((sensor.max) - (sensorMin)) / 15
+                let sensorMax: Number = sensor.max - diff;
+                let index = objectModels[Number(req.query.objectID)].findIndex(it => it.sensorTag == sensor.tag)
 
-                if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2))) {
-                    sensorCurrent = sensorCurrent as number + diff;
-                    objectModels[Number(req.query.objectID)][`${sensor.tag}`] = Number(sensorCurrent.toFixed(2))
-                } else {
-                    sensorCurrent = sensorCurrent as number - diff;
-                    objectModels[Number(req.query.objectID)][`${sensor.tag}`] = Number(sensorCurrent.toFixed(2))
+                if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2)) && !flag) {
+                    sensorCurrent = sensorCurrent + diff;
+                    objectModels[Number(req.query.objectID)][index].sensorState.value = Number(sensorCurrent.toFixed(2))
+                    objectModels[Number(req.query.objectID)][index].sensorState.date = new Date()
+                } else if(Number(sensorCurrent.toFixed(2)) > Number(sensorMin.toFixed(2)) && flag) {
+                    sensorCurrent = sensorCurrent - diff;
+                    objectModels[Number(req.query.objectID)][index].sensorState.value = Number(sensorCurrent.toFixed(2))
+                    objectModels[Number(req.query.objectID)][index].sensorState.date = new Date()
+                }
+                if(Number(sensorCurrent.toFixed(2)) <= Number(sensorMin.toFixed(2))) {
+                    flag = false
+                }
+                if(Number(sensorCurrent.toFixed(2)) >= Number(sensorMax.toFixed(2))) {
+                    flag = true
                 }
             }
             functions.push(sensorChangeFunction)
@@ -252,7 +269,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
                 code: 0
             }
         })
-    }).catch((err:String) => {
+    }).catch((err:string) => {
         new Error(err.toString());
     })
 })
@@ -311,5 +328,37 @@ app.get('/api/getObject', (req: Request, res: Response) => {
             code: 0
         }
     })
+})
+
+app.get('/api/getTrend', (req: Request, res: Response) => {
+    if (req.query.objectID === undefined) {
+        res.json({
+            response: {
+                message: 'objectID is required get parameter of this query',
+                code: 1
+            }
+        });
+        return
+    }
+    if (req.query.tag === undefined) {
+        res.json({
+            response: {
+                message: 'tag is required get parameter of this query',
+                code: 1
+            }
+        })
+        return
+    }
+    if(req.query.size === undefined) {
+        res.json({
+            response: {
+                message: 'size is required get parameter of this query',
+                code: 1
+            }
+        })
+        return
+    }
+
+
 })
 }

@@ -1,8 +1,13 @@
 interface IDictionary {
     [index: string]: Number
 }
+interface SensorState {
+    value: number,
+    measure: string,
+    date: Date
+}
 interface ObjectPlaceHolder {
-    [index: number] : IDictionary
+    [index: number] : Array<{sensorTag: string, sensorState: SensorState}>
 }
 interface IntervalPlaceholder {
     [index: number] : ReturnType<typeof setTimeout>

@@ -1,6 +1,6 @@
 import {Response, Request} from 'express'
 import {IntervalPlaceholder, ObjectPlaceHolder} from "./IDictionaryType";
-import {routes} from "./Routes";
+import {routes} from "./routes";
 
 const app = require('express')()
 const pgp = require('pg-promise')({})
