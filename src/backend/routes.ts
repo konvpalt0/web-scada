@@ -1,6 +1,7 @@
 import {Express, Request, Response} from "express";
 import {HMIPayload, IDictionary} from "./IDictionaryType";
 import {db,objectModels,intervals} from "./server";
+import {SensorState} from "./IDictionaryType";
 
 export const routes = (app: Express) => {
 app.get('/api', (req: Request, res: Response) => {
@@ -224,7 +225,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
                 sensorsFunctions.forEach(func => {
                     func()
                 })
-                console.log(objectModels);
+                //console.log(objectModels);
             },1000)
         }
         sensors.forEach(sensor => {
@@ -232,26 +233,28 @@ app.get('/api/startObject', (req: Request, res: Response) => {
             const sensorChangeFunction = () => {
                 if(!objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag).length) objectModels[Number(req.query.objectID)].push({
                     sensorTag: sensor.tag,
-                    sensorState: {
+                    sensorState: [{
                         value: sensor.min,
                         measure: sensor.measure,
                         date: new Date()
-                    }
+                    }]
                 })
                 let sensorMin = sensor.min;
-                let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.value;
+                //let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.splice(-1)[0].value;
+                let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.slice(-1)[0].value;
                 let diff = ((sensor.max) - (sensorMin)) / 15
                 let sensorMax: Number = sensor.max - diff;
-                let index = objectModels[Number(req.query.objectID)].findIndex(it => it.sensorTag == sensor.tag)
-
+                let newState = {
+                   value : sensor.min,
+                   measure: sensor.measure,
+                   date: new Date()
+                }
                 if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2)) && !flag) {
                     sensorCurrent = sensorCurrent + diff;
-                    objectModels[Number(req.query.objectID)][index].sensorState.value = Number(sensorCurrent.toFixed(2))
-                    objectModels[Number(req.query.objectID)][index].sensorState.date = new Date()
+                    newState.value = Number(sensorCurrent.toFixed(2))
                 } else if(Number(sensorCurrent.toFixed(2)) > Number(sensorMin.toFixed(2)) && flag) {
                     sensorCurrent = sensorCurrent - diff;
-                    objectModels[Number(req.query.objectID)][index].sensorState.value = Number(sensorCurrent.toFixed(2))
-                    objectModels[Number(req.query.objectID)][index].sensorState.date = new Date()
+                    newState.value = Number(sensorCurrent.toFixed(2))
                 }
                 if(Number(sensorCurrent.toFixed(2)) <= Number(sensorMin.toFixed(2))) {
                     flag = false
@@ -259,6 +262,9 @@ app.get('/api/startObject', (req: Request, res: Response) => {
                 if(Number(sensorCurrent.toFixed(2)) >= Number(sensorMax.toFixed(2))) {
                     flag = true
                 }
+                let index = objectModels[Number(req.query.objectID)].findIndex(it => it.sensorTag == sensor.tag)
+                //objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.push(newState)
+                objectModels[Number(req.query.objectID)][index].sensorState.push(newState)
             }
             functions.push(sensorChangeFunction)
         })
@@ -303,7 +309,17 @@ app.get('/api/stopObject', (req: Request, res:Response) => {
     })
 })
 
-app.get('/api/getObject', (req: Request, res: Response) => {
+app.get('/api/getState', (req: Request, res: Response) => {
+    let steps = req.query.steps === undefined ? 1 : Number(req.query.steps)
+    if((req.query.steps != undefined && isNaN(Number(req.query.steps))) || Number(req.query.steps) <= 0 ) {
+        res.json({
+            response: {
+                message: 'parameter steps is invalid',
+                code: 1
+            }
+        });
+        return;
+    }
     if (req.query.objectID === undefined) {
         res.json({
             response: {
@@ -322,43 +338,38 @@ app.get('/api/getObject', (req: Request, res: Response) => {
         })
         return
     }
+    if(req.query.sensorTag === undefined) {
+        let copyState: { sensorTag: string; sensorState: SensorState[]; }[] = []
+        objectModels[Number(req.query.objectID)].forEach( sensor => {
+                let sensorCopy = Object.assign({},sensor);
+                sensorCopy.sensorState = sensor.sensorState.slice(0-steps)
+                copyState.push(sensorCopy)
+            }
+        )
+        res.json({
+            response: {
+                objectState: copyState,
+                code: 0
+            }
+        })
+        return
+    }
+    let copyState = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag === req.query.sensorTag)
+    if(copyState === undefined) {
+        res.json({
+            response: {
+                message: 'Object does not have sensor with this tag',
+                code: 1
+            }
+        })
+        return
+    }
+    copyState[0].sensorState = copyState[0].sensorState.slice(0 - steps)
     res.json({
         response: {
-            objectState: objectModels[Number(req.query.objectID)],
+            objectState: copyState,
             code: 0
         }
     })
-})
-
-app.get('/api/getTrend', (req: Request, res: Response) => {
-    if (req.query.objectID === undefined) {
-        res.json({
-            response: {
-                message: 'objectID is required get parameter of this query',
-                code: 1
-            }
-        });
-        return
-    }
-    if (req.query.tag === undefined) {
-        res.json({
-            response: {
-                message: 'tag is required get parameter of this query',
-                code: 1
-            }
-        })
-        return
-    }
-    if(req.query.size === undefined) {
-        res.json({
-            response: {
-                message: 'size is required get parameter of this query',
-                code: 1
-            }
-        })
-        return
-    }
-
-
 })
 }

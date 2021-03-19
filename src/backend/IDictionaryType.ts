@@ -7,7 +7,7 @@ interface SensorState {
     date: Date
 }
 interface ObjectPlaceHolder {
-    [index: number] : Array<{sensorTag: string, sensorState: SensorState}>
+    [index: number] : Array<{sensorTag: string, sensorState: Array<SensorState>}>
 }
 interface IntervalPlaceholder {
     [index: number] : ReturnType<typeof setTimeout>
@@ -17,4 +17,4 @@ interface HMIPayload {
 }
 
 
-export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder, HMIPayload}
+export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder, HMIPayload, SensorState}
