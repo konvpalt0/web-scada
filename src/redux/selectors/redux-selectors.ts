@@ -1,9 +1,13 @@
-import { Selectors } from "./types";
+import {Selectors} from "./types";
+import {ObjectState, SensorState} from "../reducers/types";
 
 
 const select: Selectors = {
   //system
   getSystem: state => state.system,
+  getIsSystemInit: state => select.getSystem(state).isInit,
+  getCurrentObject: state => select.getSystem(state).currentObject,
+  getUserData: state => select.getSystem(state).session,
   //screen
   getScreen: state => state.screen,
   getResolution: state => select.getScreen(state).resolution,
@@ -11,6 +15,51 @@ const select: Selectors = {
   //development
   getDevelopment: state => state.development,
   getResponse: state => select.getDevelopment(state).response,
+  //objectsState
+  getObjects: state => state.objects,
+  getObjectsState: state => select.getObjects(state).objects,
+  //TODO use reselect
+  getObjectState: state => objectId => select.getObjectsState(state).find(object => object.objectId === objectId) || nullObject,
+  getSensorState: state => objectId => sensorId => select.getObjectState(state)(objectId).sensors.find(sensor => sensor.meta.sensorTag === sensorId) || nullSensor,
+  getIsSensorInit: state => objectId => sensorId => select.getSensorState(state)(objectId)(sensorId).isSensorInit,
 }
 
 export {select};
+
+const nullObject: ObjectState = {
+  objectId: "null object",
+  sensors: [
+    {
+      isSensorInit: false,
+      meta: {
+        sensorTag: "null object",
+        information: "null",
+        measure: "%",
+        x: 0,
+        y: 0,
+      },
+      sensorState: [
+        {
+          date: "null object",
+          value: "-2",
+        },
+      ],
+    }
+  ],
+};
+const nullSensor: SensorState = {
+  isSensorInit: false,
+  meta: {
+    measure: "%",
+    sensorTag: "null sensor",
+    information: "null",
+    x: 0,
+    y: 0,
+  },
+  sensorState: [
+    {
+      date: "null sensor",
+      value: "-2",
+    },
+  ],
+};

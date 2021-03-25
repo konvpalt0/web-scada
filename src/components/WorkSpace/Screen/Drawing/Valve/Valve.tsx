@@ -1,11 +1,11 @@
-import {StartPosition} from "../../Element/Element";
 import React from "react";
 import {getGridArea} from "../../../../../utilities/commonFunctions/screenFunctions";
 import style from "../../Screen.module.css";
-import {Resolution} from "../../../../../redux/reducers/screen-reducer/types";
+import {Resolution} from "../../../../../redux/reducers/types";
 import {connect} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {select} from "../../../../../redux/selectors/redux-selectors";
+import {StartPosition} from "../../../types";
 
 const Valve: React.FC<Props> = ({xStart, yStart, status, resolution}) => {
   const css = getGridArea(xStart-1, yStart-1, xStart+2, yStart+2);

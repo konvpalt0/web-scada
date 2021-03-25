@@ -2,9 +2,13 @@ import Screen from "./Screen/Screen";
 import React from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Resolution} from "../../redux/reducers/screen-reducer/types";
+import {Resolution} from "../../redux/reducers/types";
 import {select} from "../../redux/selectors/redux-selectors";
 import {updateScreenResolution} from "../../redux/reducers/screen-reducer/screen-reducer";
+import Menu from "./Menu/Menu";
+import {Route, Switch} from "react-router";
+import Trends from "./Trends/Trends";
+import Alarms from "./Alarms/Alarms";
 
 
 const resolutions = {
@@ -30,7 +34,12 @@ const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
       <button onClick={() => updateScreenResolution(resolutions["480p"])}>480p</button>
       <button onClick={() => updateScreenResolution(resolutions["720p"])}>720p</button>
       <button onClick={() => updateScreenResolution(resolutions["1080p"])}>1080p</button>
-      <Screen resolution={resolution}/>
+      <Menu/>
+      <Switch>
+        <Route path="/workspace/main" render={() => <Screen resolution={resolution}/>}/>
+        <Route path="/workspace/trends/:sensorId" render={(props) => <Trends resolution={resolution} {...props}/>}/>
+        <Route path="/workspace/alarms" render={() => <Alarms resolution={resolution}/>}/>
+      </Switch>
     </div>
   )
 }

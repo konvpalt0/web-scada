@@ -1,7 +1,7 @@
 import React from "react";
-import {StartPosition} from "../Element/Element";
 import style from "../Screen.module.css";
 import {getGridArea} from "../../../../utilities/commonFunctions/screenFunctions";
+import {StartPosition} from "../../types";
 
 interface Props extends StartPosition {
   connect: "TL" | "TR" | "BL" | "BR",

@@ -1,7 +1,7 @@
 import React from "react";
-import {StartPosition} from "../../Element/Element";
 import {getGridArea} from "../../../../../utilities/commonFunctions/screenFunctions";
 import style from "../../Screen.module.css";
+import {StartPosition} from "../../../types";
 
 interface OwnProps extends StartPosition {
   radius: number,

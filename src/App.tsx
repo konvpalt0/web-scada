@@ -6,6 +6,8 @@ import {Switch} from "react-router";
 import Login from "./components/Login/Login";
 import WorkSpace from "./components/WorkSpace/WorkSpace";
 import Development from "./components/Development/Development";
+import {compose} from "redux";
+import withInit from "./utilities/hoc/withInit";
 
 const App: React.FC<{}> = () => {
   return (
@@ -20,4 +22,6 @@ const App: React.FC<{}> = () => {
   )
 }
 
-export default App;
+export default compose(
+  withInit,
+)(App);

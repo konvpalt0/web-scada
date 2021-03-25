@@ -2,12 +2,11 @@ import {
   DevelopmentActionTypes,
   DevelopmentState,
   DevThunk,
-  SensorsPayload,
+  SensorsPayload, Sprites,
   UPDATE_RESPONSE,
   UpdateResponseAction
-} from "./types";
+} from "../types";
 import {devAPI, objectAPI} from "../../../utilities/axiosApi/axios-api";
-import {Sprites} from "../screen-reducer/types";
 import {Dispatch} from "redux";
 
 const initState: DevelopmentState = {
@@ -49,7 +48,7 @@ export const setSensors = (objectId: number, sensors: SensorsPayload["sensors"])
   const response = await devAPI.setObjectConfiguration({objectID: objectId, sensors: sensors});
   dispatch(updateResponse(response));
 }
-export const getObject = (objectId: number): DevThunk => async (dispatch: Dispatch<DevelopmentActionTypes>) => {
+export const getObject = (objectId: string): DevThunk => async (dispatch: Dispatch<DevelopmentActionTypes>) => {
   const response = await objectAPI.getObjectState(objectId);
   dispatch(updateResponse(response));
 }

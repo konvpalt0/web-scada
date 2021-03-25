@@ -1,10 +1,9 @@
 // auth api
 import {checkLoginUser} from "../server-emulator/state/auth-data";
 import axios, {AxiosResponse} from "axios";
-import {HMIState, SensorsPayload} from "../../redux/reducers/development-reducer/types";
-import {ObjectState} from "../../redux/reducers/screen-reducer/types";
+import {HMIState, SensorData, SensorsPayload, SensorState} from "../../redux/reducers/types";
 
-const BASE_URL = "http://118fd33c1dab.ngrok.io/";
+const BASE_URL = "http://b6f0cc88263f.ngrok.io";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -17,8 +16,13 @@ export const authAPI = {
 }
 
 export const objectAPI = {
-  getObjectState: async (objectId: number): Promise<ObjectState> => {
-    return await api.get(`api/getObject?objectID=${objectId}`);
+  getObjectState: async (objectId: string): Promise<Array<SensorState>> => {
+    const response = await api.get(`api/getState?objectID=${objectId}`);
+    return response.data.response.objectState;
+  },
+  getSensorState: async (objectId: string, sensorId: string, steps?: number): Promise<Array<SensorData>> => {
+    const response = await api.get(`api/getState?objectID=${objectId}&sensorTag=${sensorId}${steps ? `&steps=${steps}` : ``}`);
+    return response.data.response.objectState[0].sensorState;
   }
 }
 
