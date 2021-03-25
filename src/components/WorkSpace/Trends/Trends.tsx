@@ -7,7 +7,7 @@ import {select} from "../../../redux/selectors/redux-selectors";
 import {RootState} from "../../../redux/store";
 import {
   getObjectState,
-  getSensorState,
+  getSensorState, initSensorState,
   updateSensor
 } from "../../../redux/reducers/objects-state-reducer/objects-state-reducer";
 import {Resolution, SensorData, SensorState} from "../../../redux/reducers/types";
@@ -26,7 +26,8 @@ interface StateProps {
 interface DispatchProps {
   updateSensor: (newSensorState: SensorData, objectId: string, sensorId: string) => void,
   getObjectState: (objectId: string) => void,
-  getSensorState: (objectId: string, sensorId: string, steps?: number) => void,
+  getSensorState: (objectId: string, sensorId: string) => void,
+  initSensorState: (objectId: string, sensorId: string) => void,
 }
 
 interface Match {
@@ -41,6 +42,7 @@ const Trends: React.FC<Props> = ({
                                    sensorState,
                                    getObjectState,
                                    getSensorState,
+                                   initSensorState,
                                    selectIsSensorInit,
                                    objectId,
                                    ...props
@@ -50,8 +52,8 @@ const Trends: React.FC<Props> = ({
   const sensorData = sensorState(objectId)(sensorId);
   //initialisation history for plot
   useEffect(() => {
-    getSensorState(objectId, sensorId, 50);
-  }, [objectId, sensorId, getSensorState])
+    initSensorState(objectId, sensorId);
+  }, [objectId, sensorId, initSensorState])
   //request new data for plot
   useEffect(() => {
     if (isSensorInit) {
@@ -64,6 +66,7 @@ const Trends: React.FC<Props> = ({
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
+      <div>{sensorId}</div>
       <Chart data={sensorData.sensorState} xStart={1} yStart={1}/>
     </div>
   )
@@ -79,4 +82,5 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
   updateSensor,
   getObjectState,
   getSensorState,
+  initSensorState,
 })(Trends);
