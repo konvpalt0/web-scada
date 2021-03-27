@@ -1,9 +1,12 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import gStyle from "../../../GlobalStyle.module.css";
 
 const UserBar: React.FC<{}> = () => {
   return (
-    <div>
-      USER PROFILE
+
+    <div className={gStyle.menu} style={{display: "grid"}}>
+      <NavLink to={"/userprofile"}><div>%username%</div></NavLink>
     </div>
   )
 }

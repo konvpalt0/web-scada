@@ -1,4 +1,5 @@
 import {ThunkAction} from "redux-thunk";
+import React from "react";
 //======================
 //development-reducer
 
@@ -101,31 +102,27 @@ export interface Position {
 
 export interface Valves extends Position {
 }
-
-export interface HorizontalPipes extends Position {
-  width: number,
+export interface PipesColor {
+  water: React.CSSProperties["color"],
+  gas: React.CSSProperties["color"],
+  oil: React.CSSProperties["color"],
+  air: React.CSSProperties["color"],
+  steam: React.CSSProperties["color"],
+  smoke: React.CSSProperties["color"],
 }
-
-export interface VerticalPipes extends Position {
-  height: number,
-}
-
-export interface AnglePipes extends Position {
-  connect: "TL" | "TR" | "BL" | "BR",
-}
-
-export interface InformationFields extends Position {
-  information: string,
+export interface PipeType extends Position{
+  type: "water" | "gas" | "oil" | "air" | "steam" | "smoke",
+  orientation: "horizontal" | "vertical" | "TL" | "TR" | "BL" | "BR",
+  width?: number,
+  height?: number,
 }
 
 export interface Sprites {
   valves: Array<Valves>,
   pipes: {
-    horizontalPipes: Array<HorizontalPipes>,
-    verticalPipes: Array<VerticalPipes>,
-    anglePipes: Array<AnglePipes>,
+    pipesColor: PipesColor,
+    pipeItems: Array<PipeType>,
   }
-  informationFields: Array<InformationFields>,
 }
 
 export interface Resolution {

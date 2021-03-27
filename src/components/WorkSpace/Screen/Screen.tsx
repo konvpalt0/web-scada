@@ -1,16 +1,18 @@
 import React from "react";
 import style from "./Screen.module.css";
-import HorizontalPipe from "./Pipes/HorizontalPipe";
-import VerticalPipe from "./Pipes/VerticalPipe";
-import AnglePipe from "./Pipes/AnglePipe";
 import Circle from "./Drawing/Circle/Circle";
 import Valve from "./Drawing/Valve/Valve";
-import {ObjectState, Resolution, Sprites} from "../../../redux/reducers/types";
+import {
+  ObjectState,
+  Resolution,
+  Sprites,
+} from "../../../redux/reducers/types";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {select} from "../../../redux/selectors/redux-selectors";
 import Rectangle from "./Drawing/Rectangle/Reactangle";
 import DoubleInformationField from "./Drawing/InformationField/DoubleInformationField";
+import Pipe from "./Pipes/Pipe";
 
 type OwnProps = {
   resolution: Resolution;
@@ -25,15 +27,12 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 const Screen: React.FC<Props> = ({resolution, sprites, selectObjectState, objectId}) => {
   const objectState = selectObjectState(objectId);
+  const pipesColor = sprites.pipes.pipesColor;
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
-      {sprites.pipes.verticalPipes.map(pipe => <VerticalPipe key={pipe.id} xStart={pipe.x} yStart={pipe.y}
-                                                             height={pipe.height}/>)}
-      {sprites.pipes.horizontalPipes.map(pipe => <HorizontalPipe key={pipe.id} xStart={pipe.x} yStart={pipe.y}
-                                                                 length={pipe.width}/>)}
-      {sprites.pipes.anglePipes.map(pipe => <AnglePipe key={pipe.id} xStart={pipe.x} yStart={pipe.y}
-                                                       connect={pipe.connect}/>)}
-      {objectState.sensors.map(field => <DoubleInformationField key={field.meta.sensorTag} meta={field.meta} data={field.sensorState[0]}/>)}
+      {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.id} {...pipe} color={pipesColor[pipe.type]}/>)}
+      {objectState.sensors.map(field => <DoubleInformationField key={field.meta.sensorTag} meta={field.meta}
+                                                                data={field.sensorState[0]}/>)}
       {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={"CLOSE"}/>)}
 
       <Circle radius={3} xStart={35} yStart={24}/>

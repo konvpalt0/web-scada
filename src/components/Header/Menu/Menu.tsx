@@ -1,23 +1,25 @@
+import gStyle from "../../../GlobalStyle.module.css";
 import style from "../Header.module.css";
 import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
+import composeClassNames from "../../../utilities/commonFunctions/composeClassNames";
 
 const Menu: React.FC<{}> = () => {
   const [menuMode, setMenuMod] = useState(false);
   const expandMenu = (): void => setMenuMod(true);
-  const removeMenu = (): void => setMenuMod(false);
-  const menuClassName: string = `${style.menu} + ${menuMode ? style.expandMenu : null}`;
+  const removeMenu = (): void => {setTimeout(() => setMenuMod(false), 100)};
+  const menuClassName = composeClassNames(gStyle.menu, style.menu, menuMode ? style.expandMenu : "");
 
   return (
     <>
       <div className={menuClassName}>
-        <NavLink to="/home">Home</NavLink>
-        <NavLink to="/workspace">WorkSpace</NavLink>
-        <NavLink to="/development">Development</NavLink>
+        <NavLink to="/home"><div>Home</div></NavLink>
+        <NavLink to="/workspace/main"><div>WorkSpace</div></NavLink>
+        <NavLink to="/development"><div>Development</div></NavLink>
       </div>
-      <div className={style.wrapperMenuBtn} onFocus={expandMenu} onBlur={removeMenu}>
-        <button className={style.menuBtn}>
-          MENU
+      <div className={composeClassNames(gStyle.menu, style.wrapperMenuBtn)} onFocus={expandMenu} onBlur={removeMenu}>
+        <button>
+          <div>Menu</div>
         </button>
       </div>
     </>

@@ -1,0 +1,20 @@
+.body {
+
+}
+
+.resolutionMenu button{
+    padding: 0.2rem 1rem;
+}
+.resolutionMenu button:hover{
+    box-shadow: inset 0 0 3rem #2977a7;
+}
+
+.workBlock {
+    border: 1px solid #328fc9;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 10rem));
+    transform-origin: top;
+}

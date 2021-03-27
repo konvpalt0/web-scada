@@ -98,36 +98,42 @@ const defaultTextArea: Sprites = {
     {id: "2", x: 42, y: 2, description: "water valve"},//water valve
   ],
   pipes: {
-    anglePipes: [
-      {id: "10", x: 37, y: 31, connect: "TR", description: "gas"},//gas
-      {id: "11", x: 26, y: 31, connect: "TL", description: "oxygen"},//oxygen
-      {id: "12", x: 26, y: 3, connect: "BL", description: "co2"},//co2
-      {id: "13", x: 33, y: 2, connect: "BR", description: "water"},//water
-      {id: "14", x: 36, y: 8, connect: "BR", description: "steam"},//steam
+    pipesColor: {
+      air: "#ffffff",
+      gas: "#ffe13e",
+      oil: "#373a36",
+      steam: "#c7d5e0",
+      water: "#d4f1f9",
+      smoke: "#738276",
+    },
+    pipeItems: [
+      //anglePipes
+      {id: "10", x: 37, y: 35, orientation: "TR", description: "gas", type: "gas"},//gas
+      {id: "11", x: 26, y: 35, orientation: "TL", description: "oxygen", type: "air"},//oxygen
+      {id: "12", x: 26, y: 3, orientation: "BL", description: "co2", type: "smoke"},//co2
+      {id: "13", x: 33, y: 3, orientation: "BR", description: "water", type: "water"},//water
+      {id: "14", x: 36, y: 13, orientation: "BR", description: "steam", type: "steam"},//steam
+      //horizontalPipes
+      {id: "100", x: 38, y: 35, orientation: "horizontal", width: 27, description: "gas", type: "gas"},//gas
+      {id: "101", x: 26, y: 35, orientation: "horizontal", width: -25, description: "oxygen", type: "air"},//oxygen
+      {id: "102", x: 26, y: 3, orientation: "horizontal", width: -25, description: "co2", type: "smoke"},//co2
+      {id: "103", x: 34, y: 3, orientation: "horizontal", width: 31, description: "water", type: "water"},//water
+      {id: "104", x: 37, y: 13, orientation: "horizontal", width: 28, description: "steam", type: "steam"},//steam
+      //verticalPipes
+      {id: "1001", x: 37, y: 35, orientation: "vertical", height: -4, description: "gas", type: "gas"},//gas
+      {id: "1002", x: 26, y: 35, orientation: "vertical", height: -4, description: "oxygen", type: "air"},//oxygen
+      {id: "1003", x: 26, y: 4, orientation: "vertical", height: 25, description: "co2", type: "smoke"},//co2
+      {id: "1004", x: 36, y: 14, orientation: "vertical", height: 2, description: "steam", type: "steam"},//steam
+      {id: "1005", x: 33, y: 4, orientation: "vertical", height: 14, description: "water", type: "water"},//water
+      {id: "1006", x: 32, y: 16, orientation: "vertical", height: 8, description: "boiler left", type: "water"},//boiler_left
+      {id: "1007", x: 37, y: 16, orientation: "vertical", height: 8, description: "boiler right", type: "water"},//boiler_right
     ],
-    horizontalPipes: [
-      {id: "100", x: 37, y: 31, width: 28, description: "gas"},//gas
-      {id: "101", x: 26, y: 31, width: -25, description: "oxygen"},//oxygen
-      {id: "102", x: 26, y: 3, width: -25, description: "co2"},//co2
-      {id: "103", x: 34, y: 2, width: 31, description: "water"},//water
-      {id: "104", x: 37, y: 8, width: 28, description: "steam"},//steam
-    ],
-    verticalPipes: [
-      {id: "1001", x: 37, y: 31, height: -4, description: "gas"},//gas
-      {id: "1002", x: 26, y: 31, height: -4, description: "oxygen"},//oxygen
-      {id: "1003", x: 26, y: 4, height: 20, description: "co2"},//co2
-      {id: "1004", x: 36, y: 9, height: 2, description: "steam"},//steam
-      {id: "1005", x: 33, y: 3, height: 6, description: "water"},//water
-      {id: "1006", x: 32, y: 11, height: 8, description: "boiler left"},//boiler_left
-      {id: "1007", x: 37, y: 11, height: 8, description: "boiler right"},//boiler_right
-    ],
-  },
-  informationFields: [
-    {id: "10000", x: 50, y: 30, information: "YEP", description: ""},//
-  ],
+  }
 };
 
-const defaultSensors: Array<Sensor> = [
+const defaultSensors
+  :
+  Array<Sensor> = [
   //valves
   {tag: "0", measure: "дискр", min: 0, max: 1,}, //gas valve
   {tag: "1", measure: "дискр", min: 0, max: 1,}, //steam valve

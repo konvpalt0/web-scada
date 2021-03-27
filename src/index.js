@@ -5,6 +5,7 @@ import App from './App';
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {BrowserRouter} from "react-router-dom";
+import changeBrightness from "./utilities/commonFunctions/changeBrightness";
 
 const rerender = (store) => {
   ReactDOM.render(
@@ -20,5 +21,5 @@ const rerender = (store) => {
 }
 
 store.subscribe(() => rerender(store));
-
+window.changeColor = changeBrightness;
 rerender(store);

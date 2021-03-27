@@ -30,24 +30,24 @@
 */
 
 .hPipe {
-    background: linear-gradient(#848284, white, #848284);
+    background: linear-gradient(#848284, transparent, #848284);
 }
 
 .vPipe {
-    background: linear-gradient(90deg, #848284, white, #848284);
+    background: linear-gradient(90deg, #848284, transparent, #848284);
 }
 
 .aPipeTL {
-    background: radial-gradient(farthest-side at 0% 0%, #848284, white, #848284 100%, rgba(255,255,255,0));
+    background: radial-gradient(farthest-side at 0% 0%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
 }
 .aPipeTR {
-    background: radial-gradient(farthest-side at 100% 0%, #848284, white, #848284 100%, rgba(255,255,255,0));
+    background: radial-gradient(farthest-side at 100% 0%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
 }
 .aPipeBL {
-    background: radial-gradient(farthest-side at 0% 100%, #848284, white, #848284 100%, rgba(255,255,255,0));
+    background: radial-gradient(farthest-side at 0% 100%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
 }
 .aPipeBR {
-    background: radial-gradient(farthest-side at 100% 100%, #848284, white, #848284 100%, rgba(255,255,255,0));
+    background: radial-gradient(farthest-side at 100% 100%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
 }
 
 .error {
