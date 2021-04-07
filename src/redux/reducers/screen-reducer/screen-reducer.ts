@@ -23,7 +23,7 @@ const initState: ScreenState = {
         gas: "#ffe13e",
         oil: "#373a36",
         steam: "#c7d5e0",
-        water: "#d4f1f9",
+        water: "#00c7ff",
         smoke: "#738276",
       },
       pipeItems: [
@@ -47,6 +47,12 @@ const initState: ScreenState = {
         {id: "1005", x: 33, y: 4, orientation: "vertical", height: 14, description: "water", type: "water"},//water
         {id: "1006", x: 32, y: 16, orientation: "vertical", height: 8, description: "boiler left", type: "water"},//boiler_left
         {id: "1007", x: 37, y: 16, orientation: "vertical", height: 8, description: "boiler right", type: "water"},//boiler_right
+      ],
+    },
+    tanks: {
+      tankItems: [
+        {id: "99", x: 35, y: 24, type: "boilerBottom", description: "water boiler", radius: 3},
+        {id: "98", x: 35, y: 16, type: "boilerTop", description: "water boiler", radius: 3},
       ],
     },
   },

@@ -128,7 +128,13 @@ const defaultTextArea: Sprites = {
       {id: "1006", x: 32, y: 16, orientation: "vertical", height: 8, description: "boiler left", type: "water"},//boiler_left
       {id: "1007", x: 37, y: 16, orientation: "vertical", height: 8, description: "boiler right", type: "water"},//boiler_right
     ],
-  }
+  },
+  tanks: {
+    tankItems: [
+      {id: "99", x: 35, y: 24, type: "boilerBottom", description: "water boiler", radius: 3},
+      {id: "98", x: 35, y: 16, type: "boilerTop", description: "water boiler", radius: 3},
+    ],
+  },
 };
 
 const defaultSensors

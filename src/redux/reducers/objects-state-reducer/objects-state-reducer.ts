@@ -257,6 +257,17 @@ const objectsStateReducer = (state: Objects = initialObjectsState, action: Objec
         objects: changeObject(state.objects, action.objectId, action.sensorTag, action.payload),
       }
     }
+    case UPDATE_IS_SENSOR_INIT: {
+      return {
+        ...state,
+        objects: state.objects.map(object => object.objectId === action.objectId ? {...object,
+          sensors: object.sensors.map(sensor => sensor.meta.sensorTag === action.sensorTag ? {
+            ...sensor,
+            isSensorInit: true
+          } : sensor)
+        } : object)
+      }
+    }
     default:
       return state;
   }
@@ -267,7 +278,7 @@ export const updateSensor = (newSensorState: SensorData, objectId: string, senso
   type: UPDATE_SENSOR_STATE,
   payload: newSensorState,
   objectId,
-  sensorTag: sensorTag
+  sensorTag,
 });
 export const updateIsSensorInit = (objectId: string, sensorId: string): UpdateIsSensorInit => ({
   type: UPDATE_IS_SENSOR_INIT,
@@ -285,7 +296,8 @@ export const getSensorState = (objectId: string, sensorId: string): GetSensorSta
   response.forEach(sensor => dispatch(updateSensor(sensor, objectId, sensorId)));
 }
 export const initSensorState = (objectId: string, sensorId: string): GetInitSensorState => async (dispatch) => {
-  const response = await objectAPI.getSensorState(objectId, sensorId, 50);
-  response.forEach(sensor => dispatch(updateSensor(sensor, objectId, sensorId)));
+  dispatch(updateIsSensorInit(objectId, sensorId));
+  //const response = await objectAPI.getSensorState(objectId, sensorId, 50);
+  //response.forEach(sensor => dispatch(updateSensor(sensor, objectId, sensorId)));
   dispatch(updateIsSensorInit(objectId, sensorId));
 }

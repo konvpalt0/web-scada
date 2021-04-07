@@ -17,7 +17,7 @@ const InformationField: React.FC<Props> = ({yStart, xStart, information, id}) =>
   return (
     <NavLink to={`/workspace/trends/${id}`} style={css} className={style.informationField}>
       <svg viewBox="0 0 48 18">
-        <text x="0%" y="50%" dominantBaseline="central" alignmentBaseline="central">
+        <text x="5%" y="50%" dominantBaseline="central" alignmentBaseline="central">
           {information}
         </text>
       </svg>

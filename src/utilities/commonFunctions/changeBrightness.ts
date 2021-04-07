@@ -23,8 +23,12 @@ const getOverScore = (number: number): number => {
   return number > 255 ? number - 255 : 0;
 }
 const fixColors = (r: number, g: number, b: number): string => {
-  const rr = Math.round(Math.min(255, r)).toString(16);
-  const gg = Math.round(Math.min(255, g)).toString(16);
-  const bb = Math.round(Math.min(255, b)).toString(16);
+  let rr = (Math.round(Math.min(255, r)) & 0xff).toString(16);
+  let gg = (Math.round(Math.min(255, g)) & 0xff).toString(16);
+  let bb = (Math.round(Math.min(255, b)) & 0xff).toString(16);
+  rr = rr === "0" ? "00" : rr;
+  gg = gg === "0" ? "00" : gg;
+  bb = bb === "0" ? "00" : bb;
+
   return rr+gg+bb;
 }

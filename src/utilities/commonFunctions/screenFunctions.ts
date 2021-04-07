@@ -18,7 +18,8 @@ export const getPipeStyle = (xStart: number, yStart: number, xEnd: number, yEnd:
   }
 
   const gradientColor = (color: React.CSSProperties["color"]): string => {
-    return `${changeBrightness(color, 0.5)}, ${color}, ${changeBrightness(color, 0.5)}`
+    const a = `${changeBrightness(color, 0.5)}, ${color}, ${changeBrightness(color, 0.5)}`;
+    return a
   }
 
   switch (rule) {

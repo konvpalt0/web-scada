@@ -1,18 +1,3 @@
-/*.resolution1080 {
-    width: 1920px;
-    height: 1080px;
-}
-
-.resolution720 {
-    width: 1280px;
-    height: 720px;
-}
-
-.resolution480 {
-    width: 854px;
-    height: 480px;
-}*/
-
 .block {
     display: block;
 }
@@ -24,30 +9,6 @@
 
 .cell {
     box-sizing: border-box;
-}
-
-/*
-*/
-
-.hPipe {
-    background: linear-gradient(#848284, transparent, #848284);
-}
-
-.vPipe {
-    background: linear-gradient(90deg, #848284, transparent, #848284);
-}
-
-.aPipeTL {
-    background: radial-gradient(farthest-side at 0% 0%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
-}
-.aPipeTR {
-    background: radial-gradient(farthest-side at 100% 0%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
-}
-.aPipeBL {
-    background: radial-gradient(farthest-side at 0% 100%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
-}
-.aPipeBR {
-    background: radial-gradient(farthest-side at 100% 100%, #848284, transparent, #848284 100%, rgba(255,255,255,0));
 }
 
 .error {
@@ -73,16 +34,30 @@
     font-size: 0.7rem;
 }
 
-.circle {
+.tankWrapper {
+    display: grid;
     border-radius: 1000px;
-    background: radial-gradient(farthest-side at 50% 50%, white, #848284);
+    background-size: contain;
+    background-clip: border-box;
+    background-origin: border-box;
+}
+.tank {
+    border-radius: 1000px;
+    background: radial-gradient(farthest-side at 50% 50%, transparent, rgba(84,82,84,0.5));
+}
+.boilerTop {
+    background-image: url("../../../textures/boiling_water.gif");
+}
+.boilerBottom {
+    background-image: url("../../../textures/water_bubbles.gif");
 }
 
 .informationField {
+    box-shadow: 0 0 3px 1px #2977a7;
     z-index: 100;
     padding: 0 0;
     color: white;
-    background-color: #c6c6c6;
+    background-color: #eff5ff;
     display: grid;
 }
 
@@ -97,12 +72,30 @@
     font-size: 0.7rem;
 }
 
+.informationField:hover {
+    background-color: #85cef6;
+}
+
 .valve {
-    background: transparent;
+    border-color: #d4edf6 transparent;
     padding: 0;
+}
+.moving {
+    background: yellow;
+}
+.open {
+    background: green;
+}
+.close {
+    background: blue;
 }
 
 .rectangle {
-    background: #d7d7d7;
-    box-shadow: #848284;
+    background-image: url("../../../textures/flame.gif");
+    background-size: contain;
+    background-clip: border-box;
+    background-origin: border-box;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem black;
+    box-shadow: inset 0 0 0.5rem black;
 }

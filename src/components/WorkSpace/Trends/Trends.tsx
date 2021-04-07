@@ -58,8 +58,8 @@ const Trends: React.FC<Props> = ({
   useEffect(() => {
     if (isSensorInit) {
       setTimeout(() => {
-        //updateSensor({date: String(new Date()), measure: "%", value: "" + Math.random()}, "1", sensorId);
-        getSensorState(objectId, sensorId);
+        updateSensor({date: String(new Date()), value: "" + Math.random()}, objectId, sensorId);
+        //getSensorState(objectId, sensorId);
       }, 2000);
     }
   }, [getSensorState, sensorData.sensorState, isSensorInit, objectId, sensorId]);

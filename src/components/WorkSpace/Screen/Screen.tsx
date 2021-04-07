@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./Screen.module.css";
-import Circle from "./Drawing/Circle/Circle";
 import Valve from "./Drawing/Valve/Valve";
 import {
   ObjectState,
@@ -13,6 +12,7 @@ import {select} from "../../../redux/selectors/redux-selectors";
 import Rectangle from "./Drawing/Rectangle/Reactangle";
 import DoubleInformationField from "./Drawing/InformationField/DoubleInformationField";
 import Pipe from "./Pipes/Pipe";
+import Tank from "./Drawing/Tank/Tank";
 
 type OwnProps = {
   resolution: Resolution;
@@ -34,9 +34,7 @@ const Screen: React.FC<Props> = ({resolution, sprites, selectObjectState, object
       {objectState.sensors.map(field => <DoubleInformationField key={field.meta.sensorTag} meta={field.meta}
                                                                 data={field.sensorState[0]}/>)}
       {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={"CLOSE"}/>)}
-
-      <Circle radius={3} xStart={35} yStart={24}/>
-      <Circle radius={3} xStart={35} yStart={16}/>
+      {sprites.tanks.tankItems.map(tank => <Tank key={tank.id} {...tank}/>)}
       <Rectangle width={20} height={5} xStart={22} yStart={28}/>
     </div>
   )

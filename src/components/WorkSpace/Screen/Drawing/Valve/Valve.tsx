@@ -6,17 +6,17 @@ import {connect} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {select} from "../../../../../redux/selectors/redux-selectors";
 import {StartPosition} from "../../../types";
+import composeClassNames from "../../../../../utilities/commonFunctions/composeClassNames";
 
 const Valve: React.FC<Props> = ({xStart, yStart, status, resolution}) => {
   const css = getGridArea(xStart-1, yStart-1, xStart+2, yStart+2);
   const borderSize = Math.floor(resolution.height/36*1.5);
   let borders: React.CSSProperties = {
     borderWidth: `${borderSize}px`,
-    borderColor: `transparent ${getColor(status)}`,
     borderStyle: "solid",
   };
   return (
-    <div style={{...css, ...borders}} className={style.valve}/>
+    <div style={{...css, ...borders}} className={composeClassNames(style.valve, getColor(status))}/>
   )
 }
 
@@ -36,14 +36,14 @@ interface OwnProps extends StartPosition {
 }
 type Props = OwnProps & StateProps;
 
-const getColor = (status: OwnProps["status"]): React.CSSProperties["borderColor"] => {
+const getColor = (status: OwnProps["status"]): string => {
   switch (status) {
     case "CLOSE":
-      return "red";
+      return style.close;
     case "OPEN":
-      return "green";
+      return style.open;
     case "MOVING":
-      return "violet";
+      return style.moving;
   }
 }
 

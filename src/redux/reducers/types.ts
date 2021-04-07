@@ -116,12 +116,19 @@ export interface PipeType extends Position{
   width?: number,
   height?: number,
 }
+export interface TankType extends Position {
+  type: "boilerTop" | "boilerBottom" | "native",
+  radius: number,
+}
 
 export interface Sprites {
   valves: Array<Valves>,
   pipes: {
     pipesColor: PipesColor,
     pipeItems: Array<PipeType>,
+  }
+  tanks: {
+    tankItems: Array<TankType>,
   }
 }
 
