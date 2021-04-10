@@ -1,5 +1,39 @@
 import {ThunkAction} from "redux-thunk";
 import React from "react";
+
+//======================
+export interface AlarmState {
+  settings: {
+    colors: AlarmColorSetting,
+  }
+  alarmLog: Array<AlarmsItemType>,
+}
+export interface AlarmColorSetting {
+  warning: React.CSSProperties["color"],
+  message: React.CSSProperties["color"],
+  alarm: React.CSSProperties["color"],
+}
+export interface AlarmsItemType {
+  id: string,
+  date: string,
+  message: string,
+  type: "alarm" | "message" | "warning",
+}
+
+//Const types
+export const ADD_ALARM: "alarm-reducer/ADD_ALARM" = "alarm-reducer/ADD_ALARM";
+
+//Action types
+export interface AddAlarmAction {
+  type: typeof ADD_ALARM,
+  payload: AlarmsItemType,
+}
+
+//All Actions
+export type AlarmActionTypes = AddAlarmAction;
+//Thunk types
+
+
 //======================
 //development-reducer
 

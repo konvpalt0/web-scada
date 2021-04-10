@@ -1,17 +1,44 @@
 import React from "react";
-import style from "../Screen/Screen.module.css";
-import {mapResolutionToCSS} from "../Screen/Screen";
-import {Resolution} from "../../../redux/reducers/types";
+import style from "../WorkSpace.module.css";
+import gStyle from "../../../GlobalStyle.module.css";
+import {AlarmColorSetting, AlarmsItemType, Resolution} from "../../../redux/reducers/types";
+import {RootState} from "../../../redux/store";
+import {connect} from "react-redux";
+import {select} from "../../../redux/selectors/redux-selectors";
+import AlarmsItem from "./AlarmItem/AlarmsItem";
 
-type OwnProps = {
+interface OwnProps {
   resolution: Resolution,
-};
-type Props = OwnProps;
+}
+interface DispatchProps {
 
-const Alarms: React.FC<Props> = ({resolution}) => {
+}
+interface StateProps {
+  alarmsLog: Array<AlarmsItemType>,
+  colorSet: AlarmColorSetting,
+}
+type Props = OwnProps & DispatchProps & StateProps;
+
+const Alarms: React.FC<Props> = ({resolution, alarmsLog, colorSet}) => {
   return (
-    <div className={style.grid} style={mapResolutionToCSS(resolution)}>Alarms</div>
+    //TODO
+    <div className={style.alarmBody}>
+      <div className={style.alarmItem}>
+        <div className={gStyle.border}>id</div>
+        <div>date</div>
+        <div>message</div>
+        <div>type</div>
+      </div>
+      <div>
+        {alarmsLog.map(alarmItem => <AlarmsItem key={alarmItem.id} {...alarmItem} color={colorSet[alarmItem.type]}/>)}
+      </div>
+    </div>
   )
 }
 
-export default Alarms;
+const mstp = (state: RootState): StateProps => ({
+  alarmsLog: select.getAlarmsLog(state),
+  colorSet: select.getAlarmsColorSettings(state),
+})
+
+export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {})(Alarms);

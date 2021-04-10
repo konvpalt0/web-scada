@@ -18,3 +18,18 @@
     grid-template-columns: repeat(auto-fit, minmax(5rem, 10rem));
     transform-origin: top;
 }
+
+.alarmBody {
+    padding: 1rem;
+}
+
+.alarmItem {
+    display: grid;
+    width: auto;
+    grid-template-columns: 1fr 5fr 10fr 3fr;
+    justify-items: stretch;
+}
+.alarmItem > * {
+    text-align: center;
+    box-shadow: inset 0 0 0.1rem black;
+}

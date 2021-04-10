@@ -1,5 +1,5 @@
 import {Selectors} from "./types";
-import {ObjectState, SensorState} from "../reducers/types";
+import {AlarmsItemType, ObjectState, SensorState} from "../reducers/types";
 
 
 const select: Selectors = {
@@ -22,6 +22,13 @@ const select: Selectors = {
   getObjectState: state => objectId => select.getObjectsState(state).find(object => object.objectId === objectId) || nullObject,
   getSensorState: state => objectId => sensorId => select.getObjectState(state)(objectId).sensors.find(sensor => sensor.meta.sensorTag === sensorId) || nullSensor,
   getIsSensorInit: state => objectId => sensorId => select.getSensorState(state)(objectId)(sensorId).isSensorInit,
+  //alarms
+  getAlarms: state => state.alarms,
+  getAlarmsSettings: state => select.getAlarms(state).settings,
+  getAlarmsColorSettings: state => select.getAlarmsSettings(state).colors,
+  getAlarmsLog: state => select.getAlarms(state).alarmLog,
+  //TODO use reselect
+  getAlarmsItem: state => alarmId => select.getAlarmsLog(state).find(alarmItem => alarmItem.id === alarmId) || nullAlarm,
 }
 
 export {select};
@@ -63,3 +70,9 @@ const nullSensor: SensorState = {
     },
   ],
 };
+const nullAlarm: AlarmsItemType = {
+  id: "null",
+  date: "null",
+  type: "alarm",
+  message: "null",
+}
