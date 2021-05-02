@@ -5,27 +5,45 @@ const initState: AlarmState = {
     colors: {
       alarm: "red",
       warning: "yellow",
-      message: "blue",
+      message: "whitesmoke",
     }
   },
   alarmLog: [
     {
-      id: "0",
-      date: "some date",
-      message: "some message",
+      id: "5",
+      date: (new Date(Date.now() - 100000)).toLocaleString(),
+      message: "Опасный уровень воды в барабане",
+      type: "warning",
+    },
+    {
+      id: "4",
+      date: (new Date(Date.now() - 500000)).toLocaleString(),
+      message: "Клапан К-1 открыт",
       type: "message",
     },
     {
-      id: "1",
-      date: "some date",
-      message: "some message",
+      id: "3",
+      date: (new Date(Date.now() - 1000000)).toLocaleString(),
+      message: "Критический уровень воды в барабане",
       type: "alarm",
     },
     {
       id: "2",
-      date: "some date",
-      message: "some message",
+      date: (new Date(Date.now() - 3000000)).toLocaleString(),
+      message: "Опасный уровень воды в барабане",
       type: "warning",
+    },
+    {
+      id: "1",
+      date: (new Date(Date.now() - 5000000)).toLocaleString(),
+      message: "Клапан К-1 закрыт",
+      type: "message",
+    },
+    {
+      id: "0",
+      date: (new Date(Date.now() - 10000000)).toLocaleString(),
+      message: "Пользователь developer авторизирован в системе",
+      type: "message",
     }
   ]
 }

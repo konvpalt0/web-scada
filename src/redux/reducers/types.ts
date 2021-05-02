@@ -37,40 +37,21 @@ export type AlarmActionTypes = AddAlarmAction;
 //======================
 //development-reducer
 
-export interface DevelopmentState {
-  response: {},
+export type DevelopmentState = {
+  hmiState: ScreenState,
+  sensorsState: SensorMeta[],
 }
-
-export interface Sensor {
-  tag: string,
-  measure: "МПа" | "мм" | "C\u00B0" | "%" | "м3/ч" | "Па" | "КПа" | "дискр" | "об/мин",
-  min: number,
-  max: number,
-}
-
-export interface SensorsPayload {
-  objectID: number,
-  sensors: Array<Sensor>
-}
-
-export interface HMIState {
-  objectID: number,
-  hmi: Sprites,
-}
-
 //Const types
-export const UPDATE_RESPONSE: "development-reducer/UPDATE_RESPONSE" = "development-reducer/UPDATE_RESPONSE";
-
+  export const UPDATE_SENSORS_STATE: "development-reducer/UPDATE_SENSORS_STATE" = "development-reducer/UPDATE_SENSORS_STATE";
 //Action types
-export interface UpdateResponseAction {
-  type: typeof UPDATE_RESPONSE,
-  payload: DevelopmentState["response"],
-}
-
+  export type UpdateSensorsStateAction = {
+    type: typeof UPDATE_SENSORS_STATE,
+    payload: SensorMeta[],
+  };
 //All Actions
-export type DevelopmentActionTypes = UpdateResponseAction;
+  export type DevelopmentActionTypes = UpdateSensorsStateAction;
 //Thunk types
-export type DevThunk = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateResponseAction>;
+  export type SetSensorsState = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateSensorsStateAction>;
 //======================
 //object-state-reducer
 export interface SensorData {
@@ -82,8 +63,14 @@ export interface SensorMeta {
   sensorTag: string,
   information: string,
   measure: "МПа" | "мм" | "C\u00B0" | "%" | "м3/ч" | "Па" | "КПа" | "дискр" | "об/мин",
-  x: number,
-  y: number,
+  min: string,
+  max: string,
+  minAlarm: string,
+  maxAlarm: string,
+  minWarning: string,
+  maxWarning: string,
+  x: string,
+  y: string,
 }
 
 export interface SensorState {
@@ -125,6 +112,31 @@ export type ObjectsStateActions = UpdateSensorAction | UpdateIsSensorInit;
 export type GetObjectState = ThunkAction<Promise<void>, Objects, unknown, ObjectsStateActions>;
 export type GetSensorState = ThunkAction<Promise<void>, Objects, unknown, ObjectsStateActions>;
 export type GetInitSensorState = ThunkAction<Promise<void>, Objects, unknown, ObjectsStateActions>;
+//======================
+//regulators-reducer
+export type RegulatorsState = {
+  regulators: Array<Regulator>;
+}
+export type Regulator = {
+  id: string,
+  settings: RegulatorSettings,
+}
+export type RegulatorSettings = {
+  targetForAutoMode: number,
+  targetForManualMode: number,
+  kp: number,
+  ki: number,
+  kd: number,
+  deadZone: number,
+}
+//Const types
+export const UPDATE_REGULATOR_SETTINGS: "regulator-reducer/UPDATE_REGULATOR_SETTINGS" = "regulator-reducer/UPDATE_REGULATOR_SETTINGS";
+//Action types
+export type UpdateRegulatorSettingsAction = {type: typeof UPDATE_REGULATOR_SETTINGS, payload: RegulatorSettings, id: string};
+export type RegulatorsStateActionsTypes = UpdateRegulatorSettingsAction;
+//Thunk types
+
+
 //======================
 //screen-reducer
 export interface Position {

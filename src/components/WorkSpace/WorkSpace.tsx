@@ -12,6 +12,7 @@ import Alarms from "./Alarms/Alarms";
 import style from "./WorkSpace.module.css";
 import gStyle from "../../GlobalStyle.module.css";
 import composeClassNames from "../../utilities/commonFunctions/composeClassNames";
+import Regulator from "./Regulator/Regulator";
 
 const resolutions = {
   "480p": {
@@ -33,18 +34,29 @@ const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
   return (
     <div className={style.body}>
       <div className={composeClassNames(gStyle.block, gStyle.menu)}>
-        <button onClick={() => updateScreenResolution(resolutions["480p"])}><div>480p</div></button>
-        <button onClick={() => updateScreenResolution(resolutions["720p"])}><div>720p</div></button>
-        <button onClick={() => updateScreenResolution(resolutions["1080p"])}><div>1080p</div></button>
+        <button onClick={() => updateScreenResolution(resolutions["480p"])}>
+          <div>480p</div>
+        </button>
+        <button onClick={() => updateScreenResolution(resolutions["720p"])}>
+          <div>720p</div>
+        </button>
+        <button onClick={() => updateScreenResolution(resolutions["1080p"])}>
+          <div>1080p</div>
+        </button>
       </div>
       <div>
-        <Menu/>
+        <Menu menuItems={[
+          {to: "/workspace/main", name: "Main"},
+          {to: "/workspace/trends", name: "Trends"},
+          {to: "/workspace/alarms", name: "Alarms"},
+          {to: "/workspace/regulator", name: "Regulator"}]}/>
       </div>
       <div className={gStyle.block}>
         <Switch>
           <Route path="/workspace/main" render={() => <Screen resolution={resolution}/>}/>
           <Route path="/workspace/trends/:sensorId" render={(props) => <Trends resolution={resolution} {...props}/>}/>
           <Route path="/workspace/alarms" render={() => <Alarms resolution={resolution}/>}/>
+          <Route path="/workspace/regulator" render={() => <Regulator resolution={resolution}/>}/>
         </Switch>
       </div>
     </div>

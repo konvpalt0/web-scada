@@ -17,8 +17,8 @@ type Props = OwnProps & DispatchProps & StateProps;
 const DoubleInformationField: React.FC<Props> = ({meta, data}) => {
   return (
     <>
-      <InformationField xStart={meta.x} yStart={meta.y} information={meta.information} id={meta.sensorTag}/>
-      <InformationField xStart={meta.x+4} yStart={meta.y} information={data.value + meta.measure} id={meta.sensorTag}/>
+      <InformationField xStart={+meta.x} yStart={+meta.y} information={meta.information} id={meta.sensorTag}/>
+      <InformationField xStart={+meta.x+4} yStart={+meta.y} information={data.value + meta.measure} id={meta.sensorTag}/>
     </>
   )
 }

@@ -1,7 +1,7 @@
 // auth api
 import {checkLoginUser} from "../server-emulator/state/auth-data";
 import axios, {AxiosResponse} from "axios";
-import {HMIState, SensorData, SensorsPayload, SensorState} from "../../redux/reducers/types";
+import {RegulatorSettings, SensorData, SensorState} from "../../redux/reducers/types";
 
 const BASE_URL = "http://b6f0cc88263f.ngrok.io";
 
@@ -23,11 +23,15 @@ export const objectAPI = {
   getSensorState: async (objectId: string, sensorId: string, steps?: number): Promise<Array<SensorData>> => {
     const response = await api.get(`api/getState?objectID=${objectId}&sensorTag=${sensorId}${steps ? `&steps=${steps}` : ``}`);
     return response.data.response.objectState[0].sensorState;
+  },
+  getRegulatorState: async (objectId: string, regulatorId: string): Promise<RegulatorSettings> => {
+    const response = await api.get(`api/getRegulator?objectID=${objectId}&regulatorId=${regulatorId}`);
+    return response.data.response;
   }
 }
 
 export const devAPI = {
-  setObjectConfiguration: async (payload: SensorsPayload): Promise<AxiosResponse<JSON>> => {
+  /*setObjectConfiguration: async (payload: SensorsPayload): Promise<AxiosResponse<JSON>> => {
     return await api.post(`api/setSensors`, payload);
   },
   startObject: async (objectId: number): Promise<AxiosResponse<JSON>> => {
@@ -47,7 +51,7 @@ export const devAPI = {
   },
   removeHMI: async (objectId: number): Promise<AxiosResponse<JSON>> => {
     return await api.get(`api/removeHMI?objectID=${objectId}`);
-  },
+  },*/
 }
 
 // @ts-ignore

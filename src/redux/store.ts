@@ -5,12 +5,14 @@ import screenReducer from "./reducers/screen-reducer/screen-reducer";
 import developmentReducer from "./reducers/development-reducer/development-reducer";
 import objectsStateReducer from "./reducers/objects-state-reducer/objects-state-reducer";
 import alarmReducer from "./reducers/alarm-reducer/alarm-reducer";
+import regulatorsReducer from "./reducers/regulators-reducer/regulators-reducer";
 
 const rootReducer = combineReducers({
     system: systemReducer,
     screen: screenReducer,
     development: developmentReducer,
     objects: objectsStateReducer,
+    regulators: regulatorsReducer,
     alarms: alarmReducer,
   }
 );

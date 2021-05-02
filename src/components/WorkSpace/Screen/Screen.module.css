@@ -35,6 +35,7 @@
 }
 
 .tankWrapper {
+    z-index: 2;
     display: grid;
     border-radius: 1000px;
     background-size: contain;
@@ -77,6 +78,7 @@
 }
 
 .valve {
+    z-index: 2;
     border-color: #d4edf6 transparent;
     padding: 0;
 }
@@ -91,6 +93,7 @@
 }
 
 .rectangle {
+    z-index: 2;
     background-image: url("../../../textures/flame.gif");
     background-size: contain;
     background-clip: border-box;

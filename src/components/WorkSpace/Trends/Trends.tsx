@@ -62,7 +62,7 @@ const Trends: React.FC<Props> = ({
         //getSensorState(objectId, sensorId);
       }, 2000);
     }
-  }, [getSensorState, sensorData.sensorState, isSensorInit, objectId, sensorId]);
+  }, [getSensorState, sensorData.sensorState, isSensorInit, objectId, sensorId, updateSensor]);
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>

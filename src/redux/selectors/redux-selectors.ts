@@ -1,5 +1,5 @@
 import {Selectors} from "./types";
-import {AlarmsItemType, ObjectState, SensorState} from "../reducers/types";
+import {AlarmsItemType, ObjectState, Regulator, SensorState} from "../reducers/types";
 
 
 const select: Selectors = {
@@ -14,7 +14,7 @@ const select: Selectors = {
   getSprites: state => select.getScreen(state).sprites,
   //development
   getDevelopment: state => state.development,
-  getResponse: state => select.getDevelopment(state).response,
+  getDevelopmentHmi: state => select.getDevelopment(state).hmiState,
   //objectsState
   getObjects: state => state.objects,
   getObjectsState: state => select.getObjects(state).objects,
@@ -22,6 +22,10 @@ const select: Selectors = {
   getObjectState: state => objectId => select.getObjectsState(state).find(object => object.objectId === objectId) || nullObject,
   getSensorState: state => objectId => sensorId => select.getObjectState(state)(objectId).sensors.find(sensor => sensor.meta.sensorTag === sensorId) || nullSensor,
   getIsSensorInit: state => objectId => sensorId => select.getSensorState(state)(objectId)(sensorId).isSensorInit,
+  //regulators
+  getRegulators: state => state.regulators,
+  getRegulator: state => regulatorId => select.getRegulators(state).regulators.find(regulator => regulator.id === regulatorId) || nullRegulator,
+  getRegulatorSettings: state => regulatorId => select.getRegulator(state)(regulatorId).settings,
   //alarms
   getAlarms: state => state.alarms,
   getAlarmsSettings: state => select.getAlarms(state).settings,
@@ -42,8 +46,14 @@ const nullObject: ObjectState = {
         sensorTag: "null object",
         information: "null",
         measure: "%",
-        x: 0,
-        y: 0,
+        min: "0",
+        max: "0",
+        minAlarm: "0",
+        maxAlarm: "0",
+        minWarning: "0",
+        maxWarning: "0",
+        x: "0",
+        y: "0",
       },
       sensorState: [
         {
@@ -54,25 +64,21 @@ const nullObject: ObjectState = {
     }
   ],
 };
-const nullSensor: SensorState = {
-  isSensorInit: false,
-  meta: {
-    measure: "%",
-    sensorTag: "null sensor",
-    information: "null",
-    x: 0,
-    y: 0,
-  },
-  sensorState: [
-    {
-      date: "null sensor",
-      value: "-2",
-    },
-  ],
-};
+const nullSensor: SensorState = nullObject.sensors[0];
 const nullAlarm: AlarmsItemType = {
   id: "null",
   date: "null",
   type: "alarm",
   message: "null",
-}
+};
+const nullRegulator: Regulator = {
+  id: "null",
+  settings: {
+    targetForAutoMode: -1,
+    targetForManualMode: -1,
+    kp: -1,
+    ki: -1,
+    kd: -1,
+    deadZone: -1,
+  }
+};

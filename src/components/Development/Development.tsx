@@ -1,94 +1,43 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/store";
-import {
-  removeSensors,
-  setSensors,
-  startObject,
-  stopObject,
-  getObject, getHMI, setHMI, removeHMI,
-} from "../../redux/reducers/development-reducer/development-reducer";
-import {select} from "../../redux/selectors/redux-selectors";
-import {DevelopmentState, Sensor, SensorsPayload, Sprites} from "../../redux/reducers/types";
+import gStyle from "../../GlobalStyle.module.css";
+import Menu from "../WorkSpace/Menu/Menu";
+import {Route, Switch} from "react-router";
+import Hmi from "./Hmi/Hmi";
+import SignalList from "./SignalList/SignalList";
+import {Sprites} from "../../redux/reducers/types";
 
-interface OwnProps {
-}
-
-interface DispatchProps {
-  startObject: (objectId: number) => void,
-  stopObject: (objectId: number) => void,
-  setSensors: (objectId: number, sensors: SensorsPayload["sensors"]) => void,
-  removeSensors: (objectId: number) => void,
-  getObject: (objectId: string) => void,
-  getHMI: (objectId: number) => void,
-  setHMI: (objectId: number, hmi: Sprites) => void,
-  removeHMI: (objectId: number) => void,
-}
-
-type StateProps = {
-  response: DevelopmentState["response"];
-};
+type OwnProps = {};
+type DispatchProps = {};
+type StateProps = {};
 type Props = OwnProps & DispatchProps & StateProps;
 
-const Development: React.FC<Props> = ({
-                                        startObject,
-                                        stopObject,
-                                        removeSensors,
-                                        setSensors,
-                                        getObject,
-                                        getHMI,
-                                        removeHMI,
-                                        setHMI,
-                                        response
-                                      }) => {
-  const [textArea, setTextArea] = useState("");
-  useEffect(() => {
-    setTextArea(JSON.stringify(response, null, 2));
-  }, [response]);
-  const [objectId, setObjectId] = useState(1);
+const Development: React.FC<Props> = () => {
   return (
     <div>
-      <h1>Development</h1>
       <div>
-        <button onClick={() => startObject(objectId)}>Start</button>
-        <button onClick={() => stopObject(objectId)}>Stop</button>
-        <button onClick={() => getObject(objectId + "")}>Get</button>
-        <button onClick={() => removeSensors(objectId)}>Remove sensors</button>
-        <button onClick={() => setSensors(objectId, JSON.parse(textArea || "{}"))}>Set sensors</button>
-        <input type="number" value={objectId} onChange={(event) => setObjectId(+event.target.value)}/>
-        <button onClick={() => setTextArea(JSON.stringify(defaultSensors))}>Default</button>
-        <button onClick={() => setTextArea("")}>Clear</button>
-        <p>HMI</p>
-        <button onClick={() => getHMI(objectId)}>Get</button>
-        <button onClick={() => setHMI(objectId, JSON.parse(textArea || "{}"))}>Set</button>
-        <button onClick={() => removeHMI(objectId)}>Remove</button>
-        <input type="number" value={objectId} onChange={(event) => setObjectId(+event.target.value)}/>
-        <button onClick={() => {
-          setTextArea(JSON.stringify(defaultTextArea, null, 2))
-        }}>Default
-        </button>
+        <Menu menuItems={[
+          {to: "/development/hmi", name: "HMI"},
+          {to: "/development/signalList", name: "SignalList"},
+        ]}/>
       </div>
-      <textarea value={textArea} onChange={(event) => setTextArea(event.target.value)}
-                style={{height: "500px", width: "100%"}}/>
+      <div className={gStyle.block}>
+        <Switch>
+          <Route path={"/development/hmi"} render={() => <Hmi/>}/>
+          <Route path={"/development/signalList"} render={() => <SignalList/>}/>
+        </Switch>
+      </div>
     </div>
   )
 }
 
 const mstp = (state: RootState): StateProps => {
-  return {
-    response: select.getResponse(state),
-  };
+  return {};
 }
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
-  startObject,
-  stopObject,
-  removeSensors,
-  setSensors,
-  getObject,
-  getHMI,
-  setHMI,
-  removeHMI,
+
 })(Development);
 
 const defaultTextArea: Sprites = {
@@ -137,31 +86,30 @@ const defaultTextArea: Sprites = {
   },
 };
 
-const defaultSensors
-  :
-  Array<Sensor> = [
+/*
+const defaultSensors: Array<SensorMeta> = [
   //valves
-  {tag: "0", measure: "дискр", min: 0, max: 1,}, //gas valve
-  {tag: "1", measure: "дискр", min: 0, max: 1,}, //steam valve
-  {tag: "2", measure: "дискр", min: 0, max: 1,}, //water valve
+  {sensorTag: "0", measure: "дискр", min: 0, max: 1, minAlarm: 0, maxAlarm: 1, minWarning: 0, maxWarning: 1, x: 0, y: 0, information}, //gas valve
+  {sensorTag: "1", measure: "дискр", min: 0, max: 1,}, //steam valve
+  {sensorTag: "2", measure: "дискр", min: 0, max: 1,}, //water valve
   //gas block
-  {tag: "10001", measure: "C°", min: 0, max: 100,}, //gas temperature
-  {tag: "10003", measure: "КПа", min: 47.5, max: 52.5,}, //gas pressure
-  {tag: "10005", measure: "м3/ч", min: 130, max: 200,}, //gas consumption
+  {sensorTag: "10001", measure: "C°", min: 0, max: 100,}, //gas temperature
+  {sensorTag: "10003", measure: "КПа", min: 47.5, max: 52.5,}, //gas pressure
+  {sensorTag: "10005", measure: "м3/ч", min: 130, max: 200,}, //gas consumption
   //steam block
-  {tag: "10007", measure: "C°", min: 185, max: 194,}, //steam temperature
-  {tag: "10009", measure: "МПа", min: 0, max: 1.3,}, //steam pressure
-  {tag: "10011", measure: "м3/ч", min: 100, max: 150,}, //steam consumption
+  {sensorTag: "10007", measure: "C°", min: 185, max: 194,}, //steam temperature
+  {sensorTag: "10009", measure: "МПа", min: 0, max: 1.3,}, //steam pressure
+  {sensorTag: "10011", measure: "м3/ч", min: 100, max: 150,}, //steam consumption
   //water block
-  {tag: "10013", measure: "C°", min: 15, max: 100,},  //water temperature
-  {tag: "10015", measure: "МПа", min: 0.5, max: 0.8,}, //water pressure
-  {tag: "10017", measure: "м3/ч", min: 0, max: 17,}, //water consumption
+  {sensorTag: "10013", measure: "C°", min: 15, max: 100,},  //water temperature
+  {sensorTag: "10015", measure: "МПа", min: 0.5, max: 0.8,}, //water pressure
+  {sensorTag: "10017", measure: "м3/ч", min: 0, max: 17,}, //water consumption
   //co2 block
-  {tag: "10021", measure: "C°", min: 180, max: 200,},  //co2 temperature
-  {tag: "10019", measure: "об/мин", min: 0, max: 900,}, //RPM flue gas ventilation
+  {sensorTag: "10021", measure: "C°", min: 180, max: 200,},  //co2 temperature
+  {sensorTag: "10019", measure: "об/мин", min: 0, max: 900,}, //RPM flue gas ventilation
   //oxygen block
-  {tag: "10023", measure: "об/мин", min: 0, max: 900,}, //RPM flue gas ventilation
+  {sensorTag: "10023", measure: "об/мин", min: 0, max: 900,}, //RPM flue gas ventilation
   //burner block
-  {tag: "10025", measure: "Па", min: 633, max: 700,}, //Underpressure in burner
-  {tag: "10027", measure: "дискр", min: 0, max: 1,}, //Presence of flame in burner
-];
+  {sensorTag: "10025", measure: "Па", min: 633, max: 700,}, //Underpressure in burner
+  {sensorTag: "10027", measure: "дискр", min: 0, max: 1,}, //Presence of flame in burner
+];*/

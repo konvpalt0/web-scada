@@ -6,7 +6,7 @@ import {
   UpdateScreenResolutionAction
 } from "../types";
 
-const initState: ScreenState = {
+export const initState: ScreenState = {
   resolution: {
     height: 480,
     width: 854,

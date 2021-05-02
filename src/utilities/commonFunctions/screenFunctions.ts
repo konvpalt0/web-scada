@@ -11,6 +11,7 @@ export const getGridArea = (xStart: number, yStart: number, xEnd: number, yEnd: 
 export const getPipeStyle = (xStart: number, yStart: number, xEnd: number, yEnd: number, rule: "TL" | "TR" | "BL" | "BR" | "horizontal" | "vertical", color: React.CSSProperties["color"]): React.CSSProperties => {
   const getBackAndGrid = (background: string): React.CSSProperties => {
     return ({
+      zIndex: 2,
       gridColumn: `${xStart}/${xEnd}`,
       gridRow: `${yStart}/${yEnd}`,
       background: background,

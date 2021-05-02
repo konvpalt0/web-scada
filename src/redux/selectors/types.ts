@@ -1,6 +1,5 @@
 import {RootState} from "../store";
-import {AlarmsItemType, ObjectState, SensorState} from "../reducers/types";
-import Alarms from "../../components/WorkSpace/Alarms/Alarms";
+import {AlarmsItemType, ObjectState, Regulator, RegulatorSettings, SensorState} from "../reducers/types";
 
 type Select<T> = (state: RootState) => T;
 
@@ -15,7 +14,7 @@ export type ResolutionSelector = Select<RootState["screen"]["resolution"]>;
 export type SpritesSelector = Select<RootState["screen"]["sprites"]>;
 //development selector
 export type DevelopmentSelector = Select<RootState["development"]>;
-export type ResponseSelector = Select<RootState["development"]["response"]>;
+export type DevelopmentHmiSelector = Select<RootState["development"]["hmiState"]>;
 //objectState selector
 export type ObjectsSelector = Select<RootState["objects"]>;
 export type ObjectsStateSelector = Select<Array<ObjectState>>;
@@ -23,6 +22,10 @@ export type ObjectsStateSelector = Select<Array<ObjectState>>;
 export type ObjectSelector = (state: RootState) => (objectId: string) => ObjectState;
 export type SensorSelector = (state: RootState) => (objectId: string) => (sensorId: string) => SensorState;
 export type IsSensorInitSelector = (state: RootState) => (objectId: string) => (sensorId: string) => boolean;
+//regulators selector
+export type RegulatorsSelector = Select<RootState["regulators"]>;
+export type RegulatorSelector = (state: RootState) => (regulatorId: string) => Regulator;
+export type RegulatorSettingsSelector = (state: RootState) => (regulatorId: string) => RegulatorSettings;
 //alarms selector
 export type AlarmsSelector = Select<RootState["alarms"]>;
 export type AlarmsSettingSelector = Select<RootState["alarms"]["settings"]>;
@@ -43,13 +46,17 @@ export interface Selectors {
   getSprites: SpritesSelector,
   //development
   getDevelopment: DevelopmentSelector,
-  getResponse: ResponseSelector,
+  getDevelopmentHmi: DevelopmentHmiSelector,
   //objectsState
   getObjects: ObjectsSelector,
   getObjectsState: ObjectsStateSelector,
   getObjectState: ObjectSelector,
   getSensorState: SensorSelector,
   getIsSensorInit: IsSensorInitSelector,
+  //regulators
+  getRegulators: RegulatorsSelector,
+  getRegulator: RegulatorSelector,
+  getRegulatorSettings: RegulatorSettingsSelector,
   //alarms
   getAlarms: AlarmsSelector,
   getAlarmsSettings: AlarmsSettingSelector,
