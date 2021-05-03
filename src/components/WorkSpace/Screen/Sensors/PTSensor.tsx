@@ -1,14 +1,14 @@
 import React from "react";
 import style from "../Screen.module.css";
 import {getGridArea} from "../../../../utilities/commonFunctions/screenFunctions";
-import {StartPosition} from "../../types";
+import {Position} from "../../../../redux/reducers/types";
 
-interface Props extends StartPosition {
+interface Props extends Position {
 
 }
 
-const PT: React.FC<Props> = ({xStart, yStart}) => {
-  const css = getGridArea(xStart - 1, yStart - 1, xStart + 2, yStart + 2);
+const PT: React.FC<Props> = ({x, y}) => {
+  const css = getGridArea(x - 1, y - 1, x + 2, y + 2);
 
   return <div className={style.sensor} style={css}>
     <svg viewBox="0 0 20 20">

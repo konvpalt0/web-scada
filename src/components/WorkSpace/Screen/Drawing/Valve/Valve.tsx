@@ -1,15 +1,14 @@
 import React from "react";
 import {getGridArea} from "../../../../../utilities/commonFunctions/screenFunctions";
 import style from "../../Screen.module.css";
-import {Resolution} from "../../../../../redux/reducers/types";
+import {Position, Resolution} from "../../../../../redux/reducers/types";
 import {connect} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {select} from "../../../../../redux/selectors/redux-selectors";
-import {StartPosition} from "../../../types";
 import composeClassNames from "../../../../../utilities/commonFunctions/composeClassNames";
 
-const Valve: React.FC<Props> = ({xStart, yStart, status, resolution}) => {
-  const css = getGridArea(xStart-1, yStart-1, xStart+2, yStart+2);
+const Valve: React.FC<Props> = ({x, y, status, resolution}) => {
+  const css = getGridArea(x-1, y-1, x+2, y+2);
   const borderSize = Math.floor(resolution.height/36*1.5);
   let borders: React.CSSProperties = {
     borderWidth: `${borderSize}px`,
@@ -31,7 +30,7 @@ export default connect<StateProps, {}, OwnProps, RootState>(mstp, {})(Valve);
 type StateProps = {
   resolution: Resolution,
 }
-interface OwnProps extends StartPosition {
+interface OwnProps extends Position {
   status: "CLOSE" | "OPEN" | "MOVING",
 }
 type Props = OwnProps & StateProps;

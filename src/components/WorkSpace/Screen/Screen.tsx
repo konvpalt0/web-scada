@@ -33,9 +33,9 @@ const Screen: React.FC<Props> = ({resolution, sprites, selectObjectState, object
       {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.id} {...pipe} color={pipesColor[pipe.type]}/>)}
       {objectState.sensors.map(field => <DoubleInformationField key={field.meta.sensorTag} meta={field.meta}
                                                                 data={field.sensorState[0]}/>)}
-      {sprites.valves.map(valve => <Valve key={valve.id} xStart={valve.x} yStart={valve.y} status={"CLOSE"}/>)}
+      {sprites.valves.map(valve => <Valve key={valve.id} x={valve.x} y={valve.y} status={"CLOSE"}/>)}
       {sprites.tanks.tankItems.map(tank => <Tank key={tank.id} {...tank}/>)}
-      <Rectangle width={20} height={5} xStart={22} yStart={28}/>
+      <Rectangle width={20} height={5} x={22} y={28}/>
     </div>
   )
 }

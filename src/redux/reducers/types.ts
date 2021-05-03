@@ -139,14 +139,18 @@ export type RegulatorsStateActionsTypes = UpdateRegulatorSettingsAction;
 
 //======================
 //screen-reducer
+export interface Events{
+  onClick?: () => void,
+}
 export interface Position {
   x: number,
   y: number,
+}
+export interface Meta extends Position{
   id: string,
   description: string,
 }
-
-export interface Valves extends Position {
+export interface Valves extends Meta {
 }
 export interface PipesColor {
   water: React.CSSProperties["color"],
@@ -156,13 +160,13 @@ export interface PipesColor {
   steam: React.CSSProperties["color"],
   smoke: React.CSSProperties["color"],
 }
-export interface PipeType extends Position{
+export interface PipeType extends Meta{
   type: "water" | "gas" | "oil" | "air" | "steam" | "smoke",
   orientation: "horizontal" | "vertical" | "TL" | "TR" | "BL" | "BR",
   width?: number,
   height?: number,
 }
-export interface TankType extends Position {
+export interface TankType extends Meta {
   type: "boilerTop" | "boilerBottom" | "native",
   radius: number,
 }

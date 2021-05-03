@@ -1,11 +1,12 @@
 import React from "react";
-import {PipeType} from "../../../../redux/reducers/types"
+import {Events, PipeType} from "../../../../redux/reducers/types"
 import {getPipeStyle} from "../../../../utilities/commonFunctions/screenFunctions";
 
-type Props = PipeType & { color: React.CSSProperties["color"] };
+type Props = PipeType & { color: React.CSSProperties["color"]} & Events;
 
-const Pipe: React.FC<Props> = ({x, y, orientation, color, height = 0, width = 0}) => {
+const Pipe: React.FC<Props> = ({x, y, orientation, color, height = 0, width = 0, onClick}) => {
   const getGrid = (xS:number, yS:number, xE:number, yE:number) => getPipeStyle(xS, yS, xE, yE, orientation, color);
+  const eventHandlers = {onClick};
   let css: React.CSSProperties = {};
   switch (orientation) {
     case "horizontal":
@@ -27,7 +28,8 @@ const Pipe: React.FC<Props> = ({x, y, orientation, color, height = 0, width = 0}
       css = getGrid(x, y, x + 1, y + 1);
       break;
   }
-  return <div style={css}/>
+
+  return <div style={css} {...eventHandlers}/>
 }
 
 export default Pipe;

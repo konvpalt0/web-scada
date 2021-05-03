@@ -1,17 +1,16 @@
 import React from "react";
 import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {getGridArea} from "../../../../utilities/commonFunctions/screenFunctions";
-import {SensorData} from "../../../../redux/reducers/types";
-import {StartPosition} from "../../types";
+import {Position, SensorData} from "../../../../redux/reducers/types";
 
-interface OwnProps extends StartPosition {
+interface OwnProps extends Position {
   data: Array<SensorData> | undefined,
 }
 
 type Props = OwnProps;
 
-const Chart: React.FC<Props> = ({xStart, yStart, data}) => {
-  const css = getGridArea(xStart, yStart, xStart + 60, yStart + 20);
+const Chart: React.FC<Props> = ({x, y, data}) => {
+  const css = getGridArea(x, y, x + 60, y + 20);
   const data1 = data?.map(it => {const date = new Date(it.date); return {...it, date: `${date.getMinutes()}:${date.getSeconds()}`}});
   return (
     <div style={css}>

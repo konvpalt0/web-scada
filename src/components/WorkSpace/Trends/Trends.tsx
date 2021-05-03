@@ -67,7 +67,7 @@ const Trends: React.FC<Props> = ({
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
       <div>{sensorId}</div>
-      <Chart data={sensorData.sensorState} xStart={1} yStart={1}/>
+      <Chart data={sensorData.sensorState} x={1} y={1}/>
     </div>
   )
 }

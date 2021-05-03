@@ -1,8 +1,8 @@
 import React from "react";
 import InformationField from "./InformationField";
-import {SensorData, SensorMeta} from "../../../../../redux/reducers/types";
+import {Events, SensorData, SensorMeta} from "../../../../../redux/reducers/types";
 
-interface OwnProps {
+interface OwnProps extends Events{
   meta: SensorMeta,
   data: SensorData,
 }
@@ -14,13 +14,15 @@ interface StateProps {
 }
 type Props = OwnProps & DispatchProps & StateProps;
 
-const DoubleInformationField: React.FC<Props> = ({meta, data}) => {
-  return (
-    <>
-      <InformationField xStart={+meta.x} yStart={+meta.y} information={meta.information} id={meta.sensorTag}/>
-      <InformationField xStart={+meta.x+4} yStart={+meta.y} information={data.value + meta.measure} id={meta.sensorTag}/>
-    </>
-  )
+const DoubleInformationField: React.FC<Props> = ({meta, data, onClick}) => {
+    const events = {onClick};
+    return (
+        <>
+            <InformationField x={+meta.x} y={+meta.y} information={meta.information} id={meta.sensorTag} {...events}/>
+            <InformationField x={+meta.x + 4} y={+meta.y} information={data.value + meta.measure}
+                              id={meta.sensorTag} {...events}/>
+        </>
+    )
 }
 
 export default DoubleInformationField;
