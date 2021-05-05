@@ -1,9 +1,9 @@
 import React from "react";
 import {getGridArea} from "../../../../../utilities/commonFunctions/screenFunctions";
 import style from "../../Screen.module.css";
-import {Position} from "../../../../../redux/reducers/types";
+import {SpritePosition} from "../../../../../redux/reducers/types";
 
-interface OwnProps extends Position {
+interface OwnProps extends SpritePosition {
   width: number,
   height: number,
 }

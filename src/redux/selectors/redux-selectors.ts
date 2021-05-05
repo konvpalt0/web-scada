@@ -1,5 +1,5 @@
 import {Selectors} from "./types";
-import {AlarmsItemType, ObjectState, Regulator, SensorState} from "../reducers/types";
+import {AlarmsItemType, ObjectState, Regulator, SignalState} from "../reducers/types";
 
 
 const select: Selectors = {
@@ -20,8 +20,8 @@ const select: Selectors = {
   getObjectsState: state => select.getObjects(state).objects,
   //TODO use reselect
   getObjectState: state => objectId => select.getObjectsState(state).find(object => object.objectId === objectId) || nullObject,
-  getSensorState: state => objectId => sensorId => select.getObjectState(state)(objectId).sensors.find(sensor => sensor.meta.sensorTag === sensorId) || nullSensor,
-  getIsSensorInit: state => objectId => sensorId => select.getSensorState(state)(objectId)(sensorId).isSensorInit,
+  getSignalState: state => objectId => signalId => select.getObjectState(state)(objectId).signals.find(sensor => sensor.meta.signalId === signalId) || nullSignal,
+  getIsSensorInit: state => objectId => signalId => select.getSignalState(state)(objectId)(signalId).isSignalInit,
   //regulators
   getRegulators: state => state.regulators,
   getRegulator: state => regulatorId => select.getRegulators(state).regulators.find(regulator => regulator.id === regulatorId) || nullRegulator,
@@ -37,13 +37,13 @@ const select: Selectors = {
 
 export {select};
 
-const nullObject: ObjectState = {
+export const nullObject: ObjectState = {
   objectId: "null object",
-  sensors: [
+  signals: [
     {
-      isSensorInit: false,
+      isSignalInit: false,
       meta: {
-        sensorTag: "null object",
+        signalId: "null object",
         information: "null",
         measure: "%",
         min: "0",
@@ -52,10 +52,8 @@ const nullObject: ObjectState = {
         maxAlarm: "0",
         minWarning: "0",
         maxWarning: "0",
-        x: "0",
-        y: "0",
       },
-      sensorState: [
+      signalState: [
         {
           date: "null object",
           value: "-2",
@@ -64,14 +62,14 @@ const nullObject: ObjectState = {
     }
   ],
 };
-const nullSensor: SensorState = nullObject.sensors[0];
-const nullAlarm: AlarmsItemType = {
+export const nullSignal: SignalState = nullObject.signals[0];
+export const nullAlarm: AlarmsItemType = {
   id: "null",
   date: "null",
   type: "alarm",
   message: "null",
 };
-const nullRegulator: Regulator = {
+export const nullRegulator: Regulator = {
   id: "null",
   settings: {
     targetForAutoMode: -1,

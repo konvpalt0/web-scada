@@ -1,10 +1,10 @@
 import React from "react";
 import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {getGridArea} from "../../../../utilities/commonFunctions/screenFunctions";
-import {Position, SensorData} from "../../../../redux/reducers/types";
+import {SpritePosition, SignalData} from "../../../../redux/reducers/types";
 
-interface OwnProps extends Position {
-  data: Array<SensorData> | undefined,
+interface OwnProps extends SpritePosition {
+  data: Array<SignalData> | undefined,
 }
 
 type Props = OwnProps;

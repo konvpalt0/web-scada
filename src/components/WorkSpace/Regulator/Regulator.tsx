@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {updateRegulatorSettings} from "../../../redux/reducers/regulators-reducer/regulators-reducer";
 
-interface OwnProps {
+type OwnProps = {
   resolution: Resolution,
 };
 type StateProps = {

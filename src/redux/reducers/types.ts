@@ -1,5 +1,5 @@
 import {ThunkAction} from "redux-thunk";
-import React from "react";
+import React, {BaseSyntheticEvent} from "react";
 
 //======================
 export interface AlarmState {
@@ -8,11 +8,13 @@ export interface AlarmState {
   }
   alarmLog: Array<AlarmsItemType>,
 }
+
 export interface AlarmColorSetting {
   warning: React.CSSProperties["color"],
   message: React.CSSProperties["color"],
   alarm: React.CSSProperties["color"],
 }
+
 export interface AlarmsItemType {
   id: string,
   date: string,
@@ -39,28 +41,28 @@ export type AlarmActionTypes = AddAlarmAction;
 
 export type DevelopmentState = {
   hmiState: ScreenState,
-  sensorsState: SensorMeta[],
+  sensorsState: SignalMeta[],
 }
 //Const types
-  export const UPDATE_SENSORS_STATE: "development-reducer/UPDATE_SENSORS_STATE" = "development-reducer/UPDATE_SENSORS_STATE";
+export const UPDATE_SENSORS_STATE: "development-reducer/UPDATE_SENSORS_STATE" = "development-reducer/UPDATE_SENSORS_STATE";
 //Action types
-  export type UpdateSensorsStateAction = {
-    type: typeof UPDATE_SENSORS_STATE,
-    payload: SensorMeta[],
-  };
+export type UpdateSensorsStateAction = {
+  type: typeof UPDATE_SENSORS_STATE,
+  payload: SignalMeta[],
+};
 //All Actions
-  export type DevelopmentActionTypes = UpdateSensorsStateAction;
+export type DevelopmentActionTypes = UpdateSensorsStateAction;
 //Thunk types
-  export type SetSensorsState = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateSensorsStateAction>;
+export type SetSensorsState = ThunkAction<Promise<void>, DevelopmentState, unknown, UpdateSensorsStateAction>;
 //======================
 //object-state-reducer
-export interface SensorData {
+export interface SignalData {
   value: string,
   date: string,
 }
 
-export interface SensorMeta {
-  sensorTag: string,
+export interface SignalMeta {
+  signalId: string,
   information: string,
   measure: "МПа" | "мм" | "C\u00B0" | "%" | "м3/ч" | "Па" | "КПа" | "дискр" | "об/мин",
   min: string,
@@ -69,19 +71,17 @@ export interface SensorMeta {
   maxAlarm: string,
   minWarning: string,
   maxWarning: string,
-  x: string,
-  y: string,
 }
 
-export interface SensorState {
-  isSensorInit: boolean,
-  meta: SensorMeta,
-  sensorState: Array<SensorData>,
+export interface SignalState {
+  isSignalInit: boolean,
+  meta: SignalMeta,
+  signalState: Array<SignalData>,
 }
 
 export interface ObjectState {
   objectId: string,
-  sensors: Array<SensorState>,
+  signals: Array<SignalState>,
 }
 
 export interface Objects {
@@ -95,15 +95,15 @@ export const UPDATE_IS_SENSOR_INIT: "objects-state-reducer/UPDATE_IS_SENSOR_INIT
 //Action types
 export interface UpdateSensorAction {
   type: typeof UPDATE_SENSOR_STATE,
-  payload: SensorData,
+  payload: SignalData,
   objectId: string,
-  sensorTag: string,
+  signalId: string,
 }
 
 export interface UpdateIsSensorInit {
   type: typeof UPDATE_IS_SENSOR_INIT,
   objectId: string,
-  sensorTag: string,
+  signalId: string,
 }
 
 //All actions
@@ -132,26 +132,38 @@ export type RegulatorSettings = {
 //Const types
 export const UPDATE_REGULATOR_SETTINGS: "regulator-reducer/UPDATE_REGULATOR_SETTINGS" = "regulator-reducer/UPDATE_REGULATOR_SETTINGS";
 //Action types
-export type UpdateRegulatorSettingsAction = {type: typeof UPDATE_REGULATOR_SETTINGS, payload: RegulatorSettings, id: string};
+export type UpdateRegulatorSettingsAction = { type: typeof UPDATE_REGULATOR_SETTINGS, payload: RegulatorSettings, id: string };
 export type RegulatorsStateActionsTypes = UpdateRegulatorSettingsAction;
 //Thunk types
 
 
 //======================
 //screen-reducer
-export interface Events{
-  onClick?: () => void,
-}
-export interface Position {
+export type Events = {
+  events?: {
+    onClick?: (event: React.BaseSyntheticEvent) => void,
+  },
+};
+
+export interface SpritePosition {
   x: number,
   y: number,
 }
-export interface Meta extends Position{
+
+export interface SpriteMeta {
   id: string,
   description: string,
 }
-export interface Valves extends Meta {
+
+export interface Sprite {
+  position: SpritePosition,
+  meta: SpriteMeta,
 }
+
+export interface ValveSpec {
+  status: "CLOSE" | "OPEN" | "MOVING",
+}
+
 export interface PipesColor {
   water: React.CSSProperties["color"],
   gas: React.CSSProperties["color"],
@@ -160,25 +172,40 @@ export interface PipesColor {
   steam: React.CSSProperties["color"],
   smoke: React.CSSProperties["color"],
 }
-export interface PipeType extends Meta{
+
+export interface PipeSpec {
   type: "water" | "gas" | "oil" | "air" | "steam" | "smoke",
   orientation: "horizontal" | "vertical" | "TL" | "TR" | "BL" | "BR",
   width?: number,
   height?: number,
 }
-export interface TankType extends Meta {
+
+export interface InformationFieldSpec {
+  signalId: string,
+}
+
+export interface TankSpec {
   type: "boilerTop" | "boilerBottom" | "native",
   radius: number,
 }
 
+export type HmiSprite<T = ValveSpec | PipeSpec | TankSpec | InformationFieldSpec> = Sprite & {
+  spec: T;
+}
+
 export interface Sprites {
-  valves: Array<Valves>,
+  valves: {
+    valveItems: HmiSprite<ValveSpec>[],
+  }
   pipes: {
     pipesColor: PipesColor,
-    pipeItems: Array<PipeType>,
+    pipeItems: HmiSprite<PipeSpec>[],
   }
   tanks: {
-    tankItems: Array<TankType>,
+    tankItems: HmiSprite<TankSpec>[],
+  }
+  informationFields: {
+    informationFieldsItems: HmiSprite<InformationFieldSpec>[],
   }
 }
 
@@ -194,15 +221,25 @@ export interface ScreenState {
 
 //Const types
 export const UPDATE_SCREEN_RESOLUTION: "screen-reducer/UPDATE_SCREEN_RESOLUTION" = "screen-reducer/UPDATE_SCREEN_RESOLUTION";
-
+export const UPDATE_SCREEN_SPRITES: "screen-reducer/UPDATE_SPRITES" = "screen-reducer/UPDATE_SPRITES";
+export const UPDATE_SCREEN_SINGLE_SPRITE: "screen-reducer/UPDATE_SCREEN_SINGLE_SPRITE" = "screen-reducer/UPDATE_SCREEN_SINGLE_SPRITE";
 //Action types
 export interface UpdateScreenResolutionAction {
   type: typeof UPDATE_SCREEN_RESOLUTION,
   payload: Resolution,
 }
 
+export type UpdateScreenSpritesAction = {
+  type: typeof UPDATE_SCREEN_SPRITES,
+  payload: Sprites,
+};
+export type UpdateScreenSingleSpriteAction = {
+  type: typeof UPDATE_SCREEN_SINGLE_SPRITE,
+  payload: HmiSprite,
+  spriteId: SpriteMeta["id"],
+};
 //All actions
-export type ScreenActionTypes = UpdateScreenResolutionAction;
+export type ScreenActionTypes = UpdateScreenResolutionAction | UpdateScreenSpritesAction | UpdateScreenSingleSpriteAction;
 //Thunk types
 
 //======================
@@ -210,6 +247,7 @@ export type ScreenActionTypes = UpdateScreenResolutionAction;
 export interface OwnObjectInfo {
   objectId: string,
 }
+
 export interface Session {
   loggedIn: boolean,
   session: string,
@@ -227,19 +265,23 @@ export interface SystemState {
 export const UPDATE_SESSION: "system-reducer/UPDATE_SESSION" = "system-reducer/UPDATE_SESSION";
 export const UPDATE_SYSTEM_INIT: "system-reducer/UPDATE_SYSTEM_INIT" = "system-reducer/UPDATE_SYSTEM_INIT";
 export const UPDATE_CURRENT_OBJECT: "system-reducer/UPDATE_CURRENT_OBJECT" = "system-reducer/UPDATE_CURRENT_OBJECT";
+
 //Action types
 export interface UpdateSessionAction {
   type: typeof UPDATE_SESSION,
   payload: Session,
 }
+
 export interface UpdateSystemInit {
   type: typeof UPDATE_SYSTEM_INIT,
   payload: boolean,
 }
+
 export interface UpdateCurrentObject {
   type: typeof UPDATE_CURRENT_OBJECT,
   payload: string,
 }
+
 //All actions
 export type SystemActionTypes = UpdateSessionAction | UpdateSystemInit | UpdateCurrentObject;
 //Thunk types

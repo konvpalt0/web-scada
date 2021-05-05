@@ -6,7 +6,6 @@ import Menu from "../WorkSpace/Menu/Menu";
 import {Route, Switch} from "react-router";
 import Hmi from "./Hmi/Hmi";
 import SignalList from "./SignalList/SignalList";
-import {Sprites} from "../../redux/reducers/types";
 
 type OwnProps = {};
 type DispatchProps = {};
@@ -40,7 +39,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
 
 })(Development);
 
-const defaultTextArea: Sprites = {
+/*const defaultTextArea: Sprites = {
   valves: [
     {id: "0", x: 51, y: 31, description: "gas valve"},//gas valve
     {id: "1", x: 47, y: 8, description: "steam valve"},//steam valve
@@ -84,7 +83,7 @@ const defaultTextArea: Sprites = {
       {id: "98", x: 35, y: 16, type: "boilerTop", description: "water boiler", radius: 3},
     ],
   },
-};
+};*/
 
 /*
 const defaultSensors: Array<SensorMeta> = [

@@ -1,5 +1,5 @@
 import {RootState} from "../store";
-import {AlarmsItemType, ObjectState, Regulator, RegulatorSettings, SensorState} from "../reducers/types";
+import {AlarmsItemType, ObjectState, Regulator, RegulatorSettings, SignalState} from "../reducers/types";
 
 type Select<T> = (state: RootState) => T;
 
@@ -20,7 +20,7 @@ export type ObjectsSelector = Select<RootState["objects"]>;
 export type ObjectsStateSelector = Select<Array<ObjectState>>;
 //TODO add using redux Reselect
 export type ObjectSelector = (state: RootState) => (objectId: string) => ObjectState;
-export type SensorSelector = (state: RootState) => (objectId: string) => (sensorId: string) => SensorState;
+export type SignalSelector = (state: RootState) => (objectId: string) => (sensorId: string) => SignalState;
 export type IsSensorInitSelector = (state: RootState) => (objectId: string) => (sensorId: string) => boolean;
 //regulators selector
 export type RegulatorsSelector = Select<RootState["regulators"]>;
@@ -51,7 +51,7 @@ export interface Selectors {
   getObjects: ObjectsSelector,
   getObjectsState: ObjectsStateSelector,
   getObjectState: ObjectSelector,
-  getSensorState: SensorSelector,
+  getSignalState: SignalSelector,
   getIsSensorInit: IsSensorInitSelector,
   //regulators
   getRegulators: RegulatorsSelector,

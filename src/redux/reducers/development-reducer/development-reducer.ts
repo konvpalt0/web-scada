@@ -1,7 +1,7 @@
 import {
   DevelopmentActionTypes,
   DevelopmentState,
-  SensorMeta, SetSensorsState,
+  SignalMeta, SetSensorsState,
   UPDATE_SENSORS_STATE,
   UpdateSensorsStateAction,
 } from "../types";
@@ -26,12 +26,12 @@ const developmentReducer = (state: DevelopmentState = initState, action: Develop
 
 export default developmentReducer
 
-export const updateSensorsState = (sensorsMeta: SensorMeta[]): UpdateSensorsStateAction => ({
+export const updateSensorsState = (sensorsMeta: SignalMeta[]): UpdateSensorsStateAction => ({
   type: UPDATE_SENSORS_STATE,
   payload: sensorsMeta,
 });
 
-export const setSensorsMetaState = (sensorsMeta: SensorMeta[]): SetSensorsState => async (dispatch) => {
+export const setSensorsMetaState = (sensorsMeta: SignalMeta[]): SetSensorsState => async (dispatch) => {
   //TODO server works
   const response = 1;
   if (response === 1) {

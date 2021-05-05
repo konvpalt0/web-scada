@@ -8,68 +8,82 @@ import Rectangle from "../../WorkSpace/Screen/Drawing/Rectangle/Reactangle";
 import {mapResolutionToCSS} from "../../WorkSpace/Screen/Screen";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/store";
-import {ObjectState, ScreenState} from "../../../redux/reducers/types";
+import {
+  ScreenState,
+  HmiSprite,
+  SignalState
+} from "../../../redux/reducers/types";
 import {select} from "../../../redux/selectors/redux-selectors";
 import Cell from "../../WorkSpace/Screen/Cell/Cell";
-import MakeClickable from "../../../utilities/hoc/clickable";
+import HmiRedactorForm from "./HmiRedactorForm";
 
 type OwnProps = {};
 type StateProps = {
-    hmi: ScreenState,
-    objectState: ObjectState,
+  hmi: ScreenState,
+  getSignal: (signalId: string) => SignalState,
 };
 type DispatchProps = {};
 type Props = OwnProps & StateProps & DispatchProps;
 
 const field: Array<{ x: number, y: number }> = [];
 for (let i = 1; i <= 64; i++) {
-    for (let j = 1; j <= 36; j++)
-        field.push({x: i, y: j});
+  for (let j = 1; j <= 36; j++)
+    field.push({x: i, y: j});
 }
 
-const ItemMenu: React.FC<{ id: string, x: string, y: string }> = ({id, x, y}) => {
-    return (
-        <div>
-            <div>MENU</div>
-            <div>id:{id}</div>
-            <div>x:{x}</div>
-            <div>y:{y}</div>
-        </div>
-    )
+const nullSprite: HmiSprite = {
+  position: {
+    x: 0,
+    y: 0,
+  },
+  meta: {
+    id: "0",
+    description: "null sprite",
+  },
+  spec: {
+    status: "CLOSE",
+  }
 }
 
-const Hmi: React.FC<Props> = ({hmi, objectState}) => {
-    const resolution = hmi.resolution;
-    const sprites = hmi.sprites;
-    const pipesColor = hmi.sprites.pipes.pipesColor;
+const Hmi: React.FC<Props> = ({hmi, getSignal}) => {
+  const resolution = hmi.resolution;
+  const sprites = hmi.sprites;
+  const pipesColor = hmi.sprites.pipes.pipesColor;
 
-    const [changeMode, setChangeMode] = useState(0);
-    const [focusObjectInfo, setFocusObjectInfo] = useState({id: "", x: "", y: ""});
-    const focusObject = (object: { id: string, x: string, y: string }) => {
-        setFocusObjectInfo(object);
-    };
-
-    return (
-        <div>
-            <div className={style.grid} style={mapResolutionToCSS(resolution)}>
-                {field.map(cell => <Cell key={cell.x * 100 + cell.y} column={cell.x} row={cell.y}/>)}
-                {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.id} {...pipe} color={pipesColor[pipe.type]} onClick={() => setFocusObjectInfo({id: pipe.id, x: pipe.x+"", y: pipe.y+""})}/>)}
-                {objectState.sensors.map(field => <DoubleInformationField key={field.meta.sensorTag} meta={field.meta}
-                                                                          data={field.sensorState[0]}/>)}
-                {sprites.valves.map(valve => <Valve key={valve.id} x={valve.x} y={valve.y} status={"CLOSE"}/>)}
-                {sprites.tanks.tankItems.map(tank => <Tank key={tank.id} {...tank}/>)}
-                <Rectangle width={20} height={5} x={22} y={28}/>
-            </div>
-            <div>
-                <ItemMenu {...focusObjectInfo}/>
-            </div>
-        </div>
-    );
+  const [focusObjectInfo, setFocusObjectInfo] = useState<HmiSprite>(nullSprite);
+  const onClickHandler = ({meta, position, spec}: HmiSprite, event: React.BaseSyntheticEvent): void => {
+    event.preventDefault();
+    setFocusObjectInfo({meta, position, spec});
+  };
+  const eventsCreator = (hmiSprite: HmiSprite) => {
+    return {
+      onClick: (event: React.BaseSyntheticEvent) => onClickHandler(hmiSprite, event),
+    }
+  }
+  return (
+    <div>
+      <div className={style.grid} style={mapResolutionToCSS(resolution)}>
+        {field.map(cell => <Cell key={cell.x * 100 + cell.y} column={cell.x} row={cell.y}/>)}
+        {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.meta.id} {...pipe} color={pipesColor[pipe.spec.type]}
+                                                   events={eventsCreator(pipe)}/>)}
+        {sprites.informationFields.informationFieldsItems.map(field => <DoubleInformationField
+          key={field.meta.id} {...field} signal={getSignal(field.spec.signalId)} events={eventsCreator(field)}/>)}
+        {sprites.valves.valveItems.map(valve => <Valve key={valve.meta.id} {...valve}
+                                            events={eventsCreator(valve)}/>)}
+        {sprites.tanks.tankItems.map(tank => <Tank key={tank.meta.id} {...tank}
+                                                   events={eventsCreator(tank)}/>)}
+        <Rectangle width={20} height={5} x={22} y={28}/>
+      </div>
+      <div>
+        <HmiRedactorForm {...focusObjectInfo}/>
+      </div>
+    </div>
+  );
 }
 
 const mstp = (state: RootState): StateProps => ({
-    hmi: select.getDevelopmentHmi(state),
-    objectState: select.getObjectState(state)(select.getCurrentObject(state)),
+  hmi: select.getScreen(state),
+  getSignal: select.getSignalState(state)(select.getCurrentObject(state)),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {})(Hmi);

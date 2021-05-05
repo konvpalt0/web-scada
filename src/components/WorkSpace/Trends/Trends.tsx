@@ -10,7 +10,7 @@ import {
   getSensorState, initSensorState,
   updateSensor
 } from "../../../redux/reducers/objects-state-reducer/objects-state-reducer";
-import {Resolution, SensorData, SensorState} from "../../../redux/reducers/types";
+import {Resolution, SignalData, SignalState} from "../../../redux/reducers/types";
 import {RouteComponentProps} from "react-router";
 
 interface OwnProps {
@@ -19,12 +19,12 @@ interface OwnProps {
 
 interface StateProps {
   objectId: string,
-  sensorState: (objectId: string) => (sensorId: string) => SensorState,
+  sensorState: (objectId: string) => (sensorId: string) => SignalState,
   selectIsSensorInit: (objectId: string) => (sensorId: string) => boolean,
 }
 
 interface DispatchProps {
-  updateSensor: (newSensorState: SensorData, objectId: string, sensorId: string) => void,
+  updateSensor: (newSensorState: SignalData, objectId: string, sensorId: string) => void,
   getObjectState: (objectId: string) => void,
   getSensorState: (objectId: string, sensorId: string) => void,
   initSensorState: (objectId: string, sensorId: string) => void,
@@ -58,23 +58,23 @@ const Trends: React.FC<Props> = ({
   useEffect(() => {
     if (isSensorInit) {
       setTimeout(() => {
-        updateSensor({date: String(new Date()), value: "" + Math.random()}, objectId, sensorId);
-        //getSensorState(objectId, sensorId);
+        //updateSensor({date: String(new Date()), value: "" + Math.random()}, objectId, sensorId);
+        getSensorState(objectId, sensorId);
       }, 2000);
     }
-  }, [getSensorState, sensorData.sensorState, isSensorInit, objectId, sensorId, updateSensor]);
+  }, [getSensorState, sensorData.signalState, isSensorInit, objectId, sensorId, updateSensor]);
 
   return (
     <div className={style.grid} style={mapResolutionToCSS(resolution)}>
       <div>{sensorId}</div>
-      <Chart data={sensorData.sensorState} x={1} y={1}/>
+      <Chart data={sensorData.signalState} x={1} y={1}/>
     </div>
   )
 }
 
 const mstp = (state: RootState): StateProps => ({
   objectId: select.getCurrentObject(state),
-  sensorState: select.getSensorState(state),
+  sensorState: select.getSignalState(state),
   selectIsSensorInit: select.getIsSensorInit(state),
 });
 
