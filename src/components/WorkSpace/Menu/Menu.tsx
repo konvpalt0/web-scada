@@ -12,7 +12,7 @@ type Props = OwnProps;
 const Menu: React.FC<Props> = ({menuItems}) => {
   return (
     <div className={composeClassNames(gStyle.menu, gStyle.block, style.menu)}>
-      {menuItems.map(it => {return (<NavLink key={it.name} to={it.to}><div>{it.name}</div></NavLink>);})}
+      {menuItems.map(it => {return (<NavLink key={it.name} to={it.to} className={it.name === "HMI"? gStyle.selected : ""}><div>{it.name}</div></NavLink>);})}
     </div>
   )
 }

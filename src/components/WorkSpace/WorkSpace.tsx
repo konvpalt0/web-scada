@@ -34,7 +34,7 @@ const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
   return (
     <div className={style.body}>
       <div className={composeClassNames(gStyle.block, gStyle.menu)}>
-        <button onClick={() => updateScreenResolution(resolutions["480p"])}>
+        <button onClick={() => updateScreenResolution(resolutions["480p"])} className={gStyle.selected}>
           <div>480p</div>
         </button>
         <button onClick={() => updateScreenResolution(resolutions["720p"])}>

@@ -15,7 +15,7 @@ const Menu: React.FC<{}> = () => {
       <div className={menuClassName}>
         <NavLink to="/home"><div>Home</div></NavLink>
         <NavLink to="/workspace/main"><div>WorkSpace</div></NavLink>
-        <NavLink to="/development"><div>Development</div></NavLink>
+        <NavLink className={gStyle.selected} to="/development"><div>Development</div></NavLink>
       </div>
       <div className={composeClassNames(gStyle.menu, style.wrapperMenuBtn)} onFocus={expandMenu} onBlur={removeMenu}>
         <button>

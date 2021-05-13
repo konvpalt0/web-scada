@@ -21,7 +21,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 const SensorInfo: React.FC<{sensorMeta: SignalMeta}> = ({sensorMeta}) => {
   return (
     <div className={composeClassNames(style.sensorItem, gStyle.hover)}>
-      {Object.entries(sensorMeta).map(([key, value]) => <div key={key}>{value}</div>)}
+      {Object.entries(sensorMeta).map(([key, value]) => <div className={style.content} key={key}>{value}</div>)}
     </div>
   )
 }
@@ -30,7 +30,7 @@ const SignalList: React.FC<Props> = ({signalList, setSensorsMetaState}) => {
   return (
     <div className={style.sensorItemsWrapper}>
       <div className={style.sensorItem}>
-        {Object.keys(signalList[0]).map(key => <div key={key}>{key}</div>)}
+        {Object.keys(signalList[0]).map(key => <div key={key} className={style.header}>{key}</div>)}
       </div>
       {signalList.map(sensor => <SensorInfo sensorMeta={sensor}/>)}
       <SignalForm setSensorsMetaState={setSensorsMetaState} signalList={signalList}/>

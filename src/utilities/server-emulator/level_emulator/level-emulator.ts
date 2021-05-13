@@ -53,8 +53,8 @@ export class PiControllerEmu {
 
   constructor() {
     this._autoMode = true;
-    this._kp = 1;
-    this._ki = 1;
+    this._kp = 0.415;
+    this._ki = 0.93;
     this._deadZone = 1;
     this._autoModeTarget = 50;
     this._manualModeTarget = 50;

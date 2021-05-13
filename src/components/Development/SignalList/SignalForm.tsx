@@ -32,30 +32,30 @@ const SignalForm: React.FC<OwnProps> = ({setSensorsMetaState, signalList}) => {
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
-        <div className={composeClassNames(style.sensorItem)}>
+        <div className={composeClassNames(style.sensorItem, style.addForm)} >
           <input type="text" name="signalId" value={formik.values.signalId} placeholder={"Enter signal Id"}
-                 onChange={formik.handleChange}/>
-          <select required name="measure" onChange={formik.handleChange} defaultValue="default">
+                 onChange={formik.handleChange} className={style.addField}/>
+          <select required name="measure" onChange={formik.handleChange} defaultValue="default" className={style.addField}>
             <option value="default" disabled>Choose measure</option>
             {measures.map(measure => <option key={measure} value={measure}>{measure}</option>)}
           </select>
           <input type="text" name="information" value={formik.values.information} placeholder={"Enter information"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="min" value={formik.values.min} placeholder={"Enter min"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="max" value={formik.values.max} placeholder={"Enter max"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="minAlarm" value={formik.values.minAlarm} placeholder={"Enter minAlarm"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="maxAlarm" value={formik.values.maxAlarm} placeholder={"Enter maxAlarm"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="minWarning" value={formik.values.minWarning} placeholder={"Enter minWarning"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
           <input type="text" name="maxWarning" value={formik.values.maxWarning} placeholder={"Enter maxWarning"}
-                 onChange={formik.handleChange}/>
+                 onChange={formik.handleChange} className={style.addField}/>
         </div>
         <div>
-          <button type="submit">Add</button>
+          <button type="submit" className={style.button}>Add</button>
         </div>
       </form>
     </div>

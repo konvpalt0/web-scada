@@ -2,7 +2,6 @@ import React from "react";
 import style from "./Screen.module.css";
 import Valve from "./Drawing/Valve/Valve";
 import {
-  ObjectState,
   Resolution, SignalState,
   Sprites,
 } from "../../../redux/reducers/types";
@@ -13,6 +12,8 @@ import Rectangle from "./Drawing/Rectangle/Reactangle";
 import DoubleInformationField from "./Drawing/InformationField/DoubleInformationField";
 import Pipe from "./Pipes/Pipe";
 import Tank from "./Drawing/Tank/Tank";
+import composeClassNames from "../../../utilities/commonFunctions/composeClassNames";
+import gStyle from "../../../GlobalStyle.module.css";
 
 type OwnProps = {
   resolution: Resolution;
@@ -28,7 +29,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 const Screen: React.FC<Props> = ({resolution, sprites, getSignal, objectId}) => {
   const pipesColor = sprites.pipes.pipesColor;
   return (
-    <div className={style.grid} style={mapResolutionToCSS(resolution)}>
+    <div className={composeClassNames(style.grid)} style={mapResolutionToCSS(resolution)}>
       {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.meta.id} {...pipe} color={pipesColor[pipe.spec.type]}/>)}
       {sprites.informationFields.informationFieldsItems.map(field => <DoubleInformationField key={field.meta.id} {...field} signal={getSignal(field.spec.signalId)}/>)}
       {sprites.valves.valveItems.map(valve => <Valve key={valve.meta.id} {...valve}/>)}
