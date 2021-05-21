@@ -1,11 +1,14 @@
 import React from "react";
-import ContentForm from "./LoginForm";
+import LoginForm from "./LoginForm";
+import gStyle from "../../GlobalStyle.module.css";
+import composeClassNames from "../../utilities/commonFunctions/composeClassNames";
 
 const Login: React.FC<{}> = () => {
   return (
-    <div>
-      Login
-      <ContentForm/>
+    <div className={gStyle.fullSizeBlock}>
+      <div className={composeClassNames(gStyle.centered)}>
+        <LoginForm/>
+      </div>
     </div>
   )
 };

@@ -14,6 +14,8 @@ import Pipe from "./Pipes/Pipe";
 import Tank from "./Drawing/Tank/Tank";
 import composeClassNames from "../../../utilities/commonFunctions/composeClassNames";
 import gStyle from "../../../GlobalStyle.module.css";
+import InformationField from "./Drawing/InformationField/InformationField";
+import InformationBlock from "./Drawing/InformationField/InformationBlock";
 
 type OwnProps = {
   resolution: Resolution;
@@ -32,10 +34,9 @@ const Screen: React.FC<Props> = ({resolution, sprites, getSignal, objectId}) => 
     <div className={composeClassNames(style.grid)} style={mapResolutionToCSS(resolution)}>
       {sprites.pipes.pipeItems.map(pipe => <Pipe key={pipe.meta.id} {...pipe} color={pipesColor[pipe.spec.type]}/>)}
       {sprites.informationFields.informationFieldsItems.map(field => <DoubleInformationField key={field.meta.id} {...field} signal={getSignal(field.spec.signalId)}/>)}
+      {sprites.informationBlocks.informationBlockItems.map(field => <InformationBlock key={field.meta.id} {...field}/>)}
       {sprites.valves.valveItems.map(valve => <Valve key={valve.meta.id} {...valve}/>)}
       {sprites.tanks.tankItems.map(tank => <Tank key={tank.meta.id} {...tank}/>)}
-      <Rectangle width={20} height={5} x={22} y={28}/>
-      <Rectangle width={20} height={5} x={22} y={28}/>
     </div>
   )
 }

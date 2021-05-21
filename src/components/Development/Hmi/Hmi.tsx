@@ -16,6 +16,7 @@ import {
 import {select} from "../../../redux/selectors/redux-selectors";
 import Cell from "../../WorkSpace/Screen/Cell/Cell";
 import HmiRedactorForm from "./HmiRedactorForm";
+import InformationBlock from "../../WorkSpace/Screen/Drawing/InformationField/InformationBlock";
 
 type OwnProps = {};
 type StateProps = {
@@ -68,11 +69,11 @@ const Hmi: React.FC<Props> = ({hmi, getSignal}) => {
                                                    events={eventsCreator(pipe)}/>)}
         {sprites.informationFields.informationFieldsItems.map(field => <DoubleInformationField
           key={field.meta.id} {...field} signal={getSignal(field.spec.signalId)} events={eventsCreator(field)}/>)}
+        {sprites.informationBlocks.informationBlockItems.map(field => <InformationBlock key={field.meta.id} {...field} events={eventsCreator(field)}/>)}
         {sprites.valves.valveItems.map(valve => <Valve key={valve.meta.id} {...valve}
                                             events={eventsCreator(valve)}/>)}
         {sprites.tanks.tankItems.map(tank => <Tank key={tank.meta.id} {...tank}
                                                    events={eventsCreator(tank)}/>)}
-        <Rectangle width={20} height={5} x={22} y={28}/>
       </div>
       <div>
         <HmiRedactorForm {...focusObjectInfo}/>

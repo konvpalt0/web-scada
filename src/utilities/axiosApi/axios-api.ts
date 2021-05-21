@@ -11,8 +11,8 @@ const api = axios.create({
 });
 
 export const authAPI = {
-  login: async (email: string, password: string, rememberMe: boolean): Promise<number> => {
-    return await checkLoginUser(email, password, rememberMe); //return -1 if no such email+password combination
+  login: async (email: string, password: string): Promise<number> => {
+    return await checkLoginUser(email, password); //return -1 if no such email+password combination
   }
 }
 

@@ -162,6 +162,7 @@ export interface Sprite {
 
 export interface ValveSpec {
   status: "CLOSE" | "OPEN" | "MOVING",
+  orientation?: "90",
 }
 
 export interface PipesColor {
@@ -184,12 +185,18 @@ export interface InformationFieldSpec {
   signalId: string,
 }
 
+export interface InformationBlockSpec {
+  height: number,
+  width: number,
+  text: string,
+}
+
 export interface TankSpec {
   type: "boilerTop" | "boilerBottom" | "native",
   radius: number,
 }
 
-export type HmiSprite<T = ValveSpec | PipeSpec | TankSpec | InformationFieldSpec> = Sprite & {
+export type HmiSprite<T = ValveSpec | PipeSpec | TankSpec | InformationFieldSpec | InformationBlockSpec> = Sprite & {
   spec: T;
 }
 
@@ -206,6 +213,9 @@ export interface Sprites {
   }
   informationFields: {
     informationFieldsItems: HmiSprite<InformationFieldSpec>[],
+  }
+  informationBlocks: {
+    informationBlockItems: HmiSprite<InformationBlockSpec>[],
   }
 }
 

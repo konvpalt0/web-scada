@@ -12,7 +12,7 @@ const initState: AlarmState = {
     {
       id: "5",
       date: (new Date(Date.now() - 100000)).toLocaleString(),
-      message: "Опасный уровень воды в барабане",
+      message: "Опасный уровень воды в резервуаре",
       type: "warning",
     },
     {
@@ -24,13 +24,13 @@ const initState: AlarmState = {
     {
       id: "3",
       date: (new Date(Date.now() - 1000000)).toLocaleString(),
-      message: "Критический уровень воды в барабане",
+      message: "Критический уровень воды в резервуаре",
       type: "alarm",
     },
     {
       id: "2",
       date: (new Date(Date.now() - 3000000)).toLocaleString(),
-      message: "Опасный уровень воды в барабане",
+      message: "Опасный уровень воды в резервуаре",
       type: "warning",
     },
     {

@@ -20,282 +20,642 @@ const initialObjectsState: Objects = {
     {
       objectId: "1",
       signals: [
-        //gas block
         {
-          isSignalInit: false, meta: {
-            signalId: "10000",
-            measure: "C°",
-            information: "T gas",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10002",
-            measure: "МПа",
-            information: "P gas",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10004",
-            measure: "м3/ч",
-            information: "Q gas",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        //steam block
-        {
-          isSignalInit: false, meta: {
-            signalId: "10006",
-            measure: "C°",
-            information: "T steam",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10008",
-            measure: "МПа",
-            information: "P steam",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10010",
-            measure: "м3/ч",
-            information: "Q steam",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        //water block
-        {
-          isSignalInit: false, meta: {
-            signalId: "1",
-            measure: "%",
-            information: "T water",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10014",
-            measure: "МПа",
-            information: "P water",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10016",
-            measure: "м3/ч",
-            information: "Q water",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        //co2 block
-        {
-          isSignalInit: false, meta: {
-            signalId: "10018",
-            measure: "об/мин",
-            information: "RPM",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10020",
-            measure: "C°",
-            information: "T flue gas",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        //oxygen block
-        {
-          isSignalInit: false, meta: {
-            signalId: "10022",
-            measure: "%",
-            information: "RPM",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        //burner block
-        {
-          isSignalInit: false, meta: {
-            signalId: "10024",
-            measure: "МПа",
-            information: "Underpressure",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10026",
-            measure: "дискр",
-            information: "Flame",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
-            {
-              date: "init",
-              value: "-1",
-            },
-          ],
-        },//
-        {
-          isSignalInit: false, meta: {
-            signalId: "10028",
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_1_level",
             measure: "мм",
-            information: "Level",
+            information: "level",
+            min: "0",
+            max: "10000",
+            maxAlarm: "9900",
+            maxWarning: "9800",
+            minAlarm: "100",
+            minWarning: "200",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "1800",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_2_level",
+            measure: "мм",
+            information: "level",
+            min: "0",
+            max: "10000",
+            maxAlarm: "9900",
+            maxWarning: "9800",
+            minAlarm: "100",
+            minWarning: "200",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "1100",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_3_level",
+            measure: "мм",
+            information: "level",
+            min: "0",
+            max: "10000",
+            maxAlarm: "9900",
+            maxWarning: "9800",
+            minAlarm: "100",
+            minWarning: "200",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "1200",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_4_level",
+            measure: "мм",
+            information: "level",
+            min: "0",
+            max: "10000",
+            maxAlarm: "9900",
+            maxWarning: "9800",
+            minAlarm: "100",
+            minWarning: "200",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "1500",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_1_temp",
+            measure: "C°",
+            information: "temperature",
             min: "0",
             max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
-          }, signalState: [
+            maxAlarm: "60",
+            maxWarning: "50",
+            minAlarm: "10",
+            minWarning: "15",
+          },
+          signalState: [
             {
-              date: "init",
-              value: "-1",
-            },
+              date: new Date()+"",
+              value: "23.5",
+            }
           ],
-        },//
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_2_temp",
+            measure: "C°",
+            information: "temperature",
+            min: "0",
+            max: "100",
+            maxAlarm: "60",
+            maxWarning: "50",
+            minAlarm: "10",
+            minWarning: "15",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "24",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_3_temp",
+            measure: "C°",
+            information: "temperature",
+            min: "0",
+            max: "100",
+            maxAlarm: "60",
+            maxWarning: "50",
+            minAlarm: "10",
+            minWarning: "15",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "24.5",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "tank_4_temp",
+            measure: "C°",
+            information: "temperature",
+            min: "0",
+            max: "100",
+            maxAlarm: "60",
+            maxWarning: "50",
+            minAlarm: "10",
+            minWarning: "15",
+          },
+          signalState: [
+            {
+              date: new Date()+"",
+              value: "25",
+            }
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_1",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_2",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_3",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_4",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_5",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_6",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_1_7",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_1",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_2",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_3",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_4",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_5",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_6",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_2_7",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_1",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_2",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_3",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_4",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_5",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_6",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_3_7",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_1",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_2",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_3",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_4",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_5",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_6",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
+        {
+          isSignalInit: false,
+          meta: {
+            signalId: "valve_4_7",
+            measure: "дискр",
+            information: "time",
+            min: "0",
+            max: "1",
+            maxAlarm: "1",
+            maxWarning: "1",
+            minAlarm: "1",
+            minWarning: "1",
+          },
+          signalState: [
+
+          ],
+        },
       ],
     }
   ]

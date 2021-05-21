@@ -18,14 +18,18 @@ const Valve: React.FC<Props> = ({position, meta, spec, resolution, events}) => {
   const x = position.x;
   const y = position.y;
   const status = spec.status;
+  const orientation = spec.orientation || "0";
   const css = getGridArea(x - 1, y - 1, x + 2, y + 2);
   const borderSize = Math.floor(resolution.height / 36 * 1.5);
   let borders: React.CSSProperties = {
     borderWidth: `${borderSize}px`,
     borderStyle: "solid",
   };
+  let transform: React.CSSProperties = {
+    transform: `rotate(${orientation}deg)`,
+  }
   return (
-    <div style={{...css, ...borders}} className={composeClassNames(style.valve, getColor(status))} {...events}/>
+    <div style={{...css, ...borders, ...transform}} className={composeClassNames(style.valve, getColor(status))} {...events}/>
   )
 }
 

@@ -14,7 +14,12 @@ const Tank: React.FC<Props> = ({position, meta, spec, events}) => {
   const y = position.y;
   const radius = spec.radius;
   const type = spec.type;
-  const css = getGridArea(x - radius, y - radius, x + radius, y + radius);
+  let css = getGridArea(x - radius, y - radius, x + radius, y + radius);
+  if (type === "native") {
+    css = getGridArea(x, y, x + radius * 2, y + Math.round(radius * 2.5));
+  }
+
+
   return (
     <div style={css} className={composeClassNames(style.tankWrapper, style[type])} {...events}>
       <div className={style.tank}></div>

@@ -34,7 +34,7 @@ const HmiRedactorForm: React.FC<Props> = ({meta, spec, position, updateSingleSpr
             <div>
               id:
             </div>
-            <input name="meta.id" type="number" value={formik.values.meta.id}/>
+            <input name="meta.id" type="text" value={formik.values.meta.id}/>
           </div>
           <div className={style.field}>
             <div>

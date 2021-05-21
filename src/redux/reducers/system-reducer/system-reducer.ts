@@ -65,8 +65,8 @@ export const updateCurrentObject = (newCurrentObject: string): UpdateCurrentObje
   payload: newCurrentObject,
 });
 //THUNK C
-export const login = (email: string, password: string, rememberMe: boolean): Login => async (dispatch) => {
-  const response = await authAPI.login(email, password, rememberMe);
+export const login = (email: string, password: string): Login => async (dispatch) => {
+  const response = await authAPI.login(email, password);
   if (response > 0) {
     console.log(`Your id is ${response}`);
     const newSession: Session = {
