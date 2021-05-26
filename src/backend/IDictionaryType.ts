@@ -3,11 +3,18 @@ interface IDictionary {
 }
 interface SensorState {
     value: number,
-    measure: string,
     date: Date
 }
+
+interface Meta {
+    sensorTag: string,
+    measure: string,
+    x: number,
+    y: number
+}
+
 interface ObjectPlaceHolder {
-    [index: number] : Array<{sensorTag: string, sensorState: Array<SensorState>}>
+    [index: number] : Array<{meta: Meta, sensorState: Array<SensorState>}>
 }
 interface IntervalPlaceholder {
     [index: number] : ReturnType<typeof setTimeout>
@@ -17,4 +24,4 @@ interface HMIPayload {
 }
 
 
-export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder, HMIPayload, SensorState}
+export type {IDictionary, ObjectPlaceHolder, IntervalPlaceholder, HMIPayload, SensorState, Meta}

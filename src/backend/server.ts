@@ -5,13 +5,14 @@ import {routes} from "./routes";
 const app = require('express')()
 const pgp = require('pg-promise')({})
 const bodyParser = require('body-parser')
-routes(app)
 
 app.use(function(req:Request, res:Response, next: any) {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next();
 });
+
+routes(app)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 

@@ -1,5 +1,5 @@
 import {Express, Request, Response} from "express";
-import {HMIPayload, IDictionary} from "./IDictionaryType";
+import {HMIPayload, IDictionary, Meta} from "./IDictionaryType";
 import {db,objectModels,intervals} from "./server";
 import {SensorState} from "./IDictionaryType";
 
@@ -231,22 +231,25 @@ app.get('/api/startObject', (req: Request, res: Response) => {
         sensors.forEach(sensor => {
             let flag = false
             const sensorChangeFunction = () => {
-                if(!objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag).length) objectModels[Number(req.query.objectID)].push({
-                    sensorTag: sensor.tag,
+                if(!objectModels[Number(req.query.objectID)].filter(it => it.meta.sensorTag === sensor.tag).length) objectModels[Number(req.query.objectID)].push({
+                    meta: {
+                        sensorTag: sensor.tag,
+                        measure: sensor.measure,
+                        x: 0,
+                        y: 0
+                    },
                     sensorState: [{
                         value: sensor.min,
-                        measure: sensor.measure,
                         date: new Date()
                     }]
                 })
                 let sensorMin = sensor.min;
                 //let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.splice(-1)[0].value;
-                let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.slice(-1)[0].value;
+                let sensorCurrent = objectModels[Number(req.query.objectID)].filter(it => it.meta.sensorTag == sensor.tag)[0].sensorState.slice(-1)[0].value;
                 let diff = ((sensor.max) - (sensorMin)) / 15
                 let sensorMax: Number = sensor.max - diff;
                 let newState = {
                    value : sensor.min,
-                   measure: sensor.measure,
                    date: new Date()
                 }
                 if(Number(sensorCurrent.toFixed(2)) < Number(sensorMax.toFixed(2)) && !flag) {
@@ -262,7 +265,7 @@ app.get('/api/startObject', (req: Request, res: Response) => {
                 if(Number(sensorCurrent.toFixed(2)) >= Number(sensorMax.toFixed(2))) {
                     flag = true
                 }
-                let index = objectModels[Number(req.query.objectID)].findIndex(it => it.sensorTag == sensor.tag)
+                let index = objectModels[Number(req.query.objectID)].findIndex(it => it.meta.sensorTag == sensor.tag)
                 //objectModels[Number(req.query.objectID)].filter(it => it.sensorTag == sensor.tag)[0].sensorState.push(newState)
                 objectModels[Number(req.query.objectID)][index].sensorState.push(newState)
             }
@@ -311,7 +314,7 @@ app.get('/api/stopObject', (req: Request, res:Response) => {
 
 app.get('/api/getState', (req: Request, res: Response) => {
     let steps = req.query.steps === undefined ? 1 : Number(req.query.steps)
-    if((req.query.steps != undefined && isNaN(Number(req.query.steps))) || Number(req.query.steps) <= 0 ) {
+    if((req.query.steps !== undefined && isNaN(Number(req.query.steps))) || Number(req.query.steps) <= 0 ) {
         res.json({
             response: {
                 message: 'parameter steps is invalid',
@@ -339,7 +342,7 @@ app.get('/api/getState', (req: Request, res: Response) => {
         return
     }
     if(req.query.sensorTag === undefined) {
-        let copyState: { sensorTag: string; sensorState: SensorState[]; }[] = []
+        let copyState: { meta: Meta; sensorState: SensorState[]; }[] = []
         objectModels[Number(req.query.objectID)].forEach( sensor => {
                 let sensorCopy = Object.assign({},sensor);
                 sensorCopy.sensorState = sensor.sensorState.slice(0-steps)
@@ -354,7 +357,7 @@ app.get('/api/getState', (req: Request, res: Response) => {
         })
         return
     }
-    let copyState = objectModels[Number(req.query.objectID)].filter(it => it.sensorTag === req.query.sensorTag)
+    let copyState = objectModels[Number(req.query.objectID)].filter(it => it.meta.sensorTag === req.query.sensorTag)
     if(copyState === undefined) {
         res.json({
             response: {
@@ -373,3 +376,5 @@ app.get('/api/getState', (req: Request, res: Response) => {
     })
 })
 }
+
+
