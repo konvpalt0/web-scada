@@ -14,10 +14,10 @@ const App: React.FC<{}> = () => {
     <>
       <Switch>
         <Route path="/login" render={() => <Login/>}/>
-        <Route path={"/"} render={() => <Header/>}/>
+        <Route path={"/:section"} render={(props) => <Header {...props}/>}/>
       </Switch>
-      <Route path={"/workspace"} render={() => <WorkSpace/>}/>
-      <Route path={"/development"} render={() => <Development/>}/>
+      <Route path={"/workspace/:section"} render={(props) => <WorkSpace {...props}/>}/>
+      <Route path={"/development/:section"} render={(props) => <Development {...props}/>}/>
     </>
   )
 }

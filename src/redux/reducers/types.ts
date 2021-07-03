@@ -1,5 +1,5 @@
 import {ThunkAction} from "redux-thunk";
-import React, {BaseSyntheticEvent} from "react";
+import React from "react";
 
 //======================
 export interface AlarmState {
@@ -64,7 +64,7 @@ export interface SignalData {
 export interface SignalMeta {
   signalId: string,
   information: string,
-  measure: "МПа" | "мм" | "C\u00B0" | "%" | "м3/ч" | "Па" | "КПа" | "дискр" | "об/мин",
+  measure: "МПа" | "мм" | "C\u00B0" | "%" | "м3/ч" | "Па" | "КПа" | "дискр" | "об/мин" | "т/ч",
   min: string,
   max: string,
   minAlarm: string,

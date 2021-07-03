@@ -1,5 +1,5 @@
 import React from "react";
-import {Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {getGridArea} from "../../../../utilities/commonFunctions/screenFunctions";
 import {SpritePosition, SignalData} from "../../../../redux/reducers/types";
 
@@ -16,6 +16,8 @@ const Chart: React.FC<Props> = ({x, y, data}) => {
     <div style={css}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart width={600} height={300} data={data1}>
+          <CartesianGrid/>
+
           <XAxis dataKey="date"/>
           <YAxis/>
           <Tooltip/>

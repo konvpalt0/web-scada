@@ -12,12 +12,12 @@ const initialState: RegulatorsState = {
     {
       id: "0",
       settings: {
-        targetForAutoMode: 0,
-        targetForManualMode: 0,
-        kp: 0,
-        ki: 0,
+        targetForAutoMode: 50,
+        targetForManualMode: 50,
+        kp: 0.415,
+        ki: 0.93,
         kd: 0,
-        deadZone: 0,
+        deadZone: 1,
       }
     }
   ],

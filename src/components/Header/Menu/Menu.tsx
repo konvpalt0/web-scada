@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
 import composeClassNames from "../../../utilities/commonFunctions/composeClassNames";
 
-const Menu: React.FC<{}> = () => {
+const Menu: React.FC<{section: string}> = ({section}) => {
   const [menuMode, setMenuMod] = useState(false);
   const expandMenu = (): void => setMenuMod(true);
   const removeMenu = (): void => {setTimeout(() => setMenuMod(false), 100)};
@@ -13,9 +13,9 @@ const Menu: React.FC<{}> = () => {
   return (
     <>
       <div className={menuClassName}>
-        <NavLink to="/home"><div>Home</div></NavLink>
-        <NavLink to="/workspace/main"><div>WorkSpace</div></NavLink>
-        <NavLink className={gStyle.selected} to="/development"><div>Development</div></NavLink>
+        <NavLink className={section === "home" ? gStyle.selected : undefined} to="/home"><div>Home</div></NavLink>
+        <NavLink className={section === "workspace" ? gStyle.selected : undefined} to="/workspace/main"><div>Workspace</div></NavLink>
+        <NavLink className={section === "development" ? gStyle.selected : undefined} to="/development/hmi"><div>Development</div></NavLink>
       </div>
       <div className={composeClassNames(gStyle.menu, style.wrapperMenuBtn)} onFocus={expandMenu} onBlur={removeMenu}>
         <button>

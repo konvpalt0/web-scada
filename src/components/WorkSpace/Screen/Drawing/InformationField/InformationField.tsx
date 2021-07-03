@@ -17,7 +17,7 @@ const InformationField: React.FC<Props> = ({position, meta, spec, information, e
   const css = getGridArea(x, y, x + 4, y + 2);
   return (
     <NavLink to={`/workspace/trends/${id}`} style={css} className={style.informationField} {...events}>
-      <svg viewBox="0 0 48 18">
+      <svg viewBox="0 0 55 18">
         <text x="5%" y="50%" dominantBaseline="central" alignmentBaseline="central">
           {information}
         </text>

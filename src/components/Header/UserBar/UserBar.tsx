@@ -6,7 +6,7 @@ const UserBar: React.FC<{}> = () => {
   return (
 
     <div className={gStyle.menu} style={{display: "grid"}}>
-      <NavLink to={"/userprofile"}><div>%username%</div></NavLink>
+      <NavLink to={"/userprofile"}><div>Administrator</div></NavLink>
     </div>
   )
 }

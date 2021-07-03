@@ -23,7 +23,7 @@ const initialObjectsState: Objects = {
         //gas block
         {
           isSignalInit: false, meta: {
-            signalId: "10000",
+            signalId: "gas_temp",
             measure: "C°",
             information: "T gas",
             min: "0",
@@ -35,242 +35,278 @@ const initialObjectsState: Objects = {
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "45",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10002",
-            measure: "МПа",
+            signalId: "gas_pressure",
+            measure: "КПа",
             information: "P gas",
             min: "0",
             max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            minAlarm: "40",
+            maxAlarm: "60",
+            minWarning: "47.5",
+            maxWarning: "52.5",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "48",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10004",
+            signalId: "gas_rate",
             measure: "м3/ч",
             information: "Q gas",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "350",
+            minAlarm: "180",
+            maxAlarm: "290",
+            minWarning: "230",
+            maxWarning: "270",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "255",
             },
           ],
         },//
         //steam block
         {
           isSignalInit: false, meta: {
-            signalId: "10006",
+            signalId: "steam_temp",
             measure: "C°",
             information: "T steam",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            min: "100",
+            max: "250",
+            minAlarm: "160",
+            maxAlarm: "230",
+            minWarning: "185",
+            maxWarning: "215",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "194",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10008",
+            signalId: "steam_pressure",
             measure: "МПа",
             information: "P steam",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            min: "0.9",
+            max: "1.6",
+            minAlarm: "1.1",
+            maxAlarm: "1.5",
+            minWarning: "1.2",
+            maxWarning: "1.4",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "1.3",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10010",
-            measure: "м3/ч",
+            signalId: "steam_rate",
+            measure: "т/ч",
             information: "Q steam",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "40",
+            minAlarm: "15",
+            maxAlarm: "35",
+            minWarning: "20",
+            maxWarning: "30",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "25",
             },
           ],
         },//
         //water block
         {
           isSignalInit: false, meta: {
-            signalId: "1",
-            measure: "%",
+            signalId: "water_temp",
+            measure: "C°",
             information: "T water",
             min: "0",
             max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            minAlarm: "5",
+            maxAlarm: "95",
+            minWarning: "15",
+            maxWarning: "90",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "45",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10014",
+            signalId: "water_pressure",
             measure: "МПа",
             information: "P water",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "2",
+            minAlarm: "1",
+            maxAlarm: "1.8",
+            minWarning: "1.1",
+            maxWarning: "1.6",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "1.4",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10016",
+            signalId: "water_rate",
             measure: "м3/ч",
             information: "Q water",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "20",
+            minAlarm: "0",
+            maxAlarm: "18",
+            minWarning: "1",
+            maxWarning: "15",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "3",
             },
           ],
         },//
         //co2 block
         {
           isSignalInit: false, meta: {
-            signalId: "10018",
+            signalId: "smoke_fan_rmp",
             measure: "об/мин",
             information: "RPM",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "2000",
+            minAlarm: "100",
+            maxAlarm: "1800",
+            minWarning: "200",
+            maxWarning: "1600",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "400",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10020",
+            signalId: "smoke_temp",
             measure: "C°",
             information: "T flue gas",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            min: "100",
+            max: "250",
+            minAlarm: "150",
+            maxAlarm: "220",
+            minWarning: "180",
+            maxWarning: "200",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "188",
             },
           ],
         },//
         //oxygen block
         {
           isSignalInit: false, meta: {
-            signalId: "10022",
-            measure: "%",
+            signalId: "air_fan_rpm",
+            measure: "об/мин",
             information: "RPM",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "2000",
+            minAlarm: "200",
+            maxAlarm: "1800",
+            minWarning: "300",
+            maxWarning: "1600",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "700",
             },
           ],
         },//
         //burner block
         {
           isSignalInit: false, meta: {
-            signalId: "10024",
-            measure: "МПа",
+            signalId: "burner_pressure",
+            measure: "Па",
             information: "Underpressure",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "1000",
+            minAlarm: "500",
+            maxAlarm: "900",
+            minWarning: "633",
+            maxWarning: "700",
           }, signalState: [
             {
               date: "init",
-              value: "-1",
+              value: "687",
             },
           ],
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10026",
+            signalId: "burner_flame",
             measure: "дискр",
             information: "Flame",
             min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            max: "1",
+            minAlarm: "0",
+            maxAlarm: "1",
+            minWarning: "0",
+            maxWarning: "1",
+          }, signalState: [
+            {
+              date: "init",
+              value: "1",
+            },
+          ],
+        },//
+        {
+          isSignalInit: false, meta: {
+            signalId: "boiler_level",
+            measure: "мм",
+            information: "Level",
+            min: "0",
+            max: "1000",
+            minAlarm: "200",
+            maxAlarm: "800",
+            minWarning: "400",
+            maxWarning: "700",
+          }, signalState: [
+            {
+              date: "init",
+              value: "600",
+            },
+          ],
+        },//valves
+        {
+          isSignalInit: false, meta: {
+            signalId: "valve_gas",
+            measure: "дискр",
+            information: "valve status",
+            min: "-1",
+            max: "1",
+            minAlarm: "-1",
+            maxAlarm: "1",
+            minWarning: "-1",
+            maxWarning: "1",
           }, signalState: [
             {
               date: "init",
@@ -280,15 +316,15 @@ const initialObjectsState: Objects = {
         },//
         {
           isSignalInit: false, meta: {
-            signalId: "10028",
-            measure: "мм",
-            information: "Level",
-            min: "0",
-            max: "100",
-            minAlarm: "20",
-            maxAlarm: "80",
-            minWarning: "30",
-            maxWarning: "70",
+            signalId: "valve_steam",
+            measure: "дискр",
+            information: "valve status",
+            min: "-1",
+            max: "1",
+            minAlarm: "-1",
+            maxAlarm: "1",
+            minWarning: "-1",
+            maxWarning: "1",
           }, signalState: [
             {
               date: "init",
@@ -296,6 +332,25 @@ const initialObjectsState: Objects = {
             },
           ],
         },//
+        {
+          isSignalInit: false, meta: {
+            signalId: "valve_water",
+            measure: "дискр",
+            information: "valve status",
+            min: "-1",
+            max: "1",
+            minAlarm: "-1",
+            maxAlarm: "1",
+            minWarning: "-1",
+            maxWarning: "1",
+          }, signalState: [
+            {
+              date: "init",
+              value: "-1",
+            },
+          ],
+        },//
+
       ],
     }
   ]

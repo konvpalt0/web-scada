@@ -6,7 +6,7 @@ import {Resolution} from "../../redux/reducers/types";
 import {select} from "../../redux/selectors/redux-selectors";
 import {updateScreenResolution} from "../../redux/reducers/screen-reducer/screen-reducer";
 import Menu from "./Menu/Menu";
-import {Route, Switch} from "react-router";
+import {Route, RouteComponentProps, Switch} from "react-router";
 import Trends from "./Trends/Trends";
 import Alarms from "./Alarms/Alarms";
 import style from "./WorkSpace.module.css";
@@ -29,7 +29,27 @@ const resolutions = {
   },
 }
 
-const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
+type Match = {
+  section: string,
+}
+
+type StateProps = {
+  resolution: {
+    width: number,
+    height: number,
+  },
+};
+
+type DispatchProps = {
+  updateScreenResolution: (newResolution: Resolution) => void,
+};
+
+type OwnProps = {};
+
+type Props = RouteComponentProps<Match> & StateProps & DispatchProps & OwnProps;
+
+const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution, ...props}) => {
+  const section = props.match.params.section;
 
   return (
     <div className={style.body}>
@@ -49,7 +69,8 @@ const WorkSpace: React.FC<Props> = ({resolution, updateScreenResolution}) => {
           {to: "/workspace/main", name: "Main"},
           {to: "/workspace/trends", name: "Trends"},
           {to: "/workspace/alarms", name: "Alarms"},
-          {to: "/workspace/regulator", name: "Regulator"}]}/>
+          {to: "/workspace/regulator", name: "Regulator"}]
+        } selectedItem={section}/>
       </div>
       <div className={gStyle.block}>
         <Switch>
@@ -73,17 +94,3 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mstp, {
   updateScreenResolution,
 })(WorkSpace);
 
-type StateProps = {
-  resolution: {
-    width: number,
-    height: number,
-  },
-};
-
-type DispatchProps = {
-  updateScreenResolution: (newResolution: Resolution) => void,
-};
-
-type OwnProps = {};
-
-type Props = StateProps & DispatchProps & OwnProps;

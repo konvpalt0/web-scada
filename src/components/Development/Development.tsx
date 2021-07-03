@@ -3,23 +3,27 @@ import {connect} from "react-redux";
 import {RootState} from "../../redux/store";
 import gStyle from "../../GlobalStyle.module.css";
 import Menu from "../WorkSpace/Menu/Menu";
-import {Route, Switch} from "react-router";
+import {Route, RouteComponentProps, Switch} from "react-router";
 import Hmi from "./Hmi/Hmi";
 import SignalList from "./SignalList/SignalList";
 
+type Match = {
+  section: string,
+};
 type OwnProps = {};
 type DispatchProps = {};
 type StateProps = {};
-type Props = OwnProps & DispatchProps & StateProps;
+type Props = RouteComponentProps<Match> & OwnProps & DispatchProps & StateProps;
 
-const Development: React.FC<Props> = () => {
+const Development: React.FC<Props> = ({...props}) => {
+  const section = props.match.params.section;
   return (
     <div>
       <div>
         <Menu menuItems={[
           {to: "/development/hmi", name: "HMI"},
           {to: "/development/signalList", name: "SignalList"},
-        ]}/>
+        ]} selectedItem={section}/>
       </div>
       <div className={gStyle.block}>
         <Switch>
